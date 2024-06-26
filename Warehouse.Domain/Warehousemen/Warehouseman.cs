@@ -8,10 +8,10 @@ namespace Warehouse.Domain.Warehousemen;
 public sealed class Warehouseman : Entity<WarehousemanId>
 {
     public IdentificationNumber IdentificationNumber { get; init; }
-    public FirstName FirstName { get; init; }
-    public LastName LastName { get; init; }
-    public Position? Position { get; init; }
-    public Sector Sector { get; init; }
+    public FirstName FirstName { get; private set; }
+    public LastName LastName { get; private set; }
+    public Position? Position { get; private set; }
+    public Sector Sector { get; private set; }
     private readonly List<Transport> _transports;
     public IReadOnlyCollection<Transport> Transports => _transports;
 
@@ -68,5 +68,74 @@ public sealed class Warehouseman : Entity<WarehousemanId>
             warehousemanPosition,
             sector,
             []);
+    }
+
+    public Result EditFirstName(string firstName)
+    {
+        var firstNameCreateResult = FirstName.Create(firstName);
+
+        if (firstNameCreateResult.IsFailure)
+        {
+            return firstNameCreateResult.Error;
+        }
+
+        var warehousemanFirstName = firstNameCreateResult.Value;
+
+        FirstName = warehousemanFirstName;
+
+        return Result.Success();
+    }
+
+    public Result EditLastName(string lastName)
+    {
+        var lastNameCreateResult = LastName.Create(lastName);
+
+        if (lastNameCreateResult.IsFailure)
+        {
+            return lastNameCreateResult.Error;
+        }
+
+        var warehousemanLastName = lastNameCreateResult.Value;
+
+        LastName = warehousemanLastName;
+
+        return Result.Success();
+    }
+
+    public Result EditPosition(string position)
+    {
+        var positionCreateResult = Position.Create(position);
+
+        if (positionCreateResult.IsFailure)
+        {
+            return positionCreateResult.Error;
+        }
+
+        var warehousemanPosition = positionCreateResult.Value;
+
+        Position = warehousemanPosition;
+
+        return Result.Success();
+    }
+
+    internal Result HandleTransport(Transport transport)
+    {
+        var isAlreadyHandledByWarehouseman = _transports.Any(t => t.Id == transport.Id);
+
+        if (isAlreadyHandledByWarehouseman)
+        {
+            return WarehousemanErrors.AlreadyHandledByWarehouseman;
+        }
+
+        var isAlreadyHandledByOtherWarehouseman = transport.Warehouseman.Id != Id;
+
+        if (isAlreadyHandledByOtherWarehouseman)
+        {
+            return WarehousemanErrors.AlreadyHandledByOtherWarehouseman;
+        }
+
+        _transports.Add(transport);
+
+        return Result.Success();
     }
 }

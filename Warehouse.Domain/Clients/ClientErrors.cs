@@ -8,4 +8,8 @@ internal static class ClientErrors
         "Nieprawidłowa nazwa kontrahenta");
     public static readonly Error InvalidNIPError = new(
         "Nieprawidłowy NIP kontrahenta");
+    public static readonly Error AlreadyBookedByAnotherClient =
+        new("Transport został zlecony przez innego kontrahenta");
+    public static readonly Error AlreadyBookedByClient =
+        new("Transport został już zlecony przez tego kontrahenta");
 }

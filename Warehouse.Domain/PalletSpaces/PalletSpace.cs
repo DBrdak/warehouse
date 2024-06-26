@@ -29,7 +29,7 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
         _freights = freights;
     }
 
-    internal Result<PalletSpace> Create(
+    internal static Result<PalletSpace> Create(
         int number,
         int shelf,
         int rack,
@@ -51,5 +51,54 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
             (palletSpaceNumberCreateResult.Value, shelfNumberCreateResult.Value, rackNumberCreateResult.Value);
 
         return new PalletSpace(palletSpaceNumber, shelfNumber, rackNumber, sector, []);
+    }
+
+    internal Result PlaceFreight(Freight freight)
+    {
+        var freightAlreadyAtPalletSpace = _freights.Any(f => f.Id == freight.Id);
+
+        if (freightAlreadyAtPalletSpace)
+        {
+            return PalletSpaceErrors.FreightAlreadyAtPalletSpace;
+        }
+
+        var freightAlreadyAtOtherPalletSpace = freight.PalletSpace.Id != Id;
+
+        if (freightAlreadyAtOtherPalletSpace)
+        {
+            return PalletSpaceErrors.FreightAlreadyAtOtherPalletSpace;
+        }
+
+        var freightIsExported = freight.Export is not null;
+
+        if (freightIsExported)
+        {
+            return PalletSpaceErrors.FreightIsExported;
+        }
+
+        _freights.Add(freight);
+
+        return Result.Success();
+    }
+
+    internal Result TakeFreight(Freight freight)
+    {
+        var freightNotAtThisPalletSpace = freight.PalletSpace.Id != Id;
+
+        if (freightNotAtThisPalletSpace)
+        {
+            return PalletSpaceErrors.FreightNotAtThisPalletSpace;
+        }
+
+        var freightNotInExport = freight.Export is null;
+
+        if (freightNotInExport)
+        {
+            return PalletSpaceErrors.FreightNotInExport;
+        }
+
+        _freights.Remove(freight);
+
+        return Result.Success();
     }
 }

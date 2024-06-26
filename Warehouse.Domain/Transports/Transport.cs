@@ -11,7 +11,7 @@ public sealed class Transport : Entity<TransportId>
 {
     public TransportNumber Number { get; init; }
     public TransportType Type { get; init; }
-    public DateTime ServedAt { get; init; }
+    public DateTime HandledAt { get; init; }
     public Warehouseman Warehouseman { get; init; }
     public Driver Driver { get; init; }
     public Client Client { get; init; }
@@ -22,7 +22,7 @@ public sealed class Transport : Entity<TransportId>
     private Transport(
         TransportNumber number,
         TransportType type,
-        DateTime servedAt,
+        DateTime handledAt,
         Warehouseman warehouseman,
         Driver driver,
         Client client,
@@ -31,21 +31,20 @@ public sealed class Transport : Entity<TransportId>
     {
         Number = number;
         Type = type;
-        ServedAt = servedAt;
+        HandledAt = handledAt;
         Warehouseman = warehouseman;
         Driver = driver;
         Client = client;
         _freights = freights;
     }
 
-    //TODO Make creating freight and transport at one time by external service
     internal static Result<Transport> Create(
         int number,
         string type,
         Warehouseman warehouseWorker,
         Driver driver,
         Client client,
-        DateTime? servedAt = null)
+        DateTime? handledAt = null)
     {
         var (transportNumberCreateResult, transportTypeCreateResult) =
             (TransportNumber.Create(number), TransportType.Create(type));
@@ -64,7 +63,7 @@ public sealed class Transport : Entity<TransportId>
         return new Transport(
             transportNumber,
             transportType,
-            servedAt ?? DateTime.UtcNow,
+            handledAt ?? DateTime.UtcNow,
             warehouseWorker,
             driver,
             client,
@@ -79,7 +78,7 @@ public sealed class Transport : Entity<TransportId>
         {
             return TransportErrors.AlreadyContainFreight;
         }
-
+        
         _freights.Add(freight);
 
         return Result.Success();

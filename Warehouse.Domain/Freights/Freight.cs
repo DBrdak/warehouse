@@ -11,9 +11,9 @@ public sealed class Freight : Entity<FreightId>
     public FreightType Type { get; init; }
     public Quantity Quantity { get; init; }
     public Unit Unit { get; init; }
-    public PalletSpace PalletSpace { get; init; }
+    public PalletSpace PalletSpace { get; private set; }
     public Transport Import { get; init; }
-    public Transport? Export { get; init; }
+    public Transport? Export { get; private set; }
 
     private Freight(
         FreightName name,
@@ -65,5 +65,26 @@ public sealed class Freight : Entity<FreightId>
         }
 
         return new Freight(freightName, freightType, freightQuantity, freightUnit, palletSpace, import, null);
+    }
+
+    internal Result Release(Transport transport)
+    {
+        var isAlreadyReleased = Export is not null;
+
+        if (isAlreadyReleased)
+        {
+            return FreightErrors.AlreadyReleased;
+        }
+
+        var isTransportValid = transport.Type == TransportType.Export;
+
+        if (!isTransportValid)
+        {
+            return FreightErrors.InvalidExport;
+        }
+
+        Export = transport;
+        
+        return Result.Success();
     }
 }

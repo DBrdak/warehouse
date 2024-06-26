@@ -1,13 +1,9 @@
-﻿using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using Warehouse.Domain.Shared.Messaging;
+﻿using Warehouse.Domain.Shared.Messaging;
 
 namespace Warehouse.Domain.Shared;
 
 public class Entity<TEntityId> where TEntityId : EntityId, new()
 {
-    [JsonProperty("id")]
-    [JsonPropertyName("id")]
     public TEntityId Id { get; protected set; }
 
     private readonly List<IDomainEvent> _domainEvents = new();
