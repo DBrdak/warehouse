@@ -9,7 +9,7 @@ public interface IDriverRepository
 
     Task<Result> RemoveAsync(DriverId driverId, CancellationToken cancellationToken);
 
-    Task<Result<IEnumerable<Driver>>> GetAllAsync(CancellationToken cancellationToken);
+    Result<IEnumerable<Driver>> GetAll();
 
     Task<Result<Driver>> GetDriverWithTransportsAsync(DriverId driverId, CancellationToken cancellationToken);
 }

@@ -2,7 +2,7 @@
 
 namespace Warehouse.Domain.Shared;
 
-public class Entity<TEntityId> where TEntityId : EntityId, new()
+public class Entity<TEntityId> : IEntity where TEntityId : EntityId, new()
 {
     public TEntityId Id { get; protected set; }
 
