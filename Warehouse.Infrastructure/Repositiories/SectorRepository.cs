@@ -1,5 +1,11 @@
-﻿namespace Warehouse.Infrastructure.Repositiories;
+﻿using Warehouse.Domain.Sectors;
+using Warehouse.Infrastructure.Data;
 
-internal class SectorRepository
+namespace Warehouse.Infrastructure.Repositiories;
+
+internal sealed class SectorRepository : Repository<Sector, SectorId>, ISectorRepository
 {
+    public SectorRepository(ApplicationDbContext dbContext) : base(dbContext)
+    {
+    }
 }

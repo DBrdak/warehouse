@@ -27,7 +27,6 @@ internal sealed class ClientsConfiguration : IEntityTypeConfiguration<Client>
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<ClientName>(s));
 
         builder.Property(e => e.Nip)
-            .HasMaxLength(12)
             .IsUnicode(false)
             .HasColumnName("nip")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<NIP>(s));

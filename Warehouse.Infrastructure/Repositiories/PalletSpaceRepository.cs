@@ -1,5 +1,11 @@
-﻿namespace Warehouse.Infrastructure.Repositiories;
+﻿using Warehouse.Domain.PalletSpaces;
+using Warehouse.Infrastructure.Data;
 
-internal class PalletSpaceRepository
+namespace Warehouse.Infrastructure.Repositiories;
+
+internal sealed class PalletSpaceRepository : Repository<PalletSpace, PalletSpaceId>, IPalletSpaceRepository
 {
+    public PalletSpaceRepository(ApplicationDbContext dbContext) : base(dbContext)
+    {
+    }
 }

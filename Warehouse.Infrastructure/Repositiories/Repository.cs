@@ -1,4 +1,5 @@
-﻿using Warehouse.Domain.Shared;
+﻿using Microsoft.EntityFrameworkCore;
+using Warehouse.Domain.Shared;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;
 
@@ -9,50 +10,31 @@ internal abstract class Repository<TEntity, TEntityId>
     where TEntityId : EntityId, new()
 {
     private readonly ApplicationDbContext _dbContext;
-    protected readonly DataModelService<TEntity> DataModelService;
+    protected readonly DbSet<TEntity> Table;
 
-    protected Repository(ApplicationDbContext dbContext, DataModelService<TEntity> dataModelService)
+    protected Repository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-        DataModelService = dataModelService;
+        Table = dbContext.Set<TEntity>();
     }
 
     public async Task<Result<TEntity>> AddAsync(
         TEntity entity,
         CancellationToken cancellationToken)
     {
-        var dataModelConverResult = DataModelService.ConvertToDataModel(entity);
-
-        if (dataModelConverResult.IsFailure)
-        {
-            return dataModelConverResult.Error;
-        }
-
-        var dataModel = dataModelConverResult.Value;
-
-        var addResult = await _dbContext.AddAsync(
-            dataModel,
+        var addResult = await Table.AddAsync(
+            entity,
             cancellationToken);
 
-        return addResult.Entity.ToDomainModel();
+        return addResult.Entity;
     }
 
     public async Task<Result> AddRangeAsync(
         IEnumerable<TEntity> entities,
         CancellationToken cancellationToken)
     {
-        entities = entities.ToList();
-        var dataModelConverResults = entities.Select(DataModelService.ConvertToDataModel).ToList();
-
-        if (Result.Aggregate(dataModelConverResults) is var result && result.IsFailure)
-        {
-            return result.Error;
-        }
-
-        var dataModels = dataModelConverResults.Select(x => x.Value);
-
-        await _dbContext.AddRangeAsync(
-            dataModels,
+        await Table.AddRangeAsync(
+            entities,
             cancellationToken);
 
         return Result.Success();
@@ -60,41 +42,22 @@ internal abstract class Repository<TEntity, TEntityId>
 
     public Result<TEntity> Update(TEntity entity)
     {
-        var dataModelConverResult = DataModelService.ConvertToDataModel(entity);
+        var updateResult = Table.Update(entity);
 
-        if (dataModelConverResult.IsFailure)
-        {
-            return dataModelConverResult.Error;
-        }
-
-        var dataModel = dataModelConverResult.Value;
-
-        var updateResult = _dbContext.Update(dataModel);
-
-        return updateResult.Entity.ToDomainModel();
+        return updateResult.Entity;
     }
 
     public Result UpdateRange(IEnumerable<TEntity> entities)
     {
-        entities = entities.ToList();
-        var dataModelConverResults = entities.Select(DataModelService.ConvertToDataModel).ToList();
-
-        if (Result.Aggregate(dataModelConverResults) is var result && result.IsFailure)
-        {
-            return result.Error;
-        }
-
-        var dataModels = dataModelConverResults.Select(x => x.Value);
-
-        _dbContext.UpdateRange(dataModels);
+        Table.UpdateRange(entities);
 
         return Result.Success();
     }
 
-    public Result RemoveAsync(
+    public Result Remove(
         TEntityId entityId)
     {
-        _dbContext.Remove(entityId.Id);
+        _dbContext.Remove(entityId);
 
         return Result.Success();
     }

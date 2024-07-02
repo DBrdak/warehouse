@@ -1,5 +1,11 @@
-﻿namespace Warehouse.Infrastructure.Repositiories;
+﻿using Warehouse.Domain.Warehousemen;
+using Warehouse.Infrastructure.Data;
 
-internal class WarehousemanRepository
+namespace Warehouse.Infrastructure.Repositiories;
+
+internal sealed class WarehousemanRepository : Repository<Warehouseman, WarehousemanId>, IWarehousemanRepository
 {
+    public WarehousemanRepository(ApplicationDbContext dbContext) : base(dbContext)
+    {
+    }
 }
