@@ -1,7 +1,6 @@
 ﻿using Warehouse.Domain.Shared;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;
-using Warehouse.Infrastructure.Data.DataModels.Shared;
 
 namespace Warehouse.Infrastructure.Repositiories;
 

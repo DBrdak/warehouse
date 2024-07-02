@@ -12,8 +12,11 @@ public sealed class Transport : Entity<TransportId>
     public TransportNumber Number { get; init; }
     public TransportType Type { get; init; }
     public DateTime HandledAt { get; init; }
+    public WarehousemanId WarehousemanId { get; init; }
     public Warehouseman Warehouseman { get; init; }
+    public DriverId DriverId { get; init; }
     public Driver Driver { get; init; }
+    public ClientId ClientId { get; init; }
     public Client Client { get; init; }
 
     private readonly List<Freight> _freights;
@@ -23,8 +26,11 @@ public sealed class Transport : Entity<TransportId>
         TransportNumber number,
         TransportType type,
         DateTime handledAt,
+        WarehousemanId warehousemanId,
         Warehouseman warehouseman,
+        DriverId driverId,
         Driver driver,
+        ClientId clientId,
         Client client,
         List<Freight> freights,
         TransportId? id = null) : base(id)
@@ -32,8 +38,11 @@ public sealed class Transport : Entity<TransportId>
         Number = number;
         Type = type;
         HandledAt = handledAt;
+        WarehousemanId = warehousemanId;
         Warehouseman = warehouseman;
+        DriverId = driverId;
         Driver = driver;
+        ClientId = clientId;
         Client = client;
         _freights = freights;
     }
@@ -41,7 +50,7 @@ public sealed class Transport : Entity<TransportId>
     internal static Result<Transport> Create(
         int number,
         string type,
-        Warehouseman warehouseWorker,
+        Warehouseman warehouseman,
         Driver driver,
         Client client,
         DateTime? handledAt = null)
@@ -64,8 +73,11 @@ public sealed class Transport : Entity<TransportId>
             transportNumber,
             transportType,
             handledAt ?? DateTime.UtcNow,
-            warehouseWorker,
+            warehouseman.Id,
+            warehouseman,
+            driver.Id,
             driver,
+            client.Id,
             client,
             []);
     }

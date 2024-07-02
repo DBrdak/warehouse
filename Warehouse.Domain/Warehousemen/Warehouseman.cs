@@ -11,6 +11,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public Position? Position { get; private set; }
+    public SectorId SectorId { get; private set; }
     public Sector Sector { get; private set; }
     private readonly List<Transport> _transports;
     public IReadOnlyCollection<Transport> Transports => _transports;
@@ -20,6 +21,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
         FirstName firstName,
         LastName lastName,
         Position? position,
+        SectorId sectorId,
         Sector sector,
         List<Transport> transports,
         WarehousemanId? id = null) : base(id)
@@ -28,6 +30,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
         FirstName = firstName;
         LastName = lastName;
         Position = position;
+        SectorId = sectorId;
         Sector = sector;
         _transports = transports;
     }
@@ -66,6 +69,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
             warehousemanFirstName,
             warehousemanLastName,
             warehousemanPosition,
+            sector.Id,
             sector,
             []);
     }

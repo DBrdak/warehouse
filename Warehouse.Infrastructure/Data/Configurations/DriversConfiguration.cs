@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Warehouse.Infrastructure.Data.DataModels;
+using Warehouse.Domain.Drivers;
+using Warehouse.Domain.Shared;
+using Warehouse.Infrastructure.Data.DataConverters;
 
 namespace Warehouse.Infrastructure.Data.Configurations;
 
-internal sealed class DriversConfiguration : IEntityTypeConfiguration<DriverDataModel>
+internal sealed class DriversConfiguration : IEntityTypeConfiguration<Driver>
 {
-    public void Configure(EntityTypeBuilder<DriverDataModel> builder)
+    public void Configure(EntityTypeBuilder<Driver> builder)
     {
         builder.HasKey(e => e.Id).HasName("PK__Kierowcy__EE994F765B38A581");
         
@@ -16,21 +18,25 @@ internal sealed class DriversConfiguration : IEntityTypeConfiguration<DriverData
 
         builder.Property(e => e.Id)
             .ValueGeneratedNever()
-            .HasColumnName("id_kierowcy");
+            .HasColumnName("id_kierowcy")
+            .HasConversion(d => d.Id, s => new DriverId(s));
 
         builder.Property(e => e.FirstName)
             .HasMaxLength(55)
             .IsUnicode(false)
-            .HasColumnName("imie");
+            .HasColumnName("imie")
+            .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<FirstName>(s));
 
         builder.Property(e => e.LastName)
             .HasMaxLength(55)
             .IsUnicode(false)
-            .HasColumnName("nazwisko");
+            .HasColumnName("nazwisko")
+            .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<LastName>(s));
 
         builder.Property(e => e.VehiclePlate)
             .HasMaxLength(8)
             .IsUnicode(false)
-            .HasColumnName("numer_rejestracyjny_pojazdu");
+            .HasColumnName("numer_rejestracyjny_pojazdu")
+            .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<VehiclePlate>(s));
     }
 }

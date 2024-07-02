@@ -10,6 +10,7 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
     public PalletSpaceNumber Number { get; init; }
     public Shelf Shelf { get; init; }
     public Rack Rack { get; init; }
+    public SectorId SectorId { get; init; }
     public Sector Sector { get; init; }
     private readonly List<Freight> _freights;
     public IReadOnlyCollection<Freight> Freights => _freights;
@@ -18,6 +19,7 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
         PalletSpaceNumber number,
         Shelf shelf,
         Rack rack,
+        SectorId sectorId,
         Sector sector,
         List<Freight> freights,
         PalletSpaceId? id = null) : base(id)
@@ -25,6 +27,7 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
         Number = number;
         Shelf = shelf;
         Rack = rack;
+        SectorId = sectorId;
         Sector = sector;
         _freights = freights;
     }
@@ -50,7 +53,7 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
         var (palletSpaceNumber, shelfNumber, rackNumber) = 
             (palletSpaceNumberCreateResult.Value, shelfNumberCreateResult.Value, rackNumberCreateResult.Value);
 
-        return new PalletSpace(palletSpaceNumber, shelfNumber, rackNumber, sector, []);
+        return new PalletSpace(palletSpaceNumber, shelfNumber, rackNumber, sector.Id, sector, []);
     }
 
     internal Result PlaceFreight(Freight freight)
