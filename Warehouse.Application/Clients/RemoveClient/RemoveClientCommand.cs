@@ -1,5 +1,5 @@
-﻿namespace Warehouse.Application.Clients.RemoveClient;
+using Warehouse.Domain.Shared.Messaging;
 
-internal class RemoveClientCommand
-{
-}
+namespace Warehouse.Application.Clients.RemoveClient;
+
+public sealed record RemoveClientCommand(Guid ClientId) : ICommand;

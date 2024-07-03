@@ -2,6 +2,7 @@
 using Warehouse.Domain.Shared;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;
+using Warehouse.Infrastructure.Utils;
 
 namespace Warehouse.Infrastructure.Repositiories;
 
@@ -17,6 +18,11 @@ internal abstract class Repository<TEntity, TEntityId>
         _dbContext = dbContext;
         Table = dbContext.Set<TEntity>();
     }
+
+    public async Task<Result<TEntity>> GetByIdAsync(TEntityId entityId, CancellationToken cancellationToken) =>
+        Result.Create(
+            await Table.FirstOrDefaultAsync(e => e.Id == entityId, cancellationToken),
+            DataAccessErrors.NotFound<TEntity>());
 
     public async Task<Result<TEntity>> AddAsync(
         TEntity entity,
