@@ -72,5 +72,9 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
             .WithMany(t => t.Freights)
             .HasForeignKey(d => d.ExportId)
             .HasConstraintName("FK__Towary__id_odbio__59063A47");
+
+        builder.Navigation(e => e.Import).AutoInclude();
+        builder.Navigation(e => e.Export).AutoInclude();
+        builder.Navigation(e => e.PalletSpace).AutoInclude();
     }
 }

@@ -23,5 +23,8 @@ internal sealed class SectorsConfiguration : IEntityTypeConfiguration<Sector>
         builder.Property(e => e.Number)
             .HasColumnName("numer")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<SectorNumber>(s));
+
+        builder.Navigation(e => e.PalletSpaces).AutoInclude();
+        builder.Navigation(e => e.Warehousemen).AutoInclude();
     }
 }

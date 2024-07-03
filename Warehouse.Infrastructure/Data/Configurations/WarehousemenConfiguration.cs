@@ -53,5 +53,8 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
             .HasForeignKey(d => d.SectorId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Magazynie__id_se__4BAC3F29");
+
+        builder.Navigation(e => e.Transports).AutoInclude();
+        builder.Navigation(e => e.Sector).AutoInclude();
     }
 }

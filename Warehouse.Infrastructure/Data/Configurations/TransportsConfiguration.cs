@@ -65,5 +65,10 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
             .HasForeignKey(d => d.WarehousemanId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Transport__id_ma__52593CB8");
+
+        builder.Navigation(e => e.Warehouseman).AutoInclude();
+        builder.Navigation(e => e.Freights).AutoInclude();
+        builder.Navigation(e => e.Client).AutoInclude();
+        builder.Navigation(e => e.Driver).AutoInclude();
     }
 }

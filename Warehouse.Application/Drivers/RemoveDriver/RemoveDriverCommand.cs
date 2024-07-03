@@ -2,4 +2,4 @@ using Warehouse.Domain.Shared.Messaging;
 
 namespace Warehouse.Application.Drivers.RemoveDriver;
 
-public sealed record RemoveDriverCommand() : ICommand;
+public sealed record RemoveDriverCommand(Guid Id) : ICommand;

@@ -40,5 +40,9 @@ internal sealed class PalletSpaceConfiguration : IEntityTypeConfiguration<Pallet
             .HasForeignKey(d => d.SectorId)
             .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Miejsca_p__id_se__4E88ABD4");
+
+        builder.Navigation(e => e.Sector).AutoInclude();
+
+        builder.Navigation(e => e.Freights).AutoInclude();
     }
 }

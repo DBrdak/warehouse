@@ -38,5 +38,7 @@ internal sealed class DriversConfiguration : IEntityTypeConfiguration<Driver>
             .IsUnicode(false)
             .HasColumnName("numer_rejestracyjny_pojazdu")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<VehiclePlate>(s));
+
+        builder.Navigation(e => e.Transports).AutoInclude();
     }
 }

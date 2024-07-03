@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Domain.Shared.Results;
 
-namespace Warehouse.Application.Clients.UpdateClient
+namespace Warehouse.Application.Clients.UpdateClient;
+
+internal static class UpdateDriverErrors
 {
-    internal static class UpdateClientErrors
-    {
-        public static readonly Error InvalidRequest = new("Wprowadzono nieprawidłowe dane dla aktualizacji kontrahenta");
-    }
+    public static readonly Error InvalidRequest = new("Wprowadzono nieprawidłowe dane dla aktualizacji kontrahenta");
 }

@@ -20,7 +20,7 @@ public sealed class Driver : Entity<DriverId>
         _transports = transports;
     }
 
-    internal static Result<Driver> Create(string firstName, string lastName, string plate)
+    public static Result<Driver> Create(string firstName, string lastName, string plate)
     {
         var driverFirstNameCreateReult = FirstName.Create(firstName);
 

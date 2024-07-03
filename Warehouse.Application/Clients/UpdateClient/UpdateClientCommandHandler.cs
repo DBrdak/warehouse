@@ -29,7 +29,7 @@ internal sealed class UpdateClientCommandHandler : ICommandHandler<UpdateClientC
         {
             _ when request.NewName is not null => client.EditName(request.NewName),
             _ when request.NewNip is not null => client.EditNIP(request.NewNip),
-            _ => UpdateClientErrors.InvalidRequest
+            _ => UpdateDriverErrors.InvalidRequest
         };
 
         if (editResult.IsFailure)
