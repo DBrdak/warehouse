@@ -10,6 +10,9 @@ public sealed record TransportType
     internal static readonly TransportType Export = new("Export");
     private static readonly TransportType[] _all = [Import, Export];
 
+    public bool IsImport => this == Import;
+    public bool IsExport => this == Export;
+
     private TransportType(string value)
     {
         Value = value;
