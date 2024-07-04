@@ -5,22 +5,22 @@ using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Domain.Transports;
 
-namespace Warehouse.Application.Freights.AddFreight;
+namespace Warehouse.Application.Freights.ReceiveFreight;
 
-internal sealed class AddFreightCommandHandler : ICommandHandler<AddFreightCommand, FreightModel>
+internal sealed class ReceiveFreightCommandHandler : ICommandHandler<ReceiveFreightCommand, FreightModel>
 {
     private readonly IFreightRepository _freightRepository;
     private readonly IPalletSpaceRepository _palletSpaceRepository;
     private readonly ITransportRepository _transportRepository;
 
-    public AddFreightCommandHandler(IFreightRepository freightRepository, IPalletSpaceRepository palletSpaceRepository, ITransportRepository transportRepository)
+    public ReceiveFreightCommandHandler(IFreightRepository freightRepository, IPalletSpaceRepository palletSpaceRepository, ITransportRepository transportRepository)
     {
         _freightRepository = freightRepository;
         _palletSpaceRepository = palletSpaceRepository;
         _transportRepository = transportRepository;
     }
 
-    public async Task<Result<FreightModel>> Handle(AddFreightCommand request, CancellationToken cancellationToken)
+    public async Task<Result<FreightModel>> Handle(ReceiveFreightCommand request, CancellationToken cancellationToken)
     {
         var (importGetResult, palletSpaceGetResult) = (
             await _transportRepository.GetByIdAsync(new TransportId(request.ImportId), cancellationToken),

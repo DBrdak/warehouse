@@ -11,6 +11,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public Position? Position { get; private set; }
+    public bool IsFired { get; private set; }
     public SectorId SectorId { get; private set; }
     public Sector Sector { get; private set; }
     private readonly List<Transport> _transports;
@@ -24,6 +25,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
         SectorId sectorId,
         Sector sector,
         List<Transport> transports,
+        bool isFired,
         WarehousemanId? id = null) : base(id)
     {
         IdentificationNumber = identificationNumber;
@@ -33,6 +35,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
         SectorId = sectorId;
         Sector = sector;
         _transports = transports;
+        IsFired = isFired;
     }
 
     internal static Result<Warehouseman> Create(
@@ -71,7 +74,8 @@ public sealed class Warehouseman : Entity<WarehousemanId>
             warehousemanPosition,
             sector.Id,
             sector,
-            []);
+            [],
+            false);
     }
 
     public Result EditFirstName(string firstName)
@@ -122,6 +126,12 @@ public sealed class Warehouseman : Entity<WarehousemanId>
         return Result.Success();
     }
 
+    public void MoveToSector(Sector sector)
+    {
+        SectorId = sector.Id;
+        Sector = sector;
+    }
+
     internal Result HandleTransport(Transport transport)
     {
         var isAlreadyHandledByWarehouseman = _transports.Any(t => t.Id == transport.Id);
@@ -142,4 +152,6 @@ public sealed class Warehouseman : Entity<WarehousemanId>
 
         return Result.Success();
     }
+
+    public void Fire() => IsFired = true;
 }

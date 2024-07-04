@@ -13,5 +13,6 @@ internal sealed class RemoveFreightCommandHandler : ICommandHandler<RemoveFreigh
         _freightRepository = freightRepository;
     }
 
-    public async Task<Result> Handle(RemoveFreightCommand request, CancellationToken cancellationToken) => await Task.Run(() => _freightRepository.Remove(new (request.Id)), cancellationToken)
+    public async Task<Result> Handle(RemoveFreightCommand request, CancellationToken cancellationToken) =>
+        await Task.Run(() => _freightRepository.Remove(new(request.Id)), cancellationToken);
 }

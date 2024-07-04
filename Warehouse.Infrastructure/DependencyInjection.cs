@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Warehouse.Application.Abstractions.Data;
 using Warehouse.Domain.Clients;
 using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Freights;
@@ -20,7 +21,8 @@ public static class DependencyInjection
             .AddPersistence();
 
     private static IServiceCollection AddPersistence(this IServiceCollection services) =>
-        services.AddScoped<IClientRepository, ClientRepository>()
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>())
+            .AddScoped<IClientRepository, ClientRepository>()
             .AddScoped<IDriverRepository, DriverRepository>()
             .AddScoped<IFreightRepository, FreightRepository>()
             .AddScoped<IPalletSpaceRepository, PalletSpaceRepository>()

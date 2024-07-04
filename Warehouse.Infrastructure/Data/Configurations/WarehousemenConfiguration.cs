@@ -26,6 +26,9 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
             .HasColumnName("id_sektora")
             .HasConversion(d => d.Id, s => new SectorId(s));
 
+        builder.Property(e => e.IsFired)
+            .HasColumnName("czy_zwolniony");
+
         builder.Property(e => e.FirstName)
             .HasMaxLength(55)
             .IsUnicode(false)

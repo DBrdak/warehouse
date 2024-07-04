@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Warehouse.Application.Abstractions.Data;
 using Warehouse.Infrastructure.Data.Options;
 
 namespace Warehouse.Infrastructure.Data;
 
-internal sealed class ApplicationDbContext : DbContext
+internal sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
     private readonly ApplicationDbContextOptions _options;
 
@@ -23,5 +24,10 @@ internal sealed class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        return base.SaveChangesAsync(cancellationToken);
     }
 }

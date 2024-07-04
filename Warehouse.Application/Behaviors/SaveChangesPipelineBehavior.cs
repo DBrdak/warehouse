@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MediatR;
+using Warehouse.Application.Abstractions.Data;
+using Warehouse.Domain.Shared.Messaging;
+using Warehouse.Domain.Shared.Results;
+
+namespace Warehouse.Application.Behaviors;
+
+internal sealed class SaveChangesPipelineBehavior<TRequest, TResponse> :
+    IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IBaseCommand
+    where TResponse : Result
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly Error saveChangesFailure = new("Błąd zapisu danych");
+
+    public SaveChangesPipelineBehavior(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
+    {
+        var result = await next();
+
+        var isSuccessful = await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
+
+        return (TResponse)(isSuccessful ? result : Result.Failure(saveChangesFailure));
+    }
+}

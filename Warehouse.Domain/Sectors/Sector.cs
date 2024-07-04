@@ -24,7 +24,7 @@ public sealed class Sector : Entity<SectorId>
         _palletSpaces = palletSpaces;
     }
 
-    internal static Result<Sector> Create(int number)
+    public static Result<Sector> Create(int number)
     {
         var sectorNumberCreateResult = SectorNumber.Create(number);
 

@@ -7,4 +7,6 @@ public interface ISectorRepository
     Task<Result<Sector>> AddAsync(Sector sector, CancellationToken cancellationToken);
     Result<Sector> Update(Sector sector);
     Result Remove(SectorId sectorId);
+
+    Task<Result<Sector>> GetBySectorNumberAsync(int sectorNumber, CancellationToken cancellationToken);
 }

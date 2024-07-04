@@ -1,11 +1,10 @@
 using Warehouse.Application.Abstractions.Messaging;
 using Warehouse.Application.Freights.Models;
-using Warehouse.Application.Freights.ReleaseFreight;
 using Warehouse.Domain.Freights;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Domain.Transports;
 
-namespace CHANGEME.ReleaseFreight;
+namespace Warehouse.Application.Freights.ReleaseFreight;
 
 internal sealed class ReleaseFreightCommandHandler : ICommandHandler<ReleaseFreightCommand, FreightModel>
 {

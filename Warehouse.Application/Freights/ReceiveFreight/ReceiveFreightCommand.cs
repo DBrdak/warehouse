@@ -1,11 +1,9 @@
 using Warehouse.Application.Freights.Models;
-using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Shared.Messaging;
-using Warehouse.Domain.Transports;
 
-namespace Warehouse.Application.Freights.AddFreight;
+namespace Warehouse.Application.Freights.ReceiveFreight;
 
-public sealed record AddFreightCommand(
+public sealed record ReceiveFreightCommand(
     Guid ImportId,
     Guid PalletSpaceId,
     string Name,
