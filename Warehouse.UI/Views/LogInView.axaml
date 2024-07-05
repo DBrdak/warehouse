@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:logIn="clr-namespace:Warehouse.UI.ViewModels.LogIn"
+        xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+        x:Class="Warehouse.UI.Views.LogInView"
+        x:DataType="logIn:LoginViewModel">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="20" VerticalAlignment="Center" MaxWidth="400">
+        <Image Grid.Row="0" Source="../Assets/Warehouse_Logo.png" />
+        <TextBox
+            Grid.Row="1"
+            Text="{Binding Username}"
+            Margin="0,5,0,15"
+            UseFloatingWatermark="True"
+            Classes="outline"
+            assists:TextFieldAssist.Label="Nazwa Użytkownika"
+        />
+        <TextBox
+            Grid.Row="2"
+            Text="{Binding Password}"
+            Margin="0,5,0,15"
+            UseFloatingWatermark="True"
+            Classes="outline revealPasswordButton"
+            assists:TextFieldAssist.Label="Hasło"
+            PasswordChar="*"
+        />
+        <Button
+            Grid.Row="3"
+            Content="Login"
+            Command="{Binding LoginCommand}"
+            MaxWidth="200" 
+            MinWidth="100"
+            HorizontalContentAlignment="Center"
+            HorizontalAlignment="Center"
+        />
+        <TextBlock
+            Grid.Row="4"
+            Text="{Binding Message}"
+            Foreground="Red"
+            Margin="0,15,0,0"
+            HorizontalAlignment="Center"
+        />
+    </Grid>
+</UserControl>
