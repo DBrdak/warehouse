@@ -1,17 +1,16 @@
-using System.Diagnostics.CodeAnalysis;
+using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Transports.Models;
 using Warehouse.Domain.Clients;
-using Warehouse.Domain.Shared.Results;
 
 namespace Warehouse.Application.Clients.Models;
 
-public sealed record ClientModel
+public sealed record ClientModel : BusinessModel<Client,ClientId>
 {
     public string Name { get; init; }
     public string Nip { get; init; }
     public IReadOnlyCollection<TransportModel>? Transports { get; init; }
 
-    private ClientModel(string name, string nip, IReadOnlyCollection<TransportModel>? transports)
+    private ClientModel(Guid id, string name, string nip, IReadOnlyCollection<TransportModel>? transports) : base(id)
     {
         Name = name;
         Nip = nip;
@@ -22,6 +21,7 @@ public sealed record ClientModel
         typeof(TCaller) switch
         {
             var callerType when callerType == typeof(TransportModel) => new(
+                client.Id.Id,
                 client.Name.Value,
                 client.Nip.Value,
                 null),
@@ -30,6 +30,7 @@ public sealed record ClientModel
 
     internal static ClientModel FromDomainModel(Client client) =>
         new(
+            client.Id.Id,
             client.Name.Value,
             client.Nip.Value,
             client.Transports.Select(TransportModel.FromDomainModel<ClientModel>).ToList());

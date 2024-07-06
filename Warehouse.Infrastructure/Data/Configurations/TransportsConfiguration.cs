@@ -18,7 +18,7 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
         builder.HasIndex(e => e.Number, "UQ__Transpor__AF86E6525A448A02").IsUnique();
 
         builder.Property(e => e.Id)
-            .ValueGeneratedNever()
+            
             .HasColumnName("id_transportu")
             .HasConversion(d => d.Id, s => new TransportId(s));
 
@@ -51,23 +51,19 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
         builder.HasOne(t => t.Driver)
             .WithMany(d => d.Transports)
             .HasForeignKey(d => d.DriverId)
-            .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Transport__id_ki__534D60F1");
 
         builder.HasOne(t => t.Client)
             .WithMany(c => c.Transports)
             .HasForeignKey(d => d.ClientId)
-            .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Transport__id_kl__5441852A");
 
         builder.HasOne(t => t.Warehouseman)
             .WithMany(w => w.Transports)
             .HasForeignKey(d => d.WarehousemanId)
-            .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Transport__id_ma__52593CB8");
 
         builder.Navigation(e => e.Warehouseman).AutoInclude();
-        builder.Navigation(e => e.Freights).AutoInclude();
         builder.Navigation(e => e.Client).AutoInclude();
         builder.Navigation(e => e.Driver).AutoInclude();
     }

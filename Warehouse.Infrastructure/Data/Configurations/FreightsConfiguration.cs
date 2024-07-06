@@ -15,7 +15,7 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
         builder.ToTable("Towary");
 
         builder.Property(e => e.Id)
-            .ValueGeneratedNever()
+            
             .HasColumnName("id_towaru")
             .HasConversion(d => d.Id, s => new FreightId(s));
 
@@ -57,21 +57,20 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<FreightType>(s));
 
         builder.HasOne(f => f.Import)
-            .WithMany(t => t.Freights)
+            .WithMany(t => t.DeliveredFreights)
             .HasForeignKey(d => d.ImportId)
-            .OnDelete(DeleteBehavior.Cascade)
             .HasConstraintName("FK__Towary__id_dosta__5812160E");
+
+        builder.HasOne(f => f.Export)
+            .WithMany(t => t.ReceivedFreights)
+            .HasForeignKey(d => d.ExportId)
+            .HasConstraintName("FK__Towary__id_odbio__59063A47");
 
         builder.HasOne(f => f.PalletSpace)
             .WithMany(p => p.Freights)
             .HasForeignKey(d => d.PalletSpaceId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasConstraintName("FK__Towary__id_miejs__571DF1D5");
 
-        builder.HasOne(f => f.Export)
-            .WithMany(t => t.Freights)
-            .HasForeignKey(d => d.ExportId)
-            .HasConstraintName("FK__Towary__id_odbio__59063A47");
+            .HasConstraintName("FK__Towary__id_miejs__571DF1D5");
 
         builder.Navigation(e => e.Import).AutoInclude();
         builder.Navigation(e => e.Export).AutoInclude();

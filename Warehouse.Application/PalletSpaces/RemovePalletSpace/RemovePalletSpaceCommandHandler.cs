@@ -1,5 +1,4 @@
 using Warehouse.Application.Abstractions.Messaging;
-using Warehouse.Application.PalletSpaces.Models;
 using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Shared.Results;
 

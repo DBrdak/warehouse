@@ -14,6 +14,12 @@ public class Entity<TEntityId> : IEntity where TEntityId : EntityId, new()
         _domainEvents = new();
     }
 
+    public Entity()
+    {
+        Id = new TEntityId();
+        _domainEvents = new ();
+    }
+
     [System.Text.Json.Serialization.JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
     private Entity(TEntityId id, List<IDomainEvent> domainEvents)

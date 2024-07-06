@@ -1,15 +1,13 @@
 ﻿using Warehouse.Application.Clients.Models;
 using Warehouse.Application.Drivers.Models;
 using Warehouse.Application.Freights.Models;
+using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Warehousemen.Models;
-using Warehouse.Domain.Clients;
-using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Transports;
-using Warehouse.Domain.Warehousemen;
 
 namespace Warehouse.Application.Transports.Models;
 
-public sealed record TransportModel
+public sealed record TransportModel : BusinessModel<Transport, TransportId>
 {
     public int Number { get; init; }
     public string Type { get; init; }
@@ -20,13 +18,14 @@ public sealed record TransportModel
     public IReadOnlyCollection<FreightModel>? Freights { get; init; }
 
     private TransportModel(
+        Guid id,
         int number,
         string type,
         DateTime handledAt,
         WarehousemanModel? warehouseman,
         DriverModel? driver,
         ClientModel? client,
-        IReadOnlyCollection<FreightModel>? freights)
+        IReadOnlyCollection<FreightModel>? freights) : base(id)
     {
         Number = number;
         Type = type;
@@ -41,6 +40,7 @@ public sealed record TransportModel
         typeof(TCaller) switch
         { 
             var callerType when callerType == typeof(WarehousemanModel) => new(
+                transport.Id.Id,
                 transport.Number.Value,
                 transport.Type.Value,
                 transport.HandledAt,
@@ -49,6 +49,7 @@ public sealed record TransportModel
                 ClientModel.FromDomainModel<TransportModel>(transport.Client),
                 transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
             var callerType when callerType == typeof(DriverModel) => new(
+                transport.Id.Id,
                 transport.Number.Value,
                 transport.Type.Value,
                 transport.HandledAt,
@@ -57,6 +58,7 @@ public sealed record TransportModel
                 ClientModel.FromDomainModel<TransportModel>(transport.Client),
                 transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
             var callerType when callerType == typeof(ClientModel) => new(
+                transport.Id.Id,
                 transport.Number.Value,
                 transport.Type.Value,
                 transport.HandledAt,
@@ -65,6 +67,7 @@ public sealed record TransportModel
                 null,
                 transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
             var callerType when callerType == typeof(ClientModel) => new(
+                transport.Id.Id,
                 transport.Number.Value,
                 transport.Type.Value,
                 transport.HandledAt,
@@ -77,6 +80,7 @@ public sealed record TransportModel
 
     internal static TransportModel FromDomainModel(Transport transport) =>
         new(
+            transport.Id.Id,
             transport.Number.Value,
             transport.Type.Value,
             transport.HandledAt,

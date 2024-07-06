@@ -18,6 +18,10 @@ public sealed class Client : Entity<ClientId>
         _transports = transports;
     }
 
+
+    private Client() : base()
+    { }
+
     public static Result<Client> Create(string nip, string name)
     {
         var clientNameCreateResult = ClientName.Create(name);

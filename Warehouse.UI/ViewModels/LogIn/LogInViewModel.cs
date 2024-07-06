@@ -1,14 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using Warehouse.UI.Views;
-using Warehouse.UI.ViewModels.MainDashboard;
 using System.Collections.Generic;
-using Warehouse.UI.ViewModels.CustomerService;
-using Warehouse.UI.ViewModels.Lodge;
-using Warehouse.UI.ViewModels.Management;
-using Warehouse.UI.ViewModels.Warehouse;
+using Warehouse.UI.Views.Management;
+using CustomerServiceView = Warehouse.UI.Views.CustomerService.CustomerServiceView;
+using LodgeView = Warehouse.UI.Views.Lodge.LodgeView;
+using MainDashboardView = Warehouse.UI.Views.MainViews.MainDashboardView;
+using WarehouseView = Warehouse.UI.Views.Warehouse.WarehouseView;
 
 namespace Warehouse.UI.ViewModels.LogIn;
 
@@ -70,35 +68,35 @@ public partial class LoginViewModel : ViewModelBase
 
     private bool CanLogin() => !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password);
 
-    private void NavigateToMainDashboard() =>
-        _mainWindow.ContentArea.Content = new MainDashboardView()
-        {
-            DataContext = new MainDashboardViewModel()
-        };
+    private void NavigateToMainDashboard()
+    {
+        User = "admin";
+        _mainWindow.ContentArea.Content = new MainDashboardView(_mainWindow);
+    }
 
-    private void NavigateToWarehouse() =>
-        _mainWindow.ContentArea.Content = new WarehouseView()
-        {
-            DataContext = new WarehouseViewModel()
-        };
+    private void NavigateToWarehouse()
+    {
+        User = "magazynier";
+        _mainWindow.ContentArea.Content = new WarehouseView(_mainWindow);
+    }
 
-    private void NavigateToCustomerService() =>
-        _mainWindow.ContentArea.Content = new CustomerServiceView()
-        {
-            DataContext = new CustomerServiceViewModel()
-        };
+    private void NavigateToCustomerService()
+    {
+        User = "handlowiec";
+        _mainWindow.ContentArea.Content = new CustomerServiceView(_mainWindow);
+    }
 
-    private void NavigateToManagement() =>
-        _mainWindow.ContentArea.Content = new ManagementView()
-        {
-            DataContext = new ManagementViewModel()
-        };
+    private void NavigateToManagement()
+    {
+        User = "manager";
+        _mainWindow.ContentArea.Content = new ManagementView(_mainWindow);
+    }
 
-    private void NavigateToLodge() =>
-        _mainWindow.ContentArea.Content = new LodgeView()
-        {
-            DataContext = new LodgeViewModel()
-        };
+    private void NavigateToLodge()
+    {
+        User = "ochrona";
+        _mainWindow.ContentArea.Content = new LodgeView(_mainWindow);
+    }
 
     private Dictionary<(string username, string password), Action> LogInDictionary =>
         new()

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Warehouse.UI.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
+    private string? user = null;
+
+    public string? User
+    {
+        get => user;
+        protected set => SetProperty(ref user, value);
+    }
 }

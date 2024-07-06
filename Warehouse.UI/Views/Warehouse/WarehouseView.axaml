@@ -1,0 +1,8 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:material="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
+             xmlns:warehouse="clr-namespace:Warehouse.UI.ViewModels.Warehouse"
+             x:Class="Warehouse.UI.Views.Warehouse.WarehouseView"
+             x:DataType="warehouse:WarehouseViewModel">
+    Magazyn
+</UserControl>

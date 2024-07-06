@@ -1,21 +1,22 @@
 ﻿using Warehouse.Application.PalletSpaces.Models;
+using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Sectors;
-using Warehouse.Domain.Warehousemen;
 
 namespace Warehouse.Application.Sectors.Models;
 
-public sealed record SectorModel
+public sealed record SectorModel : BusinessModel<Sector, SectorId>
 {
     public int Number { get; init; }
     public IReadOnlyCollection<WarehousemanModel>? Warehousemen { get; init; }
     public IReadOnlyCollection<PalletSpaceModel>? PalletSpaces { get; init; }
 
     private SectorModel(
+        Guid id,
         int number,
         IReadOnlyCollection<WarehousemanModel>? warehousemen,
-        IReadOnlyCollection<PalletSpaceModel>? palletSpaces)
+        IReadOnlyCollection<PalletSpaceModel>? palletSpaces) : base(id)
     {
         Number = number;
         Warehousemen = warehousemen;
@@ -26,10 +27,12 @@ public sealed record SectorModel
         typeof(TCaller) switch
         {
             var callerType when callerType == typeof(WarehousemanModel) => new(
+                sector.Id.Id,
                 sector.Number.Value,
                 null,
                 sector.PalletSpaces.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList()),
             var callerType when callerType == typeof(WarehousemanModel) => new(
+                sector.Id.Id,
                 sector.Number.Value,
                 sector.Warehousemen.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
                 null),
@@ -38,6 +41,7 @@ public sealed record SectorModel
 
     public static SectorModel FromDomainModel(Sector sector) =>
         new(
+            sector.Id.Id,
             sector.Number.Value,
             sector.Warehousemen.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
             sector.PalletSpaces.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList());

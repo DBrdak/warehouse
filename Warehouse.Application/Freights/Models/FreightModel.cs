@@ -1,13 +1,11 @@
 ﻿using Warehouse.Application.PalletSpaces.Models;
+using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Transports.Models;
 using Warehouse.Domain.Freights;
-using Warehouse.Domain.PalletSpaces;
-using Warehouse.Domain.Shared.Results;
-using Warehouse.Domain.Transports;
 
 namespace Warehouse.Application.Freights.Models;
 
-public sealed record FreightModel
+public sealed record FreightModel : BusinessModel<Freight, FreightId>
 {
     public string Name { get; init; }
     public string Type { get; init; }
@@ -18,13 +16,14 @@ public sealed record FreightModel
     public TransportModel? Export { get; init; }
 
     private FreightModel(
+        Guid id,
         string name,
         string type,
         decimal quantity,
         string unit,
         PalletSpaceModel? palletSpace,
         TransportModel? import,
-        TransportModel? export)
+        TransportModel? export) : base(id)
     {
         Name = name;
         Type = type;
@@ -39,6 +38,7 @@ public sealed record FreightModel
         typeof(TCaller) switch
         {
             var callerType when callerType == typeof(PalletSpaceModel) => new(
+                freight.Id.Id,
                 freight.Name.Value,
                 freight.Type.Value,
                 freight.Quantity.Value,
@@ -47,6 +47,7 @@ public sealed record FreightModel
                 TransportModel.FromDomainModel<FreightModel>(freight.Import),
                 TransportModel.FromDomainModel<Freight>(freight.Export)),
             var callerType when callerType == typeof(TransportModel) && isImport is true => new(
+                freight.Id.Id,
                 freight.Name.Value,
                 freight.Type.Value,
                 freight.Quantity.Value,
@@ -55,6 +56,7 @@ public sealed record FreightModel
                 null,
                 TransportModel.FromDomainModel<Freight>(freight.Export)),
             var callerType when callerType == typeof(PalletSpaceModel) && isImport is false => new(
+                freight.Id.Id,
                 freight.Name.Value,
                 freight.Type.Value,
                 freight.Quantity.Value,
@@ -67,6 +69,7 @@ public sealed record FreightModel
 
     public static FreightModel FromDomainModel(Freight freight) =>
         new(
+            freight.Id.Id,
             freight.Name.Value,
             freight.Type.Value,
             freight.Quantity.Value,

@@ -1,7 +1,5 @@
 using Warehouse.Application.Abstractions.Messaging;
-using Warehouse.Application.Clients.UpdateClient;
 using Warehouse.Application.Drivers.Models;
-using Warehouse.Domain.Clients;
 using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Shared.Results;
 
@@ -28,18 +26,16 @@ internal sealed class UpdateDriverCommandHandler : ICommandHandler<UpdateDriverC
 
         var driver = driverGetResult.Value;
 
+        Result[] editReults =
+        [
+            driver.EditFirstName(request.NewFirstName),
+            driver.EditLastName(request.NewLastName),
+            driver.EditVehiclePlate(request.NewVehiclePlate)
+        ];
 
-        var editResult = request switch
+        if (Result.Aggregate(editReults) is var result && result.IsFailure)
         {
-            _ when request.NewFirstName is not null => driver.EditFirstName(request.NewFirstName),
-            _ when request.NewLastName is not null => driver.EditLastName(request.NewLastName),
-            _ when request.NewVehiclePlate is not null => driver.EditVehiclePlate(request.NewVehiclePlate),
-            _ => UpdateDriverErrors.InvalidRequest
-        };
-
-        if (editResult.IsFailure)
-        {
-            return editResult.Error;
+            return result.Error;
         }
 
         var updateResult = _driverRepository.Update(driver);

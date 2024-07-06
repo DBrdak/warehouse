@@ -1,5 +1,4 @@
 using Warehouse.Application.Abstractions.Messaging;
-using Warehouse.Domain.Clients;
 using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Shared.Results;
 

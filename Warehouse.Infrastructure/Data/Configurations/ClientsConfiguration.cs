@@ -16,7 +16,6 @@ internal sealed class ClientsConfiguration : IEntityTypeConfiguration<Client>
         builder.HasIndex(e => e.Nip, "UQ__Klienci__DF97D0E86DA94539").IsUnique();
 
         builder.Property(e => e.Id)
-            .ValueGeneratedNever()
             .HasColumnName("id_klienta")
             .HasConversion(d => d.Id, s => new ClientId(s));
 
@@ -30,7 +29,5 @@ internal sealed class ClientsConfiguration : IEntityTypeConfiguration<Client>
             .IsUnicode(false)
             .HasColumnName("nip")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<NIP>(s));
-
-        builder.Navigation(e => e.Transports).AutoInclude();
     }
 }

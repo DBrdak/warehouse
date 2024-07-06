@@ -43,6 +43,9 @@ public sealed class Freight : Entity<FreightId>
         Export = export;
     }
 
+    private Freight() : base()
+    { }
+
     internal static Result<Freight> Create(
         string name,
         string type,

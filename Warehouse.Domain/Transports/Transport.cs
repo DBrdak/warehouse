@@ -19,8 +19,14 @@ public sealed class Transport : Entity<TransportId>
     public ClientId ClientId { get; init; }
     public Client Client { get; init; }
 
-    private readonly List<Freight> _freights;
-    public IReadOnlyCollection<Freight> Freights => _freights;
+    private readonly List<Freight> _deliveredFreights;
+    public IReadOnlyCollection<Freight> DeliveredFreights => _deliveredFreights;
+
+    private readonly List<Freight> _receivedFreights;
+    public IReadOnlyCollection<Freight> ReceivedFreights => _receivedFreights;
+    public IReadOnlyCollection<Freight> Freights => Type == TransportType.Export ?
+        _receivedFreights :
+        _deliveredFreights;
 
     private Transport(
         TransportNumber number,
@@ -32,7 +38,8 @@ public sealed class Transport : Entity<TransportId>
         Driver driver,
         ClientId clientId,
         Client client,
-        List<Freight> freights,
+        List<Freight> deliveredFreights,
+        List<Freight> receivedFreights,
         TransportId? id = null) : base(id)
     {
         Number = number;
@@ -44,8 +51,13 @@ public sealed class Transport : Entity<TransportId>
         Driver = driver;
         ClientId = clientId;
         Client = client;
-        _freights = freights;
+        _deliveredFreights = deliveredFreights;
+        _receivedFreights = receivedFreights;
     }
+
+
+    private Transport() : base()
+    { }
 
     internal static Result<Transport> Create(
         int number,
@@ -79,19 +91,30 @@ public sealed class Transport : Entity<TransportId>
             driver,
             client.Id,
             client,
+            [],
             []);
     }
 
     internal Result AddFreight(Freight freight)
     {
-        var isAlreadyContainFreight = _freights.Any(f => f.Id == Id);
+        var isAlreadyContainFreight = Type == TransportType.Import ?
+            _deliveredFreights.Any(f => f.Id == Id) :
+            _receivedFreights.Any(f => f.Id == Id);
 
         if (isAlreadyContainFreight)
         {
             return TransportErrors.AlreadyContainFreight;
         }
-        
-        _freights.Add(freight);
+
+        switch(Type)
+        {
+            case var type when type == TransportType.Import:
+                _deliveredFreights.Add(freight);
+                break;
+            case var type when type == TransportType.Export:
+                _receivedFreights.Add(freight);
+                break;
+        };
 
         return Result.Success();
     }

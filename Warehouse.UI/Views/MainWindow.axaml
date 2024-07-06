@@ -2,11 +2,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Warehouse.UI.Views"
         x:Class="Warehouse.UI.Views.MainWindow"
         mc:Ignorable="d"
         Title="Main Window"
-        Width="1280"
-        Height="720">
-    <ContentControl Name="ContentArea" />
+        MinWidth="1280"
+        MinHeight="720"
+        MaxWidth="3440"
+        MaxHeight="1440"
+        Width="1600"
+        Height="900"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/Warehouse_Logo.ico"
+        Padding="10">
+    <ContentControl Name="ContentArea" MaxWidth="2560" MaxHeight="1080" HorizontalContentAlignment="Center" />
 </Window>

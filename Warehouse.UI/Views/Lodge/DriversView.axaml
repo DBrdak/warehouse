@@ -1,0 +1,9 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Warehouse.UI.Views.Lodge.DriversView">
+    <Grid>
+        <DataGrid />
+        <Button Content="Delete Driver" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10"/>
+        <Button Content="Update Driver" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"/>
+    </Grid>
+</UserControl>

@@ -38,6 +38,10 @@ public sealed class Warehouseman : Entity<WarehousemanId>
         IsFired = isFired;
     }
 
+
+    private Warehouseman() : base()
+    { }
+
     internal static Result<Warehouseman> Create(
         int identificationNumber,
         string firstName,

@@ -1,12 +1,12 @@
 ﻿using Warehouse.Application.Freights.Models;
 using Warehouse.Application.Sectors.Models;
+using Warehouse.Application.Shared.Models;
 using Warehouse.Domain.Freights;
 using Warehouse.Domain.PalletSpaces;
-using Warehouse.Domain.Sectors;
 
 namespace Warehouse.Application.PalletSpaces.Models;
 
-public sealed record PalletSpaceModel
+public sealed record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId>
 {
     public int Number { get; init; }
     public int Shelf { get; init; }
@@ -15,11 +15,12 @@ public sealed record PalletSpaceModel
     public IReadOnlyCollection<FreightModel> Freights { get; init; }
 
     private PalletSpaceModel(
+        Guid id,
         int number,
         int shelf,
         int rack,
         SectorModel sector,
-        IReadOnlyCollection<FreightModel> freights)
+        IReadOnlyCollection<FreightModel> freights) : base(id)
     {
         Number = number;
         Shelf = shelf;
@@ -32,12 +33,14 @@ public sealed record PalletSpaceModel
         typeof(TCaller) switch
         {
             var callerType when callerType == typeof(SectorModel) => new(
+                palletSpace.Id.Id,
                 palletSpace.Number.Value,
                 palletSpace.Shelf.Value,
                 palletSpace.Rack.Value,
                 null,
                 palletSpace.Freights.Select(f => FreightModel.FromDomainModel<PalletSpaceModel>(f)).ToList()),
             var callerType when callerType == typeof(FreightModel) => new(
+                palletSpace.Id.Id,
                 palletSpace.Number.Value,
                 palletSpace.Shelf.Value,
                 palletSpace.Rack.Value,
@@ -48,6 +51,7 @@ public sealed record PalletSpaceModel
 
     public static PalletSpaceModel FromDomainModel(PalletSpace palletSpace) =>
         new(
+            palletSpace.Id.Id,
             palletSpace.Number.Value,
             palletSpace.Shelf.Value,
             palletSpace.Rack.Value,

@@ -1,10 +1,11 @@
 ﻿using Warehouse.Application.Sectors.Models;
+using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Transports.Models;
 using Warehouse.Domain.Warehousemen;
 
 namespace Warehouse.Application.Warehousemen.Models;
 
-public sealed record WarehousemanModel
+public sealed record WarehousemanModel : BusinessModel<Warehouseman, WarehousemanId>
 {
     public int IdentificationNumber { get; init; }
     public string FirstName { get; init; }
@@ -14,12 +15,13 @@ public sealed record WarehousemanModel
     public IReadOnlyCollection<TransportModel>? Transports { get; init; }
 
     private WarehousemanModel(
+        Guid id,
         int identificationNumber,
         string firstName,
         string lastName,
         string? position,
         SectorModel? sector,
-        IReadOnlyCollection<TransportModel>? transports)
+        IReadOnlyCollection<TransportModel>? transports) : base(id)
     {
         IdentificationNumber = identificationNumber;
         FirstName = firstName;
@@ -34,6 +36,7 @@ public sealed record WarehousemanModel
         {
             var callerType when callerType == typeof(SectorModel) =>
                 new(
+                    warehouseman.Id.Id,
                     warehouseman.IdentificationNumber.Value,
                     warehouseman.FirstName.Value,
                     warehouseman.LastName.Value,
@@ -43,6 +46,7 @@ public sealed record WarehousemanModel
                         .ToList()),
             var callerType when callerType == typeof(TransportModel) =>
                 new(
+                    warehouseman.Id.Id,
                     warehouseman.IdentificationNumber.Value,
                     warehouseman.FirstName.Value,
                     warehouseman.LastName.Value,
@@ -54,6 +58,7 @@ public sealed record WarehousemanModel
 
     public static WarehousemanModel FromDomainModel(Warehouseman warehouseman) =>
         new(
+            warehouseman.Id.Id,
             warehouseman.IdentificationNumber.Value,
             warehouseman.FirstName.Value,
             warehouseman.LastName.Value,

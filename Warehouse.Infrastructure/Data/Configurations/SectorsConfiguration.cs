@@ -16,15 +16,12 @@ internal sealed class SectorsConfiguration : IEntityTypeConfiguration<Sector>
         builder.HasIndex(e => e.Number, "UQ__Sektory__AF86E65285CA37F0").IsUnique();
 
         builder.Property(e => e.Id)
-            .ValueGeneratedNever()
+            
             .HasColumnName("id_sektora")
             .HasConversion(d => d.Id, s => new SectorId(s));
 
         builder.Property(e => e.Number)
             .HasColumnName("numer")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<SectorNumber>(s));
-
-        builder.Navigation(e => e.PalletSpaces).AutoInclude();
-        builder.Navigation(e => e.Warehousemen).AutoInclude();
     }
 }

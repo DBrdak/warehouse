@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:material="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
+             xmlns:mainDashboard="clr-namespace:Warehouse.UI.ViewModels.MainDashboard"
+             x:Class="Warehouse.UI.Views.MainViews.MainDashboardView"
+             x:DataType="mainDashboard:MainDashboardViewModel">
+    <Grid RowDefinitions="*,*" ColumnDefinitions="*,*"
+          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+          Margin="20" MinWidth="544" MinHeight="306" MaxHeight="900" MaxWidth="1600">
+
+        <material:Card Grid.Row="0" Grid.Column="0" Margin="10">
+            <Button Content="Portiernia" Command="{Binding NavigateToLodge}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
+        </material:Card>
+
+        <material:Card Grid.Row="0" Grid.Column="1" Margin="10">
+            <Button Content="Magazyn" Command="{Binding NavigateToWarehouseCommand}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
+        </material:Card>
+
+        <material:Card Grid.Row="1" Grid.Column="0" Margin="10">
+            <Button Content="Obsługa klienta" Command="{Binding NavigateToCustomerServiceCommand}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
+        </material:Card>
+
+        <material:Card Grid.Row="1" Grid.Column="1" Margin="10">
+            <Button Content="Panel zarządzania" Command="{Binding NavigateToManagementCommand}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
+        </material:Card>
+
+    </Grid>
+</UserControl>

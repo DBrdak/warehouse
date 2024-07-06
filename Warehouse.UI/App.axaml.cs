@@ -1,9 +1,9 @@
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Material.Colors;
 using Material.Styles.Themes;
 using Microsoft.Extensions.DependencyInjection;
-using Warehouse.UI.ViewModels;
 using Warehouse.UI.Views;
 
 namespace Warehouse.UI;
@@ -16,11 +16,15 @@ public class App : Avalonia.Application
     }
 
     public override void OnFrameworkInitializationCompleted()
-    {
+    {       
+        BindingPlugins.DataValidators.RemoveAt(0);
+
+        var services = Bootstrapper.Initialize();
+        var serviceProvider = services.BuildServiceProvider();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
         {
-            var serviceProvider = Bootstrapper.Initialize();
-            desktopLifetime.MainWindow = serviceProvider.GetRequiredService<MainWindow>();
+            desktopLifetime.MainWindow = new MainWindow(serviceProvider);
         }
 
         UseTheme();

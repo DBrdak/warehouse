@@ -1,9 +1,10 @@
+using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Transports.Models;
 using Warehouse.Domain.Drivers;
 
 namespace Warehouse.Application.Drivers.Models;
 
-public sealed record DriverModel
+public sealed record DriverModel : BusinessModel<Driver, DriverId>
 {
     public string FirstName { get; init; }
     public string LastName { get; init; }
@@ -11,10 +12,11 @@ public sealed record DriverModel
     public IReadOnlyCollection<TransportModel>? Transports { get; init; }
 
     private DriverModel(
+        Guid id,
         string firstName,
         string lastName,
         string vehiclePlate,
-        IReadOnlyCollection<TransportModel>? transports)
+        IReadOnlyCollection<TransportModel>? transports) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -26,6 +28,7 @@ public sealed record DriverModel
         typeof(TCaller) switch
         {
             var callerType when callerType == typeof(TransportModel) => new(
+                driver.Id.Id,
                 driver.FirstName.Value,
                 driver.LastName.Value,
                 driver.VehiclePlate.Value,
@@ -33,8 +36,11 @@ public sealed record DriverModel
             _ => FromDomainModel(driver)
         };
 
-    public static DriverModel FromDomainModel(Driver driver)
-    {
-        return null;
-    }
+    public static DriverModel FromDomainModel(Driver driver) =>
+        new(
+            driver.Id.Id,
+            driver.FirstName.Value,
+            driver.LastName.Value,
+            driver.VehiclePlate.Value,
+            driver.Transports?.Select(TransportModel.FromDomainModel<DriverModel>).ToList());
 }

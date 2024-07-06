@@ -1,4 +1,3 @@
-using MediatR;
 using Warehouse.Application.Abstractions.Messaging;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Domain.Sectors;

@@ -11,9 +11,10 @@ internal static class DataConverter
     {
         return Activator.CreateInstance(
                    typeof(TDomainModel),
-                   BindingFlags.CreateInstance | BindingFlags.NonPublic,
+                   BindingFlags.Instance | BindingFlags.NonPublic,
                    null,
-                   ctorParams) as TDomainModel
+                   ctorParams,
+                   null) as TDomainModel
                ?? throw ConversionException(typeof(TDomainModel));
     }
 }

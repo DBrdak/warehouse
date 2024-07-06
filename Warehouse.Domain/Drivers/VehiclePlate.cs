@@ -19,6 +19,6 @@ public sealed record VehiclePlate
             return DriverErrors.InvalidVehiclePlateNumber;
         }
 
-        return new VehiclePlate(value);
+        return new VehiclePlate(value.ToUpper());
     }
 }

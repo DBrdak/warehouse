@@ -1,23 +1,22 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Threading.Tasks;
 using Warehouse.Application;
 using Warehouse.Infrastructure;
 using Warehouse.UI.ViewModels.LogIn;
 using Warehouse.UI.ViewModels.MainDashboard;
 using Warehouse.UI.Views;
+using LogInView = Warehouse.UI.Views.MainViews.LogInView;
+using MainDashboardView = Warehouse.UI.Views.MainViews.MainDashboardView;
 
 namespace Warehouse.UI;
 
 internal static class Bootstrapper
 {
-    public static IServiceProvider Initialize() =>
+    public static IServiceCollection Initialize() =>
         new ServiceCollection()
             .ConfigureServices()
             .ConfigureViews()
-            .ConfigureViewModels()
-            .BuildServiceProvider();
+            .ConfigureViewModels();
 
     private static IServiceCollection ConfigureServices(this IServiceCollection services) =>
         services.UseConfiguration(out var configuration)
@@ -38,7 +37,7 @@ internal static class Bootstrapper
         out IConfiguration configuration)
     {
         configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", true)
+            .AddJsonFile("appsettings.json")
             .Build();
 
         services.AddSingleton(configuration);

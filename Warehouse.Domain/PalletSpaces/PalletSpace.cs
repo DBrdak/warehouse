@@ -32,6 +32,10 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
         _freights = freights;
     }
 
+
+    private PalletSpace() : base()
+    { }
+
     internal static Result<PalletSpace> Create(
         int number,
         int shelf,

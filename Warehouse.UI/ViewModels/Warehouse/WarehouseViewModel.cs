@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Warehouse.UI.Views;
 
 namespace Warehouse.UI.ViewModels.Warehouse;
 
 public sealed class WarehouseViewModel : ViewModelBase
 {
+    private readonly MainWindow _mainWindow;
+
+    public WarehouseViewModel(MainWindow mainWindow)
+    {
+        _mainWindow = mainWindow;
+    }
 }

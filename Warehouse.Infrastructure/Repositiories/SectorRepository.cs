@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Warehouse.Domain.Sectors;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;

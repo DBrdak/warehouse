@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.Design;
 using Avalonia.Controls;
 
 namespace Warehouse.UI.Views;
 
 public partial class MainWindow : Window
 {
+    public readonly IServiceProvider ServiceProvider;
+
     public MainWindow()
     {
+        ServiceProvider = new ServiceContainer();
         InitializeComponent();
     }
 
     public MainWindow(IServiceProvider serviceProvider)
     {
+        ServiceProvider = serviceProvider;
         InitializeComponent();
-        var logInView = new LogInView(serviceProvider, this);
+
+        var logInView = new MainViews.LogInView(ServiceProvider, this);
         ContentArea.Content = logInView;
     }
 }

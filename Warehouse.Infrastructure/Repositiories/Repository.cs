@@ -24,6 +24,9 @@ internal abstract class Repository<TEntity, TEntityId>
             await Table.FirstOrDefaultAsync(e => e.Id == entityId, cancellationToken),
             DataAccessErrors.NotFound<TEntity>());
 
+    public async Task<Result<List<TEntity>>> GetAllAsync(CancellationToken cancellationToken) => 
+        Result.Create(await Table.ToListAsync(cancellationToken));
+
     public async Task<Result<TEntity>> AddAsync(
         TEntity entity,
         CancellationToken cancellationToken)
