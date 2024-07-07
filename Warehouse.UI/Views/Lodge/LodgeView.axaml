@@ -4,21 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
              xmlns:lodge="clr-namespace:Warehouse.UI.ViewModels.Lodge"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              x:Class="Warehouse.UI.Views.Lodge.LodgeView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="lodge:LodgeViewModel">
 
-    <Grid Margin="20" RowDefinitions="Auto,Auto,Auto">
+    <Grid Margin="20" RowDefinitions="Auto,7*,Auto,Auto">
 
-        <!-- DataGrid for Drivers -->
-        <DataGrid x:Name="DriversDataGrid" Grid.Row="0" ItemsSource="{Binding Drivers}" AutoGenerateColumns="False"
-                  VerticalScrollBarVisibility="Auto" MaxHeight="900" CanUserResizeColumns="{Binding !IsInCreateMode}"
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" IsEnabled="{Binding !IsInCreateMode}" Margin="0,0,0,10">
+            <TextBox Width="300" assists:TextFieldAssist.Label="Imię"
+                     Text="{Binding FirstNameSearchQuery}" />
+            <TextBox Width="300" assists:TextFieldAssist.Label="Nazwisko"
+                     Text="{Binding LastNameSearchQuery}" />
+            <TextBox Width="300" assists:TextFieldAssist.Label="Numer rejestracji"
+                     Text="{Binding VehiclePlateSearchQuery}" />
+        </StackPanel>
+
+        <DataGrid x:Name="DriversDataGrid" Grid.Row="1" MinHeight="400" ItemsSource="{Binding FilteredDrivers}" AutoGenerateColumns="False"
+                  VerticalScrollBarVisibility="Auto" CanUserResizeColumns="{Binding !IsInCreateMode}"
                   CanUserReorderColumns="{Binding !IsInCreateMode}" CanUserSortColumns="{Binding !IsInCreateMode}"
                   RowEditEnded="DataGrid_OnRowEditEnded" BeginningEdit="DataGrid_OnBeginningEdit">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Imię" Binding="{Binding FirstName}" Width="*" MinWidth="300"/>
                 <DataGridTextColumn Header="Nazwisko" Binding="{Binding LastName}" Width="*" MinWidth="300"/>
-                <DataGridTextColumn Header="Numer rejestracyjny" Binding="{Binding VehiclePlate}" Width="*" MinWidth="300"/>
+                <DataGridTextColumn Header="Numer rejestracji" Binding="{Binding VehiclePlate}" Width="*" MinWidth="300"/>
                 <DataGridTemplateColumn Header="" MaxWidth="110" Width="110" MinWidth="110">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -29,7 +38,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <progRing:ProgressRing Grid.Row="1" 
+        <progRing:ProgressRing Grid.Row="2" 
                                Width="40"
                                Height="40"
                                IsActive="{Binding IsLoading}"
@@ -38,10 +47,9 @@
                                Foreground="Green"
                                Margin="20,20,0,0"/>
 
-        <!-- Buttons for Add, Edit, Remove -->
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Dodaj" Command="{Binding AddPlaceholderCommand}" VerticalAlignment="Bottom" Margin="10"
-                    IsEnabled="{Binding !IsInCreateMode}" />
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button Content="Dodaj" VerticalAlignment="Bottom" Margin="10"
+                    IsEnabled="{Binding !IsInCreateMode}" Click="Button_OnClick" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Net;
 
 namespace Warehouse.Domain.Shared.Extensions
 {
@@ -36,6 +37,42 @@ namespace Warehouse.Domain.Shared.Extensions
             while (enumerator.MoveNext());
             
             return -1;
+        }
+
+        public static T? Find<T>(this IEnumerable enumerable, object item)
+        {
+            var enumerator = enumerable.GetEnumerator();
+            enumerator.MoveNext();
+
+            do
+            {
+                if (item.Equals(enumerator.Current))
+                {
+                    return (T)enumerator.Current ?? throw new InvalidCastException();
+                }
+            }
+            while (enumerator.MoveNext());
+
+            return default;
+        }
+
+        public static IEnumerable Replace(this IEnumerable enumerable, object oldItem, object newItem)
+        {
+            var enumerator = enumerable.GetEnumerator();
+            enumerator.MoveNext();
+            var newEnumerable = new List<object>();
+
+            do
+            {
+                if (oldItem.Equals(enumerator.Current))
+                {
+                    newEnumerable.Add(newItem);
+                }
+                newEnumerable.Add(enumerator.Current);
+            }
+            while (enumerator.MoveNext());
+
+            return newEnumerable;
         }
     }
 }

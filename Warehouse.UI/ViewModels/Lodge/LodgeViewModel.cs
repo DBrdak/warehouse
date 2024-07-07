@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using System;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using DynamicData;
@@ -12,6 +13,7 @@ using Warehouse.Application.Drivers.RemoveDriver;
 using Warehouse.Application.Drivers.UpdateDriver;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
+using System.Linq;
 
 namespace Warehouse.UI.ViewModels.Lodge;
 
@@ -21,6 +23,46 @@ public sealed class LodgeViewModel : ViewModelBase
     private readonly MainWindow _mainWindow;
 
     public ObservableCollection<DriverModel> Drivers { get; } = new();
+
+    private ObservableCollection<DriverModel> _filteredDrivers = new();
+    public ObservableCollection<DriverModel> FilteredDrivers
+    {
+        get => _filteredDrivers;
+        set => SetProperty(ref _filteredDrivers, value);
+    }
+
+    private string _firstNameSearchQuery = string.Empty;
+    public string FirstNameSearchQuery
+    {
+        get => _firstNameSearchQuery;
+        set
+        {
+            SetProperty(ref _firstNameSearchQuery, value);
+            ApplyFilters();
+        }
+    }
+
+    private string _lastNameSearchQuery = string.Empty;
+    public string LastNameSearchQuery
+    {
+        get => _lastNameSearchQuery;
+        set
+        {
+            SetProperty(ref _lastNameSearchQuery, value);
+            ApplyFilters();
+        }
+    }
+
+    private string _vehiclePlateSearchQuery = string.Empty;
+    public string VehiclePlateSearchQuery
+    {
+        get => _vehiclePlateSearchQuery;
+        set
+        {
+            SetProperty(ref _vehiclePlateSearchQuery, value);
+            ApplyFilters();
+        }
+    }
 
     private DriverModel _placeholderDriver = new();
     public DriverModel PlaceholderDriver
@@ -73,6 +115,7 @@ public sealed class LodgeViewModel : ViewModelBase
         IsInCreateMode = true;
         PlaceholderDriver = new();
         Drivers.Add(PlaceholderDriver);
+        ApplyFilters();
     }
 
     public void ExitCreateMode()
@@ -80,6 +123,7 @@ public sealed class LodgeViewModel : ViewModelBase
         Drivers.Remove(PlaceholderDriver);
         PlaceholderDriver = new();
         IsInCreateMode = false;
+        ApplyFilters();
     }
 
     public async Task FetchDrivers()
@@ -99,12 +143,16 @@ public sealed class LodgeViewModel : ViewModelBase
         Drivers.Clear();
         Drivers.AddRange(drivers);
         IsLoading = false;
+        ApplyFilters();
         OnPropertyChanged(nameof(Drivers));
     }
 
     private async Task AddDriver(DriverModel? driver)
     {
-        if (driver is null)
+        if (driver is null ||
+            string.IsNullOrWhiteSpace(driver.FirstName) ||
+            string.IsNullOrWhiteSpace(driver.LastName) ||
+            string.IsNullOrWhiteSpace(driver.VehiclePlate))
         {
             return;
         }
@@ -122,6 +170,7 @@ public sealed class LodgeViewModel : ViewModelBase
 
         Drivers.Add(result.Value);
         IsLoading = false;
+        ApplyFilters();
     }
 
     private async Task EditDriver(DriverModel? driver)
@@ -163,5 +212,18 @@ public sealed class LodgeViewModel : ViewModelBase
 
         Drivers.Remove(driver);
         IsLoading = false;
+        ApplyFilters();
+    }
+
+    public void ApplyFilters()
+    {
+        var filtered = Drivers
+            .Where(d => d.FirstName.Contains(FirstNameSearchQuery, StringComparison.OrdinalIgnoreCase))
+            .Where(d => d.LastName.Contains(LastNameSearchQuery, StringComparison.OrdinalIgnoreCase))
+            .Where(d => d.VehiclePlate.Contains(VehiclePlateSearchQuery, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        FilteredDrivers.Clear();
+        FilteredDrivers.AddRange(filtered);
     }
 }
