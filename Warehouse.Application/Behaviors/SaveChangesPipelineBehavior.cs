@@ -26,8 +26,8 @@ internal sealed class SaveChangesPipelineBehavior<TRequest, TResponse> :
     {
         var result = await next();
 
-        var isSuccessful = await _unitOfWork.SaveChangesAsync(cancellationToken) > 0;
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return (TResponse)(isSuccessful ? result : Result.Failure(saveChangesFailure));
+        return result;
     }
 }

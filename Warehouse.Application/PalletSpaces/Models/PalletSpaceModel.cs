@@ -1,7 +1,6 @@
 ﻿using Warehouse.Application.Freights.Models;
 using Warehouse.Application.Sectors.Models;
 using Warehouse.Application.Shared.Models;
-using Warehouse.Domain.Freights;
 using Warehouse.Domain.PalletSpaces;
 
 namespace Warehouse.Application.PalletSpaces.Models;

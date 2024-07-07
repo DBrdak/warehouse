@@ -11,6 +11,14 @@ public sealed record DriverModel : BusinessModel<Driver, DriverId>
     public string VehiclePlate { get; init; }
     public IReadOnlyCollection<TransportModel>? Transports { get; init; }
 
+    public DriverModel() : base(Guid.NewGuid())
+    {
+        FirstName = "";
+        LastName = "";
+        VehiclePlate = "";
+        Transports = [];
+    }
+
     private DriverModel(
         Guid id,
         string firstName,
@@ -43,4 +51,6 @@ public sealed record DriverModel : BusinessModel<Driver, DriverId>
             driver.LastName.Value,
             driver.VehiclePlate.Value,
             driver.Transports?.Select(TransportModel.FromDomainModel<DriverModel>).ToList());
+
+    public DriverModel Copy() => new(this);
 }

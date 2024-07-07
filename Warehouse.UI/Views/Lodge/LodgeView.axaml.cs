@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Linq;
+using System;
+using System.Collections.Specialized;
+using System.Reactive;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Warehouse.Application.Drivers.Models;
-using Warehouse.Domain.Drivers;
 using Warehouse.UI.ViewModels.Lodge;
 
 namespace Warehouse.UI.Views.Lodge;
@@ -22,15 +22,16 @@ public partial class LodgeView : UserControl
         InitializeComponent();
         DataContext = new LodgeViewModel(mainWindow);
         Loaded += OnLoaded;
+        InvalidateDataGrid();
     }
 
-    private async void OnLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void OnLoaded(object? sender, RoutedEventArgs e)
     {
         var lodge = DataContext as LodgeViewModel;
-        await lodge!.FetchDrivers();
+        await lodge.FetchDrivers();
     }
 
-    private async void DataGrid_OnCellEditEnded(object? sender, DataGridCellEditEndedEventArgs e)
+    private async void DataGrid_OnRowEditEnded(object? sender, DataGridRowEditEndedEventArgs e)
     {
         if (e.EditAction != DataGridEditAction.Commit)
         {
@@ -40,30 +41,53 @@ public partial class LodgeView : UserControl
         var driver = e.Row.DataContext as DriverModel;
         var lodge = DataContext as LodgeViewModel;
 
+        if (driver == lodge.PlaceholderDriver &&
+            driver.FirstName != string.Empty &&
+            driver.LastName != string.Empty &&
+            driver.VehiclePlate != string.Empty)
+        {
+            await lodge!.AddDriverCommand.ExecuteAsync(driver);
+            lodge.ExitCreateMode();
+            return;
+        }
+
+        if (driver == lodge.PlaceholderDriver)
+        {
+            lodge.Drivers.Remove(driver);
+            lodge.ExitCreateMode();
+            return;
+        }
+
+        var previousState = lodge.SelectedDriver;
+        var isStateChanged = previousState != driver;
+
+        if (!isStateChanged)
+        {
+            return;
+        }
+
         await lodge!.EditDriverCommand.ExecuteAsync(driver);
+        lodge.SelectedDriver = null;
     }
 
-    private void InputElement_OnGotFocus(object? sender, GotFocusEventArgs e)
+    private void DataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e)
     {
-        var dataGrid = sender as DataGrid;
+        var driver = e.Row.DataContext as DriverModel;
+        var lodge = DataContext as LodgeViewModel;
 
-        if (!dataGrid.IsFocused)
-        {
-            return;
-        }
-
-        dataGrid.CommitEdit();
+        lodge.SelectedDriver = driver.Copy();
     }
 
-    private void InputElement_OnLostFocus(object? sender, RoutedEventArgs e)
+    private void RemoveButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        var dataGrid = sender as DataGrid;
+    }
 
-        if (dataGrid.IsFocused)
-        {
-            return;
-        }
-
-        dataGrid.BeginEdit();
+    private void InvalidateDataGrid()
+    {
+        var lodge = DataContext as LodgeViewModel;
+        var dataGrid = this.FindControl<DataGrid>("DriversDataGrid");
+        dataGrid.InvalidateArrange();
+        dataGrid.InvalidateVisual();
+        dataGrid.InvalidateMeasure();
     }
 }

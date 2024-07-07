@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using DynamicData;
 using MediatR;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Drivers.AddDriver;
 using Warehouse.Application.Drivers.GetAllDrivers;
@@ -11,8 +12,6 @@ using Warehouse.Application.Drivers.RemoveDriver;
 using Warehouse.Application.Drivers.UpdateDriver;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
-using Warehouse.Domain.Drivers;
-using Warehouse.UI.ViewModels.Lodge.Requests;
 
 namespace Warehouse.UI.ViewModels.Lodge;
 
@@ -23,6 +22,21 @@ public sealed class LodgeViewModel : ViewModelBase
 
     public ObservableCollection<DriverModel> Drivers { get; } = new();
 
+    private DriverModel _placeholderDriver = new();
+    public DriverModel PlaceholderDriver
+    {
+        get => _placeholderDriver;
+        set => SetProperty(ref _placeholderDriver, value);
+    }
+
+    private bool _isInCreateMode;
+    public bool IsInCreateMode
+    {
+        get => _isInCreateMode;
+        set => SetProperty(ref _isInCreateMode, value);
+    }
+
+
     private bool _isLoading;
     public bool IsLoading
     {
@@ -31,19 +45,15 @@ public sealed class LodgeViewModel : ViewModelBase
     }
 
     private DriverModel? _selectedDriver;
+
     public DriverModel? SelectedDriver
     {
         get => _selectedDriver;
-        set
-        {
-            SetProperty(ref _selectedDriver, value);
-            OnPropertyChanged(nameof(IsDriverSelected));
-        }
+        set => SetProperty(ref _selectedDriver, value);
     }
 
-    public bool IsDriverSelected => _selectedDriver is not null;
-
-    public IAsyncRelayCommand<AddDriverRequest> AddDriverCommand { get; }
+    public IRelayCommand AddPlaceholderCommand { get; }
+    public IAsyncRelayCommand<DriverModel> AddDriverCommand { get; }
     public IAsyncRelayCommand<DriverModel> EditDriverCommand { get; }
     public IAsyncRelayCommand<DriverModel> RemoveDriverCommand { get; }
 
@@ -52,9 +62,24 @@ public sealed class LodgeViewModel : ViewModelBase
         _sender = mainWindow.ServiceProvider.GetRequiredService<ISender>();
         _mainWindow = mainWindow;
 
-        AddDriverCommand = new AsyncRelayCommand<AddDriverRequest>(AddDriver);
+        AddPlaceholderCommand = new RelayCommand(AddPlaceholder);
+        AddDriverCommand = new AsyncRelayCommand<DriverModel>(AddDriver);
         EditDriverCommand = new AsyncRelayCommand<DriverModel>(EditDriver);
         RemoveDriverCommand = new AsyncRelayCommand<DriverModel>(RemoveDriver);
+    }
+
+    private void AddPlaceholder()
+    {
+        IsInCreateMode = true;
+        PlaceholderDriver = new();
+        Drivers.Add(PlaceholderDriver);
+    }
+
+    public void ExitCreateMode()
+    {
+        Drivers.Remove(PlaceholderDriver);
+        PlaceholderDriver = new();
+        IsInCreateMode = false;
     }
 
     public async Task FetchDrivers()
@@ -72,20 +97,21 @@ public sealed class LodgeViewModel : ViewModelBase
         var drivers = result.Value;
 
         Drivers.Clear();
-        drivers.ForEach(Drivers.Add);
+        Drivers.AddRange(drivers);
         IsLoading = false;
+        OnPropertyChanged(nameof(Drivers));
     }
 
-    private async Task AddDriver(AddDriverRequest? request)
+    private async Task AddDriver(DriverModel? driver)
     {
-        if (request is null)
+        if (driver is null)
         {
             return;
         }
 
         IsLoading = true;
 
-        var command = new AddDriverCommand(request.FirstName, request.LastName, request.VehiclePlate);
+        var command = new AddDriverCommand(driver.FirstName, driver.LastName, driver.VehiclePlate);
         
         var result = await _sender.Send(command);
         
@@ -93,7 +119,7 @@ public sealed class LodgeViewModel : ViewModelBase
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
         }
-        
+
         Drivers.Add(result.Value);
         IsLoading = false;
     }

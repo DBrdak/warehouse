@@ -2,6 +2,8 @@
 using Avalonia.ReactiveUI;
 using System;
 using System.Threading.Tasks;
+using ReactiveUI;
+using Warehouse.UI.Observers;
 
 namespace Warehouse.UI;
 
@@ -12,7 +14,7 @@ internal sealed class Program
     {
         var app = BuildAvaloniaApp();
         var serviceProvider = Bootstrapper.Initialize();
-        
+        RxApp.DefaultExceptionHandler = new ExceptionHandler();
         app.StartWithClassicDesktopLifetime(args);
     }
 
