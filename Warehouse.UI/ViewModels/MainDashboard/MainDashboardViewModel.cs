@@ -32,5 +32,5 @@ internal class MainDashboardViewModel : ViewModelBase
 
     public void NavigateToManagement() => _mainWindow.ContentArea.Content = new ManagementView();
 
-    public void NavigateToLodge() => _mainWindow.ContentArea.Content = new LodgeView();
+    public void NavigateToLodge() => _mainWindow.ContentArea.Content = new LodgeView(_mainWindow);
 }

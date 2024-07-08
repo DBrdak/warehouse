@@ -11,19 +11,24 @@
 
     <Grid Margin="20" RowDefinitions="Auto,7*,Auto,Auto">
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" IsEnabled="{Binding !IsInCreateMode}" Margin="0,0,0,10">
-            <TextBox Width="300" assists:TextFieldAssist.Label="Imię"
-                     Text="{Binding FirstNameSearchQuery}" />
-            <TextBox Width="300" assists:TextFieldAssist.Label="Nazwisko"
-                     Text="{Binding LastNameSearchQuery}" />
-            <TextBox Width="300" assists:TextFieldAssist.Label="Numer rejestracji"
-                     Text="{Binding VehiclePlateSearchQuery}" />
-        </StackPanel>
+        <DockPanel Grid.Row="0" HorizontalAlignment="Stretch">
+            <Button Content="← Wróć" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"
+                    Click="BackButton_OnClick" FontSize="20"
+                    Theme="{StaticResource MaterialFlatButton}" Classes="primary" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" IsEnabled="{Binding !IsInCreateMode}" Margin="0,0,0,10">
+                <TextBox x:Name="FirstNameSearchBar" Width="300" assists:TextFieldAssist.Label="Imię"
+                         Text="{Binding FirstNameSearchQuery}" />
+                <TextBox x:Name="LastNameSearchBar" Width="300" assists:TextFieldAssist.Label="Nazwisko"
+                         Text="{Binding LastNameSearchQuery}" />
+                <TextBox x:Name="VehiclePlateSearchBar" Width="300" assists:TextFieldAssist.Label="Numer rejestracji"
+                         Text="{Binding VehiclePlateSearchQuery}" />
+            </StackPanel>
+        </DockPanel>
 
         <DataGrid x:Name="DriversDataGrid" Grid.Row="1" MinHeight="400" ItemsSource="{Binding FilteredDrivers}" AutoGenerateColumns="False"
                   VerticalScrollBarVisibility="Auto" CanUserResizeColumns="{Binding !IsInCreateMode}"
                   CanUserReorderColumns="{Binding !IsInCreateMode}" CanUserSortColumns="{Binding !IsInCreateMode}"
-                  RowEditEnded="DataGrid_OnRowEditEnded" BeginningEdit="DataGrid_OnBeginningEdit">
+                  RowEditEnded="DataGrid_OnRowEditEnded" BeginningEdit="DataGrid_OnBeginningEdit" IsScrollInertiaEnabled="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Imię" Binding="{Binding FirstName}" Width="*" MinWidth="300"/>
                 <DataGridTextColumn Header="Nazwisko" Binding="{Binding LastName}" Width="*" MinWidth="300"/>
@@ -31,7 +36,8 @@
                 <DataGridTemplateColumn Header="" MaxWidth="110" Width="110" MinWidth="110">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Usuń" FontSize="12" Margin="5,10,5,10" Click="RemoveButton_OnClick" />
+                            <Button Content="Usuń" FontSize="12" Margin="5,10,5,10" Click="RemoveButton_OnClick"
+                                    Theme="{StaticResource MaterialOutlineButton}" Classes="primary" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

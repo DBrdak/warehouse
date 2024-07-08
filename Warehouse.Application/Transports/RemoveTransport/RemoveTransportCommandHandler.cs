@@ -13,6 +13,17 @@ internal sealed class RemoveTransportCommandHandler : ICommandHandler<RemoveTran
         _transportRepository = transportRepository;
     }
 
-    public async Task<Result> Handle(RemoveTransportCommand request, CancellationToken cancellationToken) =>
-        await Task.Run(() => _transportRepository.Remove(new(request.Id)), cancellationToken);
+    public async Task<Result> Handle(RemoveTransportCommand request, CancellationToken cancellationToken)
+    {
+        var transportGetResult = await _transportRepository.GetByIdAsync(new TransportId(request.Id), cancellationToken);
+
+        if (transportGetResult.IsFailure)
+        {
+            return transportGetResult.Error;
+        }
+
+        var transport = transportGetResult.Value;
+
+        return _transportRepository.Remove(transport);
+    }
 }

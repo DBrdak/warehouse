@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using Avalonia.Controls;
+using Warehouse.UI.Views.MainViews;
 
 namespace Warehouse.UI.Views;
 
@@ -19,7 +20,7 @@ public partial class MainWindow : Window
         ServiceProvider = serviceProvider;
         InitializeComponent();
 
-        var logInView = new MainViews.LogInView(ServiceProvider, this);
+        var logInView = new LogInView(this);
         ContentArea.Content = logInView;
     }
 }

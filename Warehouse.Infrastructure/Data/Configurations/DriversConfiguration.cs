@@ -17,7 +17,6 @@ internal sealed class DriversConfiguration : IEntityTypeConfiguration<Driver>
         builder.HasIndex(e => e.VehiclePlate, "UQ__Kierowcy__5EB0FACFAF7A65A9").IsUnique();
 
         builder.Property(e => e.Id)
-            
             .HasColumnName("id_kierowcy")
             .HasConversion(d => d.Id, s => new DriverId(s));
 

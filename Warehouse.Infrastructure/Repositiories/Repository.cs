@@ -63,17 +63,16 @@ internal abstract class Repository<TEntity, TEntityId>
         return Result.Success();
     }
 
-    public Result Remove(
-        TEntityId entityId)
+    public Result Remove(TEntity entity)
     {
-        _dbContext.Remove(entityId);
+        Table.Remove(entity);
 
         return Result.Success();
     }
 
-    public Result RemoveRange(IEnumerable<TEntityId> entityIds)
+    public Result RemoveRange(IEnumerable<TEntity> entities)
     {
-        _dbContext.RemoveRange(entityIds.Select(id => id.Id));
+        Table.RemoveRange(entities);
 
         return Result.Success();
     }

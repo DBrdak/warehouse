@@ -16,15 +16,13 @@ public partial class LoginViewModel : ViewModelBase
     private string _password;
     private string _message;
 
-    private readonly IServiceProvider _serviceProvider;
     private readonly MainWindow _mainWindow;
 
-    public LoginViewModel(IServiceProvider serviceProvider, MainWindow mainWindow)
+    public LoginViewModel(MainWindow mainWindow)
     {
-        _serviceProvider = serviceProvider;
         _mainWindow = mainWindow;
         LoginCommand = new RelayCommand(OnLogin, CanLogin);
-        PropertyChanged += (sender, args) =>
+        PropertyChanged += (_, _) =>
         {
             if (CanLogin())
             {

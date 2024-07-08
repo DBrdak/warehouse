@@ -13,8 +13,19 @@ internal sealed class RemoveClientCommandHandler : ICommandHandler<RemoveClientC
         _clientRepository = clientRepository;
     }
 
-    public Task<Result> Handle(
+    public async Task<Result> Handle(
         RemoveClientCommand request,
-        CancellationToken cancellationToken) =>
-        Task.Run(() => _clientRepository.Remove(new(request.ClientId)), cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        var clientGetResult = await _clientRepository.GetByIdAsync(new ClientId(request.ClientId), cancellationToken);
+
+        if (clientGetResult.IsFailure)
+        {
+            return clientGetResult.Error;
+        }
+
+        var client = clientGetResult.Value;
+
+        return _clientRepository.Remove(client);
+    }
 }

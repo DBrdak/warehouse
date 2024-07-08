@@ -5,8 +5,6 @@ namespace Warehouse.Domain.PalletSpaces;
 public interface IPalletSpaceRepository
 {
     Task<Result<PalletSpace>> AddAsync(PalletSpace palletSpace, CancellationToken cancellationToken);
-    Result<PalletSpace> Update(PalletSpace palletSpace);
-    Result Remove(PalletSpaceId palletSpaceId);
-
+    Result Remove(PalletSpace palletSpaceId);
     Task<Result<PalletSpace>> GetByIdAsync(PalletSpaceId palletSpaceId, CancellationToken cancellationToken);
 }

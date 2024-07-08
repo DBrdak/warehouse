@@ -13,6 +13,17 @@ internal sealed class RemoveDriverCommandHandler : ICommandHandler<RemoveDriverC
         _driverRepository = driverRepository;
     }
 
-    public async Task<Result> Handle(RemoveDriverCommand request, CancellationToken cancellationToken) =>
-        await Task.Run(() => _driverRepository.Remove(new(request.Id)), cancellationToken);
+    public async Task<Result> Handle(RemoveDriverCommand request, CancellationToken cancellationToken)
+    {
+        var driverGetResult = await _driverRepository.GetByIdAsync(new DriverId(request.Id), cancellationToken);
+
+        if (driverGetResult.IsFailure)
+        {
+            return driverGetResult.Error;
+        }
+
+        var driver = driverGetResult.Value;
+
+        return _driverRepository.Remove(driver);
+    }
 }

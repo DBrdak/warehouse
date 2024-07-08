@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using DynamicData;
 using MediatR;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Drivers.AddDriver;
 using Warehouse.Application.Drivers.GetAllDrivers;
@@ -190,7 +189,9 @@ public sealed class LodgeViewModel : ViewModelBase
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
         }
 
+        Drivers.Replace(driver, result.Value);
         IsLoading = false;
+        ApplyFilters();
     }
 
     private async Task RemoveDriver(DriverModel? driver)

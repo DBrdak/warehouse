@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Warehouse.UI.Stores;
 
 namespace Warehouse.UI.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
-    private string? user = null;
-
     public string? User
     {
-        get => user;
-        protected set => SetProperty(ref user, value);
+        get => UserStore.CurrentUser;
+        protected set => UserStore.CurrentUser = value;
     }
 }

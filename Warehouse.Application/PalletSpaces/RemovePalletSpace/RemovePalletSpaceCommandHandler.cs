@@ -13,6 +13,17 @@ internal sealed class RemovePalletSpaceCommandHandler : ICommandHandler<RemovePa
         _palletSpaceRepository = palletSpaceRepository;
     }
 
-    public async Task<Result> Handle(RemovePalletSpaceCommand request, CancellationToken cancellationToken) =>
-        await Task.Run(() => _palletSpaceRepository.Remove(new(request.Id)), cancellationToken);
+    public async Task<Result> Handle(RemovePalletSpaceCommand request, CancellationToken cancellationToken)
+    {
+        var palletSpaceGetResult = await _palletSpaceRepository.GetByIdAsync(new PalletSpaceId(request.Id), cancellationToken);
+
+        if (palletSpaceGetResult.IsFailure)
+        {
+            return palletSpaceGetResult.Error;
+        }
+
+        var palletSpace = palletSpaceGetResult.Value;
+
+        return _palletSpaceRepository.Remove(palletSpace);
+    }
 }

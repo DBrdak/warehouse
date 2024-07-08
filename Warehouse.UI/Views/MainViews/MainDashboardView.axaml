@@ -2,31 +2,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:material="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:mainDashboard="clr-namespace:Warehouse.UI.ViewModels.MainDashboard"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              x:Class="Warehouse.UI.Views.MainViews.MainDashboardView"
              x:DataType="mainDashboard:MainDashboardViewModel">
-    <Grid RowDefinitions="*,*" ColumnDefinitions="*,*"
+	<Grid RowDefinitions="*,*,Auto" ColumnDefinitions="*,*"
           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
           Margin="20" MinWidth="544" MinHeight="306" MaxHeight="900" MaxWidth="1600">
 
-        <material:Card Grid.Row="0" Grid.Column="0" Margin="10">
-            <Button Content="Portiernia" Command="{Binding NavigateToLodge}"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
-        </material:Card>
+		<Button Grid.Row="0" Grid.Column="0" Content="Portiernia" Command="{Binding NavigateToLodgeCommand}" Margin="15"
+                BorderThickness="15" BorderBrush="#f2f2f2" CornerRadius="10"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
+		
+        <Button Grid.Row="0" Grid.Column="1" Content="Magazyn" Command="{Binding NavigateToWarehouseCommand}" Margin="15"
+                BorderThickness="15" BorderBrush="#f2f2f2" CornerRadius="10"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
+		
+        <Button Grid.Row="1" Grid.Column="0" Command="{Binding NavigateToCustomerServiceCommand}" Margin="15"
+                BorderThickness="15" BorderBrush="#f2f2f2" CornerRadius="10"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56">
+            <TextBlock Text="Obsługa klienta" TextWrapping="Wrap" TextAlignment="Center"/>
+		</Button>
+		
+        <Button Grid.Row="1" Grid.Column="1" Command="{Binding NavigateToManagementCommand}" Margin="15" 
+                BorderThickness="15" BorderBrush="#f2f2f2" CornerRadius="10"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56">
+            <TextBlock Text="Panel zarządzania" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
 
-        <material:Card Grid.Row="0" Grid.Column="1" Margin="10">
-            <Button Content="Magazyn" Command="{Binding NavigateToWarehouseCommand}"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
-        </material:Card>
+		<Button Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Content="Wyloguj" 
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20"
+                Theme="{StaticResource MaterialOutlineButton}" Classes="primary" Click="Button_OnClick"/>
 
-        <material:Card Grid.Row="1" Grid.Column="0" Margin="10">
-            <Button Content="Obsługa klienta" Command="{Binding NavigateToCustomerServiceCommand}"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
-        </material:Card>
-
-        <material:Card Grid.Row="1" Grid.Column="1" Margin="10">
-            <Button Content="Panel zarządzania" Command="{Binding NavigateToManagementCommand}"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="56"/>
-        </material:Card>
-
-    </Grid>
+	</Grid>
 </UserControl>

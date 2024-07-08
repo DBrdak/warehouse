@@ -1,19 +1,20 @@
-using System;
-using System.Collections.Specialized;
-using System.Reactive;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using DynamicData;
 using Warehouse.Application.Drivers.Models;
 using Warehouse.Domain.Shared.Extensions;
+using Warehouse.UI.Stores;
 using Warehouse.UI.ViewModels.Lodge;
+using Warehouse.UI.Views.MainViews;
 
 namespace Warehouse.UI.Views.Lodge;
 
 public partial class LodgeView : UserControl
 {
+    private readonly MainWindow _mainWindow;
+
     public LodgeView()
     {
         InitializeComponent();
@@ -22,9 +23,9 @@ public partial class LodgeView : UserControl
     public LodgeView(MainWindow mainWindow)
     {
         InitializeComponent();
+        _mainWindow = mainWindow;
         DataContext = new LodgeViewModel(mainWindow);
         Loaded += OnLoaded;
-        InvalidateDataGrid();
     }
 
     private async void OnLoaded(object? sender, RoutedEventArgs e)
@@ -112,8 +113,21 @@ public partial class LodgeView : UserControl
         lodge.SelectedDriver = driver.Copy();
     }
 
-    private void Button_OnClick(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Button_OnClick(object sender, RoutedEventArgs e)
     {
+        TextBox[] searchBars =
+        [
+            this.FindControl<TextBox>("FirstNameSearchBar"),
+            this.FindControl<TextBox>("LastNameSearchBar"),
+            this.FindControl<TextBox>("VehiclePlateSearchBar")
+        ];
+        var isAnySearchApplied = searchBars.Any(x => !string.IsNullOrEmpty(x.Text));
+
+        if (isAnySearchApplied)
+        {
+            return;
+        }
+
         var viewModel = (LodgeViewModel)DataContext;
         viewModel.AddPlaceholderCommand.Execute(null);
         BeginEditOnNewItem();
@@ -129,7 +143,7 @@ public partial class LodgeView : UserControl
         {
             return;
         }
-        
+
         dataGrid.ScrollIntoView(newItem, new DataGridTextColumn{DisplayIndex = 0});
         dataGrid.SelectedItem = newItem;
         dataGrid.CurrentColumn = dataGrid.Columns[0];
@@ -138,14 +152,19 @@ public partial class LodgeView : UserControl
 
     private void RemoveButton_OnClick(object? sender, RoutedEventArgs e)
     {
+        var button = sender as Button;
+        var driver = button.DataContext as DriverModel;
+        var lodge = DataContext as LodgeViewModel;
+
+        lodge.RemoveDriverCommand.ExecuteAsync(driver);
     }
 
-    private void InvalidateDataGrid()
+    private void BackButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var dataGrid = this.FindControl<DataGrid>("DriversDataGrid");
-        dataGrid.InvalidateArrange();
-        dataGrid.InvalidateVisual();
-        dataGrid.InvalidateMeasure();
-        dataGrid.ScrollIntoView(null, new DataGridTextColumn());
+        var mainWindow = _mainWindow;
+
+        mainWindow.ContentArea.Content = UserStore.CurrentUser == "admin" ?
+                new MainDashboardView(_mainWindow) :
+                new LogInView(_mainWindow);
     }
 }

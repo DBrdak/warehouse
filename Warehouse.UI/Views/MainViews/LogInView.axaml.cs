@@ -1,6 +1,6 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Warehouse.UI.Stores;
 using Warehouse.UI.ViewModels.LogIn;
 
 namespace Warehouse.UI.Views.MainViews;
@@ -10,12 +10,14 @@ public partial class LogInView : UserControl
     public LogInView()
     {
         InitializeComponent();
+        UserStore.CurrentUser = null;
     }
 
-    public LogInView(IServiceProvider serviceProvider, MainWindow mainWindow)
+    public LogInView(MainWindow mainWindow)
     {
         InitializeComponent();
-        DataContext = new LoginViewModel(serviceProvider, mainWindow);
+        UserStore.CurrentUser = null;
+        DataContext = new LoginViewModel(mainWindow);
     }
 
     private void InputElement_OnKeyDown(object? sender, KeyEventArgs e)

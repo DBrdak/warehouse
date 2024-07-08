@@ -13,6 +13,17 @@ internal sealed class RemoveSectorCommandHandler : ICommandHandler<RemoveSectorC
         _sectorRepository = sectorRepository;
     }
 
-    public async Task<Result> Handle(RemoveSectorCommand request, CancellationToken cancellationToken) =>
-        await Task.Run(() => _sectorRepository.Remove(new(request.Id)), cancellationToken);
+    public async Task<Result> Handle(RemoveSectorCommand request, CancellationToken cancellationToken)
+    {
+        var sectorGetResult = await _sectorRepository.GetByIdAsync(new SectorId(request.Id), cancellationToken);
+
+        if (sectorGetResult.IsFailure)
+        {
+            return sectorGetResult.Error;
+        }
+
+        var sector = sectorGetResult.Value;
+
+        return _sectorRepository.Remove(sector);
+    }
 }
