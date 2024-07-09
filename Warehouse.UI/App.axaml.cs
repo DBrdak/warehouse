@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using Material.Colors;
 using Material.Styles.Themes;
 using Microsoft.Extensions.DependencyInjection;
+using QuestPDF.Infrastructure;
 using Warehouse.UI.Views;
 
 namespace Warehouse.UI;
@@ -28,6 +29,7 @@ public class App : Avalonia.Application
         }
 
         UseTheme();
+        QuestPDF.Settings.License = LicenseType.Community;
 
         base.OnFrameworkInitializationCompleted();
     }

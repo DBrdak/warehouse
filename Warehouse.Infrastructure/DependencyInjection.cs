@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Abstractions.Data;
+using Warehouse.Application.Abstractions.Reports;
 using Warehouse.Domain.Clients;
 using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Freights;
@@ -9,6 +10,7 @@ using Warehouse.Domain.Transports;
 using Warehouse.Domain.Warehousemen;
 using Warehouse.Infrastructure.Data;
 using Warehouse.Infrastructure.Data.Options;
+using Warehouse.Infrastructure.Reports;
 using Warehouse.Infrastructure.Repositiories;
 
 namespace Warehouse.Infrastructure;
@@ -28,7 +30,8 @@ public static class DependencyInjection
             .AddScoped<IPalletSpaceRepository, PalletSpaceRepository>()
             .AddScoped<ISectorRepository, SectorRepository>()
             .AddScoped<ITransportRepository, TransportRepository>()
-            .AddScoped<IWarehousemanRepository, WarehousemanRepository>();
+            .AddScoped<IWarehousemanRepository, WarehousemanRepository>()
+            .AddScoped(typeof(IReportFactory<>), typeof(ReportFactory<>));
 
     private static IServiceCollection AddDataServices(this IServiceCollection services) =>
         services.ConfigureOptions<ApplicationDbContextOptionsSetup>()

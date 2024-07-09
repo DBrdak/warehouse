@@ -49,7 +49,7 @@ internal sealed class HandleTransportCommandHandler : ICommandHandler<HandleTran
             warehouseman,
             driver,
             client,
-            request.DateTime?.ToDateTime());
+            request.DateTime);
 
         if (receiveResult.IsFailure)
         {

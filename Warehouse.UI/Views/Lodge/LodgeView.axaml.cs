@@ -10,7 +10,7 @@ using Warehouse.UI.ViewModels.Lodge;
 using Warehouse.UI.Views.MainViews;
 
 namespace Warehouse.UI.Views.Lodge;
-
+//TODO Add property for currently served drivers
 public partial class LodgeView : UserControl
 {
     private readonly MainWindow _mainWindow;
@@ -18,6 +18,7 @@ public partial class LodgeView : UserControl
     public LodgeView()
     {
         InitializeComponent();
+        _mainWindow = new MainWindow();
     }
 
     public LodgeView(MainWindow mainWindow)
@@ -166,5 +167,14 @@ public partial class LodgeView : UserControl
         mainWindow.ContentArea.Content = UserStore.CurrentUser == "admin" ?
                 new MainDashboardView(_mainWindow) :
                 new LogInView(_mainWindow);
+    }
+
+    private void ReportButton_Click(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        var driver = button.DataContext as DriverModel;
+        var lodge = DataContext as LodgeViewModel;
+
+        lodge.GenerateReportCommand.ExecuteAsync(driver);
     }
 }

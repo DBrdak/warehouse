@@ -26,11 +26,11 @@ internal class MainDashboardViewModel : ViewModelBase
         NavigateToManagementCommand = new RelayCommand(NavigateToManagement);
     }
 
-    public void NavigateToWarehouse() => _mainWindow.ContentArea.Content = new WarehouseView();
+    public void NavigateToWarehouse() => _mainWindow.ContentArea.Content = new WarehouseView(_mainWindow);
 
-    public void NavigateToCustomerService() => _mainWindow.ContentArea.Content = new CustomerServiceView();
+    public void NavigateToCustomerService() => _mainWindow.ContentArea.Content = new CustomerServiceView(_mainWindow);
 
-    public void NavigateToManagement() => _mainWindow.ContentArea.Content = new ManagementView();
+    public void NavigateToManagement() => _mainWindow.ContentArea.Content = new ManagementView(_mainWindow);
 
     public void NavigateToLodge() => _mainWindow.ContentArea.Content = new LodgeView(_mainWindow);
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Warehouse.Domain.Clients;
+using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Transports;
 using Warehouse.Domain.Warehousemen;
 using Warehouse.Infrastructure.Data.DataConverters;
@@ -28,7 +29,8 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
             .HasConversion(d => d.ToUniversalTime(), s => s.ToLocalTime());
 
         builder.Property(e => e.DriverId)
-            .HasColumnName("id_kierowcy");
+            .HasColumnName("id_kierowcy")
+            .HasConversion(d => d.Id, s => new DriverId(s));
 
         builder.Property(e => e.ClientId)
             .HasColumnName("id_klienta")
@@ -62,9 +64,5 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
             .WithMany(w => w.Transports)
             .HasForeignKey(d => d.WarehousemanId)
             .HasConstraintName("FK__Transport__id_ma__52593CB8");
-
-        builder.Navigation(e => e.Warehouseman).AutoInclude();
-        builder.Navigation(e => e.Client).AutoInclude();
-        builder.Navigation(e => e.Driver).AutoInclude();
     }
 }

@@ -13,6 +13,7 @@ using Warehouse.Application.Drivers.UpdateDriver;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
 using System.Linq;
+using Warehouse.Application.Reports.Drivers;
 
 namespace Warehouse.UI.ViewModels.Lodge;
 
@@ -97,6 +98,7 @@ public sealed class LodgeViewModel : ViewModelBase
     public IAsyncRelayCommand<DriverModel> AddDriverCommand { get; }
     public IAsyncRelayCommand<DriverModel> EditDriverCommand { get; }
     public IAsyncRelayCommand<DriverModel> RemoveDriverCommand { get; }
+    public IAsyncRelayCommand<DriverModel> GenerateReportCommand { get; set; }
 
     public LodgeViewModel(MainWindow mainWindow)
     {
@@ -107,22 +109,7 @@ public sealed class LodgeViewModel : ViewModelBase
         AddDriverCommand = new AsyncRelayCommand<DriverModel>(AddDriver);
         EditDriverCommand = new AsyncRelayCommand<DriverModel>(EditDriver);
         RemoveDriverCommand = new AsyncRelayCommand<DriverModel>(RemoveDriver);
-    }
-
-    private void AddPlaceholder()
-    {
-        IsInCreateMode = true;
-        PlaceholderDriver = new();
-        Drivers.Add(PlaceholderDriver);
-        ApplyFilters();
-    }
-
-    public void ExitCreateMode()
-    {
-        Drivers.Remove(PlaceholderDriver);
-        PlaceholderDriver = new();
-        IsInCreateMode = false;
-        ApplyFilters();
+        GenerateReportCommand = new AsyncRelayCommand<DriverModel>(GenerateReport);
     }
 
     public async Task FetchDrivers()
@@ -213,6 +200,43 @@ public sealed class LodgeViewModel : ViewModelBase
 
         Drivers.Remove(driver);
         IsLoading = false;
+        ApplyFilters();
+    }
+
+    private async Task GenerateReport(DriverModel? driver)
+    {
+        if (driver is null)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        var command = new GenerateDriverReportCommand(driver.Id);
+
+        var result = await _sender.Send(command);
+
+        if (result.IsFailure)
+        {
+            await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+        }
+
+        Drivers.Remove(driver);
+        IsLoading = false;
+    }
+
+    private void AddPlaceholder()
+    {
+        IsInCreateMode = true;
+        PlaceholderDriver = new();
+        Drivers.Add(PlaceholderDriver);
+        ApplyFilters();
+    }
+
+    public void ExitCreateMode()
+    {
+        Drivers.Remove(PlaceholderDriver);
+        PlaceholderDriver = new();
+        IsInCreateMode = false;
         ApplyFilters();
     }
 

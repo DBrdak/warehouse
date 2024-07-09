@@ -10,6 +10,12 @@ public sealed record ClientModel : BusinessModel<Client,ClientId>
     public string Nip { get; init; }
     public IReadOnlyCollection<TransportModel>? Transports { get; init; }
 
+    public ClientModel() : base(Guid.NewGuid())
+    {
+        Name = "";
+        Nip = "";
+    }
+
     private ClientModel(Guid id, string name, string nip, IReadOnlyCollection<TransportModel>? transports) : base(id)
     {
         Name = name;
@@ -34,4 +40,6 @@ public sealed record ClientModel : BusinessModel<Client,ClientId>
             client.Name.Value,
             client.Nip.Value,
             client.Transports.Select(TransportModel.FromDomainModel<ClientModel>).ToList());
+
+    public ClientModel? Copy() => new (Id, Name, Nip, Transports);
 }

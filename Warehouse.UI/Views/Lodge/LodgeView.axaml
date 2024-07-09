@@ -5,6 +5,7 @@
              xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
              xmlns:lodge="clr-namespace:Warehouse.UI.ViewModels.Lodge"
              xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              x:Class="Warehouse.UI.Views.Lodge.LodgeView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="lodge:LodgeViewModel">
@@ -38,6 +39,14 @@
                         <DataTemplate>
                             <Button Content="Usuń" FontSize="12" Margin="5,10,5,10" Click="RemoveButton_OnClick"
                                     Theme="{StaticResource MaterialOutlineButton}" Classes="primary" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>                
+                <DataGridTemplateColumn Header="" MaxWidth="110" Width="110" MinWidth="110">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="{avalonia:MaterialIconExt Kind=FileDocument}" FontSize="12" Margin="5,10,5,10" Click="ReportButton_Click"
+                                    Theme="{StaticResource MaterialButton}" Foreground="White" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Warehouse.UI.Stores;
 using Warehouse.UI.ViewModels.MainDashboard;
 
 namespace Warehouse.UI.Views.MainViews;

@@ -29,7 +29,7 @@ public sealed record TransportModel : BusinessModel<Transport, TransportId>
     {
         Number = number;
         Type = type;
-        HandledAt = handledAt;
+        HandledAt = handledAt.ToLocalTime();
         Warehouseman = warehouseman;
         Driver = driver;
         Client = client;

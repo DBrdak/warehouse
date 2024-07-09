@@ -71,9 +71,5 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
             .HasForeignKey(d => d.PalletSpaceId)
 
             .HasConstraintName("FK__Towary__id_miejs__571DF1D5");
-
-        builder.Navigation(e => e.Import).AutoInclude();
-        builder.Navigation(e => e.Export).AutoInclude();
-        builder.Navigation(e => e.PalletSpace).AutoInclude();
     }
 }

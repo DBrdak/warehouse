@@ -39,7 +39,5 @@ internal sealed class PalletSpaceConfiguration : IEntityTypeConfiguration<Pallet
             .WithMany(s => s.PalletSpaces)
             .HasForeignKey(d => d.SectorId)
             .HasConstraintName("FK__Miejsca_p__id_se__4E88ABD4");
-
-        builder.Navigation(e => e.Sector).AutoInclude();
     }
 }

@@ -11,4 +11,6 @@ public interface IDriverRepository
     Task<Result<Driver>> GetByIdAsync(DriverId driverId, CancellationToken cancellationToken);
 
     Task<Result<List<Driver>>> GetAllAsync(CancellationToken cancellationToken);
+
+    Task<Result<Driver>> GetByIdWithTransportsAsync(DriverId entityId, CancellationToken cancellationToken);
 }
