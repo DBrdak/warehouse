@@ -3,9 +3,11 @@ using Avalonia.Interactivity;
 using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Application.Clients.Models;
+using Warehouse.Application.Drivers.Models;
 using Warehouse.Domain.Shared.Extensions;
 using Warehouse.UI.Stores;
 using Warehouse.UI.ViewModels.CustomerService;
+using Warehouse.UI.ViewModels.Lodge;
 using Warehouse.UI.Views.MainViews;
 
 namespace Warehouse.UI.Views.CustomerService;
@@ -164,5 +166,14 @@ public partial class CustomerServiceView : UserControl
         mainWindow.ContentArea.Content = UserStore.CurrentUser == "admin" ?
                 new MainDashboardView(_mainWindow) :
                 new LogInView(_mainWindow);
+    }
+
+    private void ReportButton_Click(object? sender, RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        var driver = button.DataContext as ClientModel;
+        var customerService = DataContext as CustomerServiceViewModel;
+
+        customerService.GenerateReportCommand.ExecuteAsync(driver);
     }
 }

@@ -11,8 +11,11 @@ using Warehouse.Application.Clients.AddClient;
 using Warehouse.Application.Clients.GetAllClients;
 using Warehouse.Application.Clients.RemoveClient;
 using Warehouse.Application.Clients.UpdateClient;
+using Warehouse.Application.Reports.Clients;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
+using Warehouse.Domain.Clients;
+using Warehouse.Domain.Shared.Results;
 
 namespace Warehouse.UI.ViewModels.CustomerService;
 
@@ -86,6 +89,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
     public IAsyncRelayCommand<ClientModel> AddClientCommand { get; }
     public IAsyncRelayCommand<ClientModel> EditClientCommand { get; }
     public IAsyncRelayCommand<ClientModel> RemoveClientCommand { get; }
+    public IAsyncRelayCommand<ClientModel> GenerateReportCommand { get; set; }
 
     public CustomerServiceViewModel(MainWindow mainWindow)
     {
@@ -96,6 +100,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         AddClientCommand = new AsyncRelayCommand<ClientModel>(AddClient);
         EditClientCommand = new AsyncRelayCommand<ClientModel>(EditClient);
         RemoveClientCommand = new AsyncRelayCommand<ClientModel>(RemoveClient);
+        GenerateReportCommand = new AsyncRelayCommand<ClientModel>(GenerateReport);
     }
 
     public async Task FetchClients()
@@ -186,6 +191,26 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         Clients.Remove(client);
         IsLoading = false;
         ApplyFilters();
+    }
+
+    private async Task GenerateReport(ClientModel? client)
+    {
+        if (client is null)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        var command = new GenerateClientReportCommand(client.Id);
+
+        var result = await _sender.Send(command);
+
+        if (result.IsFailure)
+        {
+            await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+        }
+
+        IsLoading = false;
     }
 
     private void AddPlaceholder()

@@ -7,11 +7,11 @@ namespace Warehouse.Infrastructure.Reports;
 
 internal sealed class ReportFactory<TReportModel> : IReportFactory<TReportModel> where TReportModel : IReportModel
 {
-    public Result GenerateReport(TReportModel driver)
+    public Result GenerateReport(TReportModel reportModel)
     {
         try
         {
-            driver
+            reportModel
                 .ToReport()
                 .GenerateAndSave()
                 .OpenFile();

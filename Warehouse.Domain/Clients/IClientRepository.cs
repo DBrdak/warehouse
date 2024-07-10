@@ -9,4 +9,6 @@ public interface IClientRepository
     Task<Result<Client>> AddAsync(Client client, CancellationToken cancellationToken);
     Result<Client> Update(Client client);
     Result Remove(Client client);
+
+    Task<Result<Client>> GetByIdWithTransportsAsync(ClientId clientId, CancellationToken cancellationToken);
 }

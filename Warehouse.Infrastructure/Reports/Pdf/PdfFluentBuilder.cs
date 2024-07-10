@@ -1,5 +1,7 @@
 ﻿using Warehouse.Application.Abstractions.Reports;
+using Warehouse.Application.Reports.Clients;
 using Warehouse.Application.Reports.Drivers;
+using Warehouse.Infrastructure.Reports.Pdf.Clients;
 using Warehouse.Infrastructure.Reports.Pdf.Drivers;
 using Warehouse.Infrastructure.Reports.Shared;
 
@@ -11,6 +13,7 @@ internal static class PdfFluentBuilder
         reportModel switch
         {
             DriverReportModel model => new DriverReport(model),
+            ClientReportModel model => new ClientReport(model),
             _ => throw new ArgumentException("Nieprawidłowy typ danych do raportu")
         };
 }

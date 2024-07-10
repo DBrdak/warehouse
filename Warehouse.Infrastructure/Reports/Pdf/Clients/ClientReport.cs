@@ -1,23 +1,26 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using Warehouse.Application.Reports.Clients;
 using Warehouse.Application.Reports.Drivers;
+using Warehouse.Infrastructure.Reports.Pdf;
 using Warehouse.Infrastructure.Reports.Shared;
+using Warehouse.Infrastructure.Reports.Spreadsheet;
 
-namespace Warehouse.Infrastructure.Reports.Pdf.Drivers;
+namespace Warehouse.Infrastructure.Reports.Pdf.Clients;
 
-internal sealed class DriverReport : IPdfReport
+internal sealed class ClientReport : IPdfReport, IDocument
 {
-    private readonly DriverReportModel _driver;
+    private readonly ClientReportModel _client;
 
-    public DriverReport(DriverReportModel driver)
+    public ClientReport(ClientReportModel client)
     {
-        _driver = driver;
+        _client = client;
     }
 
     public string GenerateAndSave()
     {
-        var filePath = RouteBuilder.RouteFor(this, _driver.VehiclePlate);
+        var filePath = RouteBuilder.RouteFor(this, _client.Nip);
 
         this.GeneratePdf(filePath);
 
@@ -46,18 +49,12 @@ internal sealed class DriverReport : IPdfReport
     {
         container.Row(row =>
         {
-            row.RelativeItem()
-                .AlignLeft()
-                .Text($"Kierowca\n{_driver.FirstName} {_driver.LastName}",
-                    TextStyle.Default.FontSize(20)
-                        .Bold()
-                        .LineHeight(1.5f));
-            row.RelativeItem()
-                .AlignRight()
-                .Text($"Pojazd\n{_driver.VehiclePlate}",
-                    TextStyle.Default.FontSize(20)
-                        .Bold()
-                        .LineHeight(1.5f));
+            row.RelativeItem().AlignLeft().Text(
+                $"Kontrahent\n{_client.Name}",
+                TextStyle.Default.FontSize(20).Bold().LineHeight(1.5f));
+            row.RelativeItem().AlignRight().Text(
+                $"NIP\n{_client.Nip}",
+                TextStyle.Default.FontSize(20).Bold().LineHeight(1.5f));
         });
     }
 
@@ -69,9 +66,9 @@ internal sealed class DriverReport : IPdfReport
 
             column.Item().Text("Transporty", TextStyle.Default.FontSize(18).Bold());
 
-            if (_driver.Transports != null && _driver.Transports.Any())
+            if (_client.Transports != null && _client.Transports.Any())
             {
-                foreach (var transport in _driver.Transports)
+                foreach (var transport in _client.Transports)
                 {
                     column.Item().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Row(row =>
                     {
@@ -79,7 +76,7 @@ internal sealed class DriverReport : IPdfReport
                         row.RelativeColumn().Text($"Typ: {transport.Type}");
                         row.RelativeColumn().Text($"Przyjęto: {transport.HandledAt}");
                         row.RelativeColumn().Text($"ID Magazyniera: {transport.WarehousemanIdentificationNumber}");
-                        row.RelativeColumn().Text($"NIP Kontrahenta: {transport.ClientNip}");
+                        row.RelativeColumn().Text($"Numer rejestracyjny pojazdu: {transport.DriverVehiclePlate}");
                     });
                 }
             }

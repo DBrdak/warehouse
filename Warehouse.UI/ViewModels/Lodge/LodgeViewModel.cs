@@ -220,7 +220,6 @@ public sealed class LodgeViewModel : ViewModelBase
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
         }
 
-        Drivers.Remove(driver);
         IsLoading = false;
     }
 

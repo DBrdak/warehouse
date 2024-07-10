@@ -39,7 +39,7 @@ public sealed record ClientModel : BusinessModel<Client,ClientId>
             client.Id.Id,
             client.Name.Value,
             client.Nip.Value,
-            client.Transports.Select(TransportModel.FromDomainModel<ClientModel>).ToList());
+            client.Transports?.Select(TransportModel.FromDomainModel<ClientModel>).ToList());
 
     public ClientModel? Copy() => new (Id, Name, Nip, Transports);
 }
