@@ -38,5 +38,10 @@ internal sealed class DriversConfiguration : IEntityTypeConfiguration<Driver>
             .HasColumnName("numer_rejestracyjny_pojazdu")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<VehiclePlate>(s));
 
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("czy_usunieto");
+
+        builder.HasQueryFilter(e => e.IsDeleted);
+
     }
 }

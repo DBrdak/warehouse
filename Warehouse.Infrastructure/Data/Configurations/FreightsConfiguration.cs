@@ -71,5 +71,10 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
             .HasForeignKey(d => d.PalletSpaceId)
 
             .HasConstraintName("FK__Towary__id_miejs__571DF1D5");
+
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("czy_usunieto");
+
+        builder.HasQueryFilter(e => e.IsDeleted);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Shared;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;
@@ -65,15 +66,15 @@ internal abstract class Repository<TEntity, TEntityId>
 
     public Result Remove(TEntity entity)
     {
-        Table.Remove(entity);
+        entity.Delete();
 
-        return Result.Success();
+        return Update(entity);
     }
 
     public Result RemoveRange(IEnumerable<TEntity> entities)
     {
-        Table.RemoveRange(entities);
+        entities.ToList().ForEach(e => e.Delete());
 
-        return Result.Success();
+        return UpdateRange(entities);
     }
 }

@@ -23,5 +23,10 @@ internal sealed class SectorsConfiguration : IEntityTypeConfiguration<Sector>
         builder.Property(e => e.Number)
             .HasColumnName("numer")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<SectorNumber>(s));
+
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("czy_usunieto");
+
+        builder.HasQueryFilter(e => e.IsDeleted);
     }
 }

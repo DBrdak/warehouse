@@ -64,5 +64,10 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
             .WithMany(w => w.Transports)
             .HasForeignKey(d => d.WarehousemanId)
             .HasConstraintName("FK__Transport__id_ma__52593CB8");
+
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("czy_usunieto");
+
+        builder.HasQueryFilter(e => e.IsDeleted);
     }
 }

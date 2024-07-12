@@ -18,7 +18,6 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
         builder.HasIndex(e => e.IdentificationNumber, "UQ__Magazyni__2EA36CA064CD9141").IsUnique();
 
         builder.Property(e => e.Id)
-            
             .HasColumnName("id_magazyniera")
             .HasConversion(d => d.Id, s => new WarehousemanId(s));
 
@@ -55,5 +54,10 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
             .WithMany(s => s.Warehousemen)
             .HasForeignKey(d => d.SectorId)
             .HasConstraintName("FK__Magazynie__id_se__4BAC3F29");
+
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("czy_usunieto");
+
+        builder.HasQueryFilter(e => e.IsDeleted);
     }
 }

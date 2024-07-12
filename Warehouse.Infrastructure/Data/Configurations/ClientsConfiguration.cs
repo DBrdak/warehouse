@@ -29,5 +29,10 @@ internal sealed class ClientsConfiguration : IEntityTypeConfiguration<Client>
             .IsUnicode(false)
             .HasColumnName("nip")
             .HasConversion(d => d.Value, s => DataConverter.ConvertToDomainModel<NIP>(s));
+
+        builder.Property(e => e.IsDeleted)
+            .HasColumnName("czy_usunieto");
+
+        builder.HasQueryFilter(e => e.IsDeleted);
     }
 }
