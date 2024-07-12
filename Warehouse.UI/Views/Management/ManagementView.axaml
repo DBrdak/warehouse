@@ -2,7 +2,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+             xmlns:customerService="clr-namespace:Warehouse.UI.ViewModels.CustomerService"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:management="clr-namespace:Warehouse.UI.ViewModels.Management"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Warehouse.UI.Views.Management.ManagementView">
-    Panel zarz�dzania
+             x:Class="Warehouse.UI.Views.Management.ManagementView"
+             x:DataType="management:ManagementViewModel">
+
+	<Grid Margin="20" RowDefinitions="Auto,7*,Auto,Auto">
+
+		<DockPanel Grid.Row="0" HorizontalAlignment="Stretch">
+			<Button Content="← Wróć" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"
+                    Click="BackButton_OnClick" FontSize="20"
+                    Theme="{StaticResource MaterialFlatButton}" Classes="primary" />
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" IsEnabled="True" Margin="0,0,0,10">
+				<Button x:Name="Warehousemen" Width="300" Content="Magazynierzy" />
+				<Button x:Name="Sectors" Width="300" Content="Sektory" />
+			</StackPanel>
+		</DockPanel>
+
+	</Grid>
 </UserControl>

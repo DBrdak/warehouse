@@ -1,3 +1,13 @@
-﻿namespace Warehouse.UI.ViewModels.Management;
+﻿using Warehouse.UI.Views;
 
-public sealed class ManagementViewModel : ViewModelBase;
+namespace Warehouse.UI.ViewModels.Management;
+
+public sealed class ManagementViewModel : ViewModelBase
+{
+    private readonly MainWindow _mainWindow;
+
+    public ManagementViewModel(MainWindow mainWindow)
+    {
+        _mainWindow = mainWindow;
+    }
+}
