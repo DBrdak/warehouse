@@ -21,7 +21,6 @@ public partial class ManagementView : UserControl
         InitializeComponent();
         _mainWindow = mainWindow;
         DataContext = new ManagementViewModel(mainWindow);
-        //Loaded += OnLoaded
     }
 
     private void BackButton_OnClick(object? sender, RoutedEventArgs e)
