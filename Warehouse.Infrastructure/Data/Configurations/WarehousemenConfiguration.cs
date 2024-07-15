@@ -58,6 +58,6 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");
 
-        builder.HasQueryFilter(e => e.IsDeleted);
+        builder.HasQueryFilter(e => !e.IsDeleted);
     }
 }

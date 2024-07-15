@@ -75,6 +75,6 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");
 
-        builder.HasQueryFilter(e => e.IsDeleted);
+        builder.HasQueryFilter(e => !e.IsDeleted);
     }
 }

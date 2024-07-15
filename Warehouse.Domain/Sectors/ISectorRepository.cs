@@ -8,4 +8,6 @@ public interface ISectorRepository
     Result Remove(Sector sector);
     Task<Result<Sector>> GetBySectorNumberAsync(int sectorNumber, CancellationToken cancellationToken);
     Task<Result<Sector>> GetByIdAsync(SectorId id, CancellationToken cancellationToken);
+
+    Task<Result<List<Sector>>> GetAllIncludePalletSpacesAsync(CancellationToken cancellationToken);
 }

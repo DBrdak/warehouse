@@ -1,4 +1,7 @@
+using System;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Warehouse.Application.Sectors.Models;
 using Warehouse.UI.ViewModels.Management;
 
 namespace Warehouse.UI.Views.Management;
@@ -6,6 +9,7 @@ namespace Warehouse.UI.Views.Management;
 public partial class SectorsView : UserControl
 {
     private readonly MainWindow _mainWindow;
+    private readonly SectorsViewModel _sectorsViewModel;
 
     public SectorsView()
     {
@@ -16,8 +20,16 @@ public partial class SectorsView : UserControl
     {
         InitializeComponent();
         _mainWindow = mainWindow;
-        DataContext = new ManagementViewModel(mainWindow);
-        //Loaded += OnLoaded
+        DataContext = new SectorsViewModel(mainWindow);
+        _sectorsViewModel = DataContext as SectorsViewModel ??
+                            throw new InvalidCastException(
+                                $"Cannot convert type {DataContext.GetType().Name} to {nameof(SectorsViewModel)}");
+        Loaded += OnLoaded;
+    }
+
+    private async void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        await _sectorsViewModel.FetchSectors();
     }
 
     private void DataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e)
@@ -26,5 +38,13 @@ public partial class SectorsView : UserControl
 
     private void DataGrid_OnRowEditEnded(object? sender, DataGridRowEditEndedEventArgs e)
     {
+    }
+
+    private void OnSectorSelected(object? sender, SelectionChangedEventArgs e)
+    {
+        if(sender is ListBox { SelectedItem: SectorModel selectedSector })
+        {
+            _sectorsViewModel.SelectedSector = selectedSector;
+        }
     }
 }

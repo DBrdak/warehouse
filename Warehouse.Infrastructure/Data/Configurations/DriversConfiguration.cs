@@ -41,7 +41,7 @@ internal sealed class DriversConfiguration : IEntityTypeConfiguration<Driver>
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");
 
-        builder.HasQueryFilter(e => e.IsDeleted);
+        builder.HasQueryFilter(e => !e.IsDeleted);
 
     }
 }

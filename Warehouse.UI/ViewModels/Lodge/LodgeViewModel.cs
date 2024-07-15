@@ -122,6 +122,7 @@ public sealed class LodgeViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         var drivers = result.Value;
@@ -148,10 +149,11 @@ public sealed class LodgeViewModel : ViewModelBase
         var command = new AddDriverCommand(driver.FirstName, driver.LastName, driver.VehiclePlate);
         
         var result = await _sender.Send(command);
-        
+
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         Drivers.Add(result.Value);
@@ -174,6 +176,7 @@ public sealed class LodgeViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         Drivers.Replace(driver, result.Value);
@@ -196,6 +199,7 @@ public sealed class LodgeViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         Drivers.Remove(driver);
@@ -218,6 +222,7 @@ public sealed class LodgeViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         IsLoading = false;

@@ -113,6 +113,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         var drivers = result.Value;
@@ -142,6 +143,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         Clients.Add(result.Value);
@@ -164,6 +166,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         Clients.Replace(client, result.Value);
@@ -186,6 +189,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         Clients.Remove(client);
@@ -208,6 +212,7 @@ public sealed class CustomerServiceViewModel : ViewModelBase
         if (result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
         }
 
         IsLoading = false;
