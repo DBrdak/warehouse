@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Warehouse.Application.Abstractions.Data;
 using Warehouse.Infrastructure.Data.Options;

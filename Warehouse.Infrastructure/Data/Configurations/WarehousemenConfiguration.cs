@@ -11,11 +11,11 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
 {
     public void Configure(EntityTypeBuilder<Warehouseman> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Magazyni__9BCB02B0B7D1AF2A");
+        builder.HasKey(e => e.Id).HasName("PK_Magazynierzy");
 
         builder.ToTable("Magazynierzy");
 
-        builder.HasIndex(e => e.IdentificationNumber, "UQ__Magazyni__2EA36CA064CD9141").IsUnique();
+        builder.HasIndex(e => e.IdentificationNumber, "UQ_Magazynierzy_NumerIdentyfikacyjny").IsUnique();
 
         builder.Property(e => e.Id)
             .HasColumnName("id_magazyniera")
@@ -53,7 +53,7 @@ internal sealed class WarehousemenConfiguration : IEntityTypeConfiguration<Wareh
         builder.HasOne(w => w.Sector)
             .WithMany(s => s.Warehousemen)
             .HasForeignKey(d => d.SectorId)
-            .HasConstraintName("FK__Magazynie__id_se__4BAC3F29");
+            .HasConstraintName("FK_Magazynierzy_Sektory");
 
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");

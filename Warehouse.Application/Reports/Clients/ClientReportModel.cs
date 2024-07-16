@@ -1,7 +1,5 @@
 ﻿using Warehouse.Application.Abstractions.Reports;
-using Warehouse.Application.Reports.Drivers;
 using Warehouse.Domain.Clients;
-using Warehouse.Domain.Drivers;
 
 namespace Warehouse.Application.Reports.Clients;
 

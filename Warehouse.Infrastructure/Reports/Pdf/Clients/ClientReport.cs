@@ -2,10 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using Warehouse.Application.Reports.Clients;
-using Warehouse.Application.Reports.Drivers;
-using Warehouse.Infrastructure.Reports.Pdf;
 using Warehouse.Infrastructure.Reports.Shared;
-using Warehouse.Infrastructure.Reports.Spreadsheet;
 
 namespace Warehouse.Infrastructure.Reports.Pdf.Clients;
 

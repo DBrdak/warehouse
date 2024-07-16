@@ -12,14 +12,13 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
 {
     public void Configure(EntityTypeBuilder<Transport> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Transpor__7AC9B35ED3D035F8");
+        builder.HasKey(e => e.Id).HasName("PK_Transporty");
 
         builder.ToTable("Transporty");
 
-        builder.HasIndex(e => e.Number, "UQ__Transpor__AF86E6525A448A02").IsUnique();
+        builder.HasIndex(e => e.Number, "UQ_Transporty_Numer").IsUnique();
 
         builder.Property(e => e.Id)
-            
             .HasColumnName("id_transportu")
             .HasConversion(d => d.Id, s => new TransportId(s));
 
@@ -53,17 +52,17 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
         builder.HasOne(t => t.Driver)
             .WithMany(d => d.Transports)
             .HasForeignKey(d => d.DriverId)
-            .HasConstraintName("FK__Transport__id_ki__534D60F1");
+            .HasConstraintName("FK_Transporty_Kierowcy");
 
         builder.HasOne(t => t.Client)
             .WithMany(c => c.Transports)
             .HasForeignKey(d => d.ClientId)
-            .HasConstraintName("FK__Transport__id_kl__5441852A");
+            .HasConstraintName("FK_Transporty_Klienci");
 
         builder.HasOne(t => t.Warehouseman)
             .WithMany(w => w.Transports)
             .HasForeignKey(d => d.WarehousemanId)
-            .HasConstraintName("FK__Transport__id_ma__52593CB8");
+            .HasConstraintName("FK_Transporty_Magazynierzy");
 
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");

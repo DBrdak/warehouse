@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Warehouse.Application.Abstractions.Reports;
-using Warehouse.Application.Reports.Drivers;
+﻿using Warehouse.Application.Abstractions.Reports;
 using Warehouse.Domain.Transports;
 
 namespace Warehouse.Application.Reports.Clients;

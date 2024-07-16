@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Warehouse.UI.Views;
+using Warehouse.UI.Views.Management;
 
 namespace Warehouse.UI.ViewModels.Management;
 
@@ -14,8 +15,8 @@ public sealed class ManagementViewModel : ViewModelBase
         set
         {
             if (!SetProperty(ref _currentView, value)) return;
-            IsWarehousemenLocked = value?.GetType() == typeof(WarehousemenViewModel);
-            IsSectorsLocked = value?.GetType() == typeof(SectorsViewModel);
+            IsWarehousemenLocked = value?.GetType() == typeof(WarehousemenView);
+            IsSectorsLocked = value?.GetType() == typeof(SectorsView);
         }
     }
 
@@ -46,11 +47,11 @@ public sealed class ManagementViewModel : ViewModelBase
 
     private void ShowWarehousemen()
     {
-        CurrentView = new WarehousemenViewModel(_mainWindow);
+        CurrentView = new WarehousemenView(_mainWindow);
     }
 
     private void ShowSectors()
     {
-        CurrentView = new SectorsViewModel(_mainWindow);
+        CurrentView = new SectorsView(_mainWindow);
     }
 }

@@ -14,8 +14,6 @@ using Warehouse.Application.Clients.UpdateClient;
 using Warehouse.Application.Reports.Clients;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
-using Warehouse.Domain.Clients;
-using Warehouse.Domain.Shared.Results;
 
 namespace Warehouse.UI.ViewModels.CustomerService;
 

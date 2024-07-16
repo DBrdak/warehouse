@@ -42,7 +42,7 @@ public sealed record WarehousemanModel : BusinessModel<Warehouseman, Warehousema
                     warehouseman.LastName.Value,
                     warehouseman.Position?.Value,
                     null,
-                    warehouseman.Transports.Select(TransportModel.FromDomainModel<WarehousemanModel>)
+                    warehouseman.Transports?.Select(TransportModel.FromDomainModel<WarehousemanModel>)
                         .ToList()),
             var callerType when callerType == typeof(TransportModel) =>
                 new(
@@ -64,6 +64,6 @@ public sealed record WarehousemanModel : BusinessModel<Warehouseman, Warehousema
             warehouseman.LastName.Value,
             warehouseman.Position?.Value,
             SectorModel.FromDomainModel<WarehousemanModel>(warehouseman.Sector),
-            warehouseman.Transports.Select(TransportModel.FromDomainModel<WarehousemanModel>).ToList());
+            warehouseman.Transports?.Select(TransportModel.FromDomainModel<WarehousemanModel>).ToList());
 
 }

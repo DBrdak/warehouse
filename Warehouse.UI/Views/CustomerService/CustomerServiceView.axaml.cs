@@ -3,11 +3,9 @@ using Avalonia.Interactivity;
 using System.Linq;
 using System.Threading.Tasks;
 using Warehouse.Application.Clients.Models;
-using Warehouse.Application.Drivers.Models;
 using Warehouse.Domain.Shared.Extensions;
 using Warehouse.UI.Stores;
 using Warehouse.UI.ViewModels.CustomerService;
-using Warehouse.UI.ViewModels.Lodge;
 using Warehouse.UI.Views.MainViews;
 
 namespace Warehouse.UI.Views.CustomerService;

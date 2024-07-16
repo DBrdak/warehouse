@@ -3,12 +3,15 @@
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Warehouse.UI.App"
              xmlns:local="using:Warehouse.UI"
-             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:converters="clr-namespace:Warehouse.UI.Converters">
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-
+    <Application.Resources>
+        <converters:BoolToIconConverter x:Key="BoolToIconConverter" />
+    </Application.Resources>
     <Application.Styles>
         <themes:MaterialTheme />
         <avalonia:MaterialIconStyles />

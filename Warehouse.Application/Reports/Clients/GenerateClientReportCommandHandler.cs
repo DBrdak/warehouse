@@ -1,8 +1,6 @@
 using Warehouse.Application.Abstractions.Messaging;
 using Warehouse.Application.Abstractions.Reports;
-using Warehouse.Application.Reports.Drivers;
 using Warehouse.Domain.Clients;
-using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Shared.Results;
 
 namespace Warehouse.Application.Reports.Clients;

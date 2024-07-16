@@ -10,11 +10,11 @@ internal sealed class DriversConfiguration : IEntityTypeConfiguration<Driver>
 {
     public void Configure(EntityTypeBuilder<Driver> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Kierowcy__EE994F765B38A581");
+        builder.HasKey(e => e.Id).HasName("PK_Kierowcy");
         
         builder.ToTable("Kierowcy");
 
-        builder.HasIndex(e => e.VehiclePlate, "UQ__Kierowcy__5EB0FACFAF7A65A9").IsUnique();
+        builder.HasIndex(e => e.VehiclePlate, "UQ_Kierowcy_NumerRejestracyjny").IsUnique();
 
         builder.Property(e => e.Id)
             .HasColumnName("id_kierowcy")

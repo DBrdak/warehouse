@@ -104,8 +104,6 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
             return PalletSpaceErrors.FreightNotInExport;
         }
 
-        _freights.Remove(freight);
-
         return Result.Success();
     }
 }

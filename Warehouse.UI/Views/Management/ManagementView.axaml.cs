@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Warehouse.UI.Stores;
-using Warehouse.UI.ViewModels.CustomerService;
 using Warehouse.UI.ViewModels.Management;
 using Warehouse.UI.Views.MainViews;
 

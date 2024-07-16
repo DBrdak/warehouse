@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Vml.Office;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Shared;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;

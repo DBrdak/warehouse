@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Clients;
-using Warehouse.Domain.Drivers;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Infrastructure.Data;
 using Warehouse.Infrastructure.Utils;

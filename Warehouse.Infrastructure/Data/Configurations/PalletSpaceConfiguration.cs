@@ -10,12 +10,11 @@ internal sealed class PalletSpaceConfiguration : IEntityTypeConfiguration<Pallet
 {
     public void Configure(EntityTypeBuilder<PalletSpace> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Miejsca___BEC03B59881AD6DC");
+        builder.HasKey(e => e.Id).HasName("PK_MiejscaPaletowe");
 
         builder.ToTable("Miejsca_paletowe");
 
         builder.Property(e => e.Id)
-            
             .HasColumnName("id_miejsca_paletowego")
             .HasConversion(d => d.Id, s => new PalletSpaceId(s));
 
@@ -38,7 +37,7 @@ internal sealed class PalletSpaceConfiguration : IEntityTypeConfiguration<Pallet
         builder.HasOne(p => p.Sector)
             .WithMany(s => s.PalletSpaces)
             .HasForeignKey(d => d.SectorId)
-            .HasConstraintName("FK__Miejsca_p__id_se__4E88ABD4");
+            .HasConstraintName("FK_MiejscaPaletowe_Sektory");
 
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");

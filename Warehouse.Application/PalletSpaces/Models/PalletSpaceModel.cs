@@ -5,21 +5,22 @@ using Warehouse.Domain.PalletSpaces;
 
 namespace Warehouse.Application.PalletSpaces.Models;
 
-public sealed record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId>
+public record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId>
 {
     public int Number { get; init; }
     public int Shelf { get; init; }
     public int Rack { get; init; }
-    public SectorModel Sector { get; init; }
-    public IReadOnlyCollection<FreightModel> Freights { get; init; }
+    public SectorModel? Sector { get; init; }
+    public IReadOnlyCollection<FreightModel>? Freights { get; init; }
+    public bool? IsAvailable => Freights?.Any(f => f.Export is null);
 
-    private PalletSpaceModel(
+    protected PalletSpaceModel(
         Guid id,
         int number,
         int shelf,
         int rack,
-        SectorModel sector,
-        IReadOnlyCollection<FreightModel> freights) : base(id)
+        SectorModel? sector,
+        IReadOnlyCollection<FreightModel>? freights) : base(id)
     {
         Number = number;
         Shelf = shelf;
@@ -37,7 +38,7 @@ public sealed record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId
                 palletSpace.Shelf.Value,
                 palletSpace.Rack.Value,
                 null,
-                palletSpace.Freights.Select(f => FreightModel.FromDomainModel<PalletSpaceModel>(f)).ToList()),
+                palletSpace.Freights?.Select(f => FreightModel.FromDomainModel<PalletSpaceModel>(f)).ToList()),
             var callerType when callerType == typeof(FreightModel) => new(
                 palletSpace.Id.Id,
                 palletSpace.Number.Value,

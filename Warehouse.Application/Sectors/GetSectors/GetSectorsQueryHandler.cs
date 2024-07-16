@@ -16,7 +16,7 @@ internal sealed class GetSectorsQueryHandler : IQueryHandler<GetSectorsQuery, Li
 
     public async Task<Result<List<SectorModel>>> Handle(GetSectorsQuery request, CancellationToken cancellationToken)
     {
-        var sectorsGetResult = await _sectorRepository.GetAllIncludePalletSpacesAsync(cancellationToken);
+        var sectorsGetResult = await _sectorRepository.GetAllIncludePalletSpacesThenFreightsWithExportAsync(cancellationToken);
 
         if (sectorsGetResult.IsFailure)
         {

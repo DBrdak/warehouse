@@ -9,11 +9,11 @@ internal sealed class SectorsConfiguration : IEntityTypeConfiguration<Sector>
 {
     public void Configure(EntityTypeBuilder<Sector> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Sektory__5FD5DBD2DD7B2EDD");
+        builder.HasKey(e => e.Id).HasName("PK_Sektory");
 
         builder.ToTable("Sektory");
 
-        builder.HasIndex(e => e.Number, "UQ__Sektory__AF86E65285CA37F0").IsUnique();
+        builder.HasIndex(e => e.Number, "UQ_Sektory_Numer").IsUnique();
 
         builder.Property(e => e.Id)
             

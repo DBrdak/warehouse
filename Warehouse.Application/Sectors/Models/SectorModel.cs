@@ -29,11 +29,11 @@ public sealed record SectorModel : BusinessModel<Sector, SectorId>
                 sector.Id.Id,
                 sector.Number.Value,
                 null,
-                sector.PalletSpaces.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList()),
+                sector.PalletSpaces?.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList()),
             var callerType when callerType == typeof(WarehousemanModel) => new(
                 sector.Id.Id,
                 sector.Number.Value,
-                sector.Warehousemen.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
+                sector.Warehousemen?.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
                 null),
             _ => FromDomainModel(sector)
         };
@@ -42,6 +42,6 @@ public sealed record SectorModel : BusinessModel<Sector, SectorId>
         new(
             sector.Id.Id,
             sector.Number.Value,
-            sector.Warehousemen.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
-            sector.PalletSpaces.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList());
+            sector.Warehousemen?.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
+            sector.PalletSpaces?.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList());
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Warehouse.UI.Views;
+﻿using Warehouse.UI.Views;
 
 namespace Warehouse.UI.ViewModels.Management;
 

@@ -7,15 +7,15 @@ using Warehouse.Infrastructure.Data.DataConverters;
 
 namespace Warehouse.Infrastructure.Data.Configurations;
 
+// TODO SQL error must be related with Freights configuration
 internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
 {
     public void Configure(EntityTypeBuilder<Freight> builder)
     {
-        builder.HasKey(e => e.Id).HasName("PK__Towary__DEA5BF82E3A5895E");
+        builder.HasKey(e => e.Id).HasName("PK_Towary");
         builder.ToTable("Towary");
 
         builder.Property(e => e.Id)
-            
             .HasColumnName("id_towaru")
             .HasConversion(d => d.Id, s => new FreightId(s));
 
@@ -59,18 +59,17 @@ internal sealed class FreightsConfiguration : IEntityTypeConfiguration<Freight>
         builder.HasOne(f => f.Import)
             .WithMany(t => t.DeliveredFreights)
             .HasForeignKey(d => d.ImportId)
-            .HasConstraintName("FK__Towary__id_dosta__5812160E");
+            .HasConstraintName("FK_Towary_Dostawy");
 
         builder.HasOne(f => f.Export)
             .WithMany(t => t.ReceivedFreights)
             .HasForeignKey(d => d.ExportId)
-            .HasConstraintName("FK__Towary__id_odbio__59063A47");
+            .HasConstraintName("FK_Towary_Odbiory");
 
         builder.HasOne(f => f.PalletSpace)
             .WithMany(p => p.Freights)
             .HasForeignKey(d => d.PalletSpaceId)
-
-            .HasConstraintName("FK__Towary__id_miejs__571DF1D5");
+            .HasConstraintName("FK_Towary_MiejscaPaletowe");
 
         builder.Property(e => e.IsDeleted)
             .HasColumnName("czy_usunieto");
