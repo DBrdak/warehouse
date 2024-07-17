@@ -68,5 +68,7 @@ internal sealed class TransportsConfiguration : IEntityTypeConfiguration<Transpo
             .HasColumnName("czy_usunieto");
 
         builder.HasQueryFilter(e => !e.IsDeleted);
+
+        builder.Ignore(e => e.Freights);
     }
 }

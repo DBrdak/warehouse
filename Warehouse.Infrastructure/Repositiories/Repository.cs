@@ -10,7 +10,7 @@ internal abstract class Repository<TEntity, TEntityId>
     where TEntity : Entity<TEntityId>
     where TEntityId : EntityId, new()
 {
-    private readonly ApplicationDbContext _dbContext;
+    protected readonly ApplicationDbContext _dbContext;
     protected readonly DbSet<TEntity> Table;
 
     protected Repository(ApplicationDbContext dbContext)

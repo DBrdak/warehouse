@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Warehouse.Domain.Freights;
+using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Sectors;
 using Warehouse.Domain.Shared.Results;
+using Warehouse.Domain.Transports;
+using Warehouse.Domain.Warehousemen;
 using Warehouse.Infrastructure.Data;
 using Warehouse.Infrastructure.Utils;
 
@@ -20,16 +24,10 @@ internal sealed class SectorRepository : Repository<Sector, SectorId>, ISectorRe
         Result.Failure<Sector>(DataAccessErrors.NotFound<Sector>());
 
     public async Task<Result<List<Sector>>> GetAllIncludePalletSpacesThenFreightsWithExportAsync(
-        CancellationToken cancellationToken)
-    {
-        var query = Table
+        CancellationToken cancellationToken) =>
+        await Table
             .Include(e => e.PalletSpaces)
             .ThenInclude(e => e.Freights)
             .ThenInclude(e => e.Export)
-            ;
-
-        var sql = query.ToQueryString();
-
-        return await query.ToListAsync(cancellationToken);
-    }
+            .ToListAsync(cancellationToken);
 }
