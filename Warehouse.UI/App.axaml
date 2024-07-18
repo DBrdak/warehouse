@@ -11,6 +11,7 @@
     </Application.DataTemplates>
     <Application.Resources>
         <converters:BoolToIconConverter x:Key="BoolToIconConverter" />
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
     </Application.Resources>
     <Application.Styles>
         <themes:MaterialTheme />

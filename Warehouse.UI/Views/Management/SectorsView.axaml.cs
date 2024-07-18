@@ -32,14 +32,6 @@ public partial class SectorsView : UserControl
         await _sectorsViewModel.FetchSectors();
     }
 
-    private void DataGrid_OnBeginningEdit(object? sender, DataGridBeginningEditEventArgs e)
-    {
-    }
-
-    private void DataGrid_OnRowEditEnded(object? sender, DataGridRowEditEndedEventArgs e)
-    {
-    }
-
     private void OnSectorSelected(object? sender, SelectionChangedEventArgs e)
     {
         if(sender is ListBox { SelectedItem: SectorModel selectedSector })

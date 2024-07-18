@@ -21,14 +21,6 @@
 		</DockPanel>
 
 		<ContentControl Grid.Row="1" Content="{Binding CurrentView}"/>
-			<!--<ContentControl.ContentTemplate>
-				<DataTemplate DataType="{x:Type management:WarehousemenViewModel}">
-					<TextBlock Text="Warehousemen content goes here."/>
-				</DataTemplate>
-                <DataTemplate DataType="{x:Type management:SectorsViewModel}">
-                    <TextBlock Text="Sectors content goes here."/>
-                </DataTemplate>
-			</ContentControl.ContentTemplate>-->
 		
 
 	</Grid>
