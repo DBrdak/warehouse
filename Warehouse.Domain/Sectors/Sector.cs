@@ -38,7 +38,7 @@ public sealed class Sector : Entity<SectorId>
         }
 
         var sectorNumber = sectorNumberCreateResult.Value;
-
+        
         return new Sector(sectorNumber, [], []);
     }
 

@@ -1,12 +1,23 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="Warehouse.UI.Views.Management.Dialogs.AddSectorDialog"
-        Title="Dodawanie sektora"
+        Title="Nowy Sektor"
         CanResize="False"
         ShowInTaskbar="False"
         Width="900"
         Height="720"
         WindowStartupLocation="CenterScreen"
-        Icon="">
-    Hello
+        Icon="/Assets/Warehouse_Logo.ico">
+	<Grid HorizontalAlignment="Stretch" >
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1" />
+			<RowDefinition Height="3" />
+			<RowDefinition Height="1" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1" />
+			<ColumnDefinition Width="1" />
+			<ColumnDefinition Width="1" />
+		</Grid.ColumnDefinitions>
+	</Grid>
 </Window>

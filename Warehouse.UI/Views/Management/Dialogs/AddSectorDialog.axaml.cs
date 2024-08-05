@@ -13,7 +13,12 @@ public partial class AddSectorDialog : Window
     public AddSectorDialog()
     {
         InitializeComponent();
-        DataContext = new AddSectorDialogModel();
+    }
+
+    public AddSectorDialog(MainWindow mainWindow)
+    {
+        InitializeComponent();
+        DataContext = new AddSectorDialogModel(mainWindow, this);
         _dataContext = DataContext as AddSectorDialogModel ??
                        throw new InvalidCastException(
                            $"Cannot convert type {DataContext.GetType().Name} to {nameof(AddSectorDialogModel)}");

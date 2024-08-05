@@ -18,7 +18,7 @@ public sealed record NIP
 
         if (!isValid)
         {
-            return ClientErrors.InvalidNameError;
+            return ClientErrors.InvalidNIPError;
         }
 
         return new NIP(value);
