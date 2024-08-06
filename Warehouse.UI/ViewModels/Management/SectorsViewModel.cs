@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using DynamicData;
 using MediatR;
@@ -38,6 +39,8 @@ public sealed class SectorsViewModel : ViewModelBase
         {
             SetProperty(ref _selectedSector, value);
             IsSectorSelected = value is not null;
+            CanSectorBeRemoved = (value?.PalletSpaces is not null && value.PalletSpaces.All(ps => ps.IsAvailable)) ||
+                                 value?.PalletSpaces is null;
             SelectedSectorPalletSpaces.Clear();
             SelectedSectorPalletSpaces.AddRange(value?.PalletSpaces ?? []);
         }
@@ -48,6 +51,13 @@ public sealed class SectorsViewModel : ViewModelBase
     {
         get => _isSectorSelected;
         private set => SetProperty(ref _isSectorSelected, value);
+    }
+
+    private bool _canSectorBeRemoved;
+    public bool CanSectorBeRemoved
+    {
+        get => _canSectorBeRemoved;
+        private set => SetProperty(ref _canSectorBeRemoved, value);
     }
 
     public ReactiveCommand<System.Reactive.Unit, System.Reactive.Unit> AddSectorCommand { get; }
@@ -100,8 +110,7 @@ public sealed class SectorsViewModel : ViewModelBase
 
     private async void ShowRemoveSectorDialog()
     {
-        var dialog = new RemoveSectorDialog(
-            SelectedSector ?? throw new NullReferenceException("Sector must be selected for remove"));
+        var dialog = new RemoveSectorDialog(_mainWindow, this);
         await dialog.ShowDialog(_mainWindow);
     }
 }

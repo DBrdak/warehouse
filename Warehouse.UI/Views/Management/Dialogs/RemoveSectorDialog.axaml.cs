@@ -2,13 +2,13 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System;
 using Warehouse.Application.Sectors.Models;
+using Warehouse.UI.ViewModels.Management;
 using Warehouse.UI.ViewModels.Management.Dialogs;
 
 namespace Warehouse.UI.Views.Management.Dialogs;
 
 public partial class RemoveSectorDialog : Window
 {
-    private readonly SectorModel _selectedSector;
     private readonly RemoveSectorDialogModel _dataContext;
 
     public RemoveSectorDialog()
@@ -16,11 +16,10 @@ public partial class RemoveSectorDialog : Window
         InitializeComponent();
     }
 
-    public RemoveSectorDialog(SectorModel selectedSector)
+    public RemoveSectorDialog(MainWindow mainWindow, SectorsViewModel invoker)
     {
         InitializeComponent();
-        _selectedSector = selectedSector;
-        DataContext = new RemoveSectorDialogModel();
+        DataContext = new RemoveSectorDialogModel(mainWindow, this, invoker);
         _dataContext = DataContext as RemoveSectorDialogModel ??
                        throw new InvalidCastException(
                            $"Cannot convert type {DataContext.GetType().Name} to {nameof(RemoveSectorDialogModel)}");
