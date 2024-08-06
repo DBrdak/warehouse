@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Runtime.CompilerServices;
 using Warehouse.UI.Stores;
 
 namespace Warehouse.UI.ViewModels;

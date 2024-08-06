@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using ReactiveUI;
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs;

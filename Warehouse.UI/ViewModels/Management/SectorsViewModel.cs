@@ -87,7 +87,7 @@ public sealed class SectorsViewModel : ViewModelBase
 
     private async void ShowAddSectorDialog()
     {
-        var dialog = new AddSectorDialog(_mainWindow);
+        var dialog = new AddSectorDialog(_mainWindow, this);
         await dialog.ShowDialog(_mainWindow);
     }
 

@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dialogs="clr-namespace:Warehouse.UI.ViewModels.Management.Dialogs"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:converters="clr-namespace:Warehouse.UI.Converters"
         x:Class="Warehouse.UI.Views.Management.Dialogs.AddSectorDialog"
         Title="Nowy Sektor"
         CanResize="False"
@@ -12,57 +13,68 @@
         Icon="/Assets/Warehouse_Logo.ico"
         x:DataType="dialogs:AddSectorDialogModel">
 
-	<StackPanel Margin="20">
-		<TextBlock Text="Tworzenie nowego sektora" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+	<Window.Resources>
+		<converters:ShelfPalletSpacesToTextConverter x:Key="ShelfPalletSpacesToTextConverter" />
+        <converters:RackNumberToTextConverter x:Key="RackNumberToTextConverter" />
+    </Window.Resources>
 
-		<StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-			<TextBlock Text="Numer sektora:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-			<TextBox Width="200" Text="{Binding SectorNumber}"/>
-		</StackPanel>
+	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+		<StackPanel Margin="20">
+			<TextBlock Text="Tworzenie nowego sektora" FontWeight="Bold" FontSize="24" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-		<TextBlock Text="Rega³y" FontWeight="Bold" FontSize="18" Margin="0,0,0,10"/>
+			<StackPanel Orientation="Vertical" Margin="0,0,0,20" HorizontalAlignment="Center">
+				<TextBlock Text="Numer sektora:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="Bold" FontSize="18"/>
+				<TextBox Width="200" Text="{Binding SectorNumber}"/>
+			</StackPanel>
 
-		<StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-			<Button Command="{Binding AddRackCommand}" Width="30" Margin="0,0,5,0">
-				<avalonia:MaterialIcon Kind="Plus" />
-			</Button>
-			<Button Command="{Binding RemoveRackCommand}" Width="30">
-				<avalonia:MaterialIcon Kind="Minus" />
-			</Button>
-		</StackPanel>
+			<TextBlock Text="Regaly" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" TextAlignment="Center"/>
 
-		<ItemsControl ItemsSource="{Binding SectorRacks}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<StackPanel Margin="0,0,0,10" Background="#f2f2f2">
-						<TextBlock Text="{Binding RackNumber}" FontWeight="Bold" FontSize="16"/>
-						<StackPanel Orientation="Horizontal" Margin="10,0">
-							<TextBlock Text="Pó³ki:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-							<Button Width="30" Margin="0,0,5,0" Click="OnShelfAdd">
-								<avalonia:MaterialIcon Kind="Plus" />
-							</Button>
-							<Button Width="30" Click="OnShelfRemove">
-								<avalonia:MaterialIcon Kind="Minus" />
-							</Button>
+			<StackPanel Orientation="Horizontal" Margin="0,0,0,20" HorizontalAlignment="Center">
+				<Button Command="{Binding AddRackCommand}" Width="30" Margin="0,0,5,0">
+					<avalonia:MaterialIcon Kind="Plus" />
+				</Button>
+				<Button Command="{Binding RemoveRackCommand}" Width="30">
+					<avalonia:MaterialIcon Kind="Minus" />
+				</Button>
+			</StackPanel>
+
+			<ItemsControl ItemsSource="{Binding SectorRacks}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Margin="0,0,0,10" Background="#f2f2f2">
+
+							<TextBlock Text="{Binding RackNumber, Converter={StaticResource RackNumberToTextConverter}}" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Margin="10"/>
+
+							<TextBlock Text="Polki" FontWeight="Bold" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10"/>
+
+							<StackPanel Orientation="Horizontal" Margin="0,0,0,20" HorizontalAlignment="Center">
+								<Button Width="30" Margin="0,0,5,0" Click="OnShelfAdd">
+									<avalonia:MaterialIcon Kind="Plus" />
+								</Button>
+								<Button Width="30" Click="OnShelfRemove">
+									<avalonia:MaterialIcon Kind="Minus" />
+								</Button>
+							</StackPanel>
+
+							<ItemsControl ItemsSource="{Binding Shelves}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal" Margin="5,0">
+											<TextBlock Text="{Binding ShelfNumber, Converter={StaticResource ShelfPalletSpacesToTextConverter}}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+											<TextBox Width="200" Text="{Binding PalletSpacesCount}" TextChanged="UpdateIsValid"/>
+										</StackPanel>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
 						</StackPanel>
-						<ItemsControl ItemsSource="{Binding Shelves}">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal" Margin="5,0">
-										<TextBlock Text="Miejsca paletowe:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-										<TextBox Width="200" Text="{Binding PalletSpacesCount}" TextChanged="UpdateIsValid"/>
-									</StackPanel>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
 
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-			<Button Content="Cancel" Command="{Binding CancelCommand}" Width="100" Margin="0,0,10,0"/>
-			<Button Content="Accept" Command="{Binding AddSectorAsyncCommand}" Width="100" IsEnabled="{Binding IsValid}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0" HorizontalAlignment="Center"/>
+                <Button Content="Dodaj sektor" Command="{Binding AddSectorAsyncCommand}" Width="150" IsEnabled="{Binding IsValid}" HorizontalAlignment="Center"/>
+            </StackPanel>
 		</StackPanel>
-	</StackPanel>
+	</ScrollViewer>
 </Window>

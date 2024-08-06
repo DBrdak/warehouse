@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Reactive;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using Warehouse.Application.Sectors.AddSector;
-using Warehouse.Application.Sectors.Models;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
-using Unit = System.Reactive.Unit;
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs;
 
@@ -20,6 +16,7 @@ public sealed class AddSectorDialogModel : ReactiveObject
 {
     private readonly MainWindow _mainWindow;
     private readonly Window _window;
+    private readonly SectorsViewModel _invoker;
     private readonly ISender _sender;
 
     private int _sectorNumber;
@@ -48,10 +45,11 @@ public sealed class AddSectorDialogModel : ReactiveObject
     public IRelayCommand AddRackCommand { get; }
     public IRelayCommand RemoveRackCommand { get; }
 
-    public AddSectorDialogModel(MainWindow mainWindow, Window window)
+    public AddSectorDialogModel(MainWindow mainWindow, Window window, SectorsViewModel invoker)
     {
         _mainWindow = mainWindow;
         _window = window;
+        _invoker = invoker;
         _sender = _mainWindow.ServiceProvider.GetRequiredService<ISender>();
         SectorRacks = new ObservableCollection<RackCreateModel>();
 
@@ -86,6 +84,7 @@ public sealed class AddSectorDialogModel : ReactiveObject
             return;
         }
 
+        _ = _invoker.FetchSectors();
         _window.Close();
     }
 
@@ -118,5 +117,4 @@ public sealed class AddSectorDialogModel : ReactiveObject
     }
 
     private void Close() => _window.Close();
-    //TODO add refresh after adding a sector + improve layout of add dialog
 }

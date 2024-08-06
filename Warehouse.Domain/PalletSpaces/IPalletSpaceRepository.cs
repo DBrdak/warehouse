@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Warehouse.Domain.Shared.Results;
+﻿using Warehouse.Domain.Shared.Results;
 
 namespace Warehouse.Domain.PalletSpaces;
 

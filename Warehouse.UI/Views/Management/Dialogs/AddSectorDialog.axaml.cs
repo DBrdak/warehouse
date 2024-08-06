@@ -2,7 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System;
 using Avalonia.Interactivity;
-using CommunityToolkit.Mvvm.Input;
 using Warehouse.UI.ViewModels.Management;
 using Warehouse.UI.ViewModels.Management.Dialogs;
 
@@ -17,10 +16,10 @@ public partial class AddSectorDialog : Window
         InitializeComponent();
     }
 
-    public AddSectorDialog(MainWindow mainWindow)
+    public AddSectorDialog(MainWindow mainWindow, SectorsViewModel invoker)
     {
         InitializeComponent();
-        DataContext = new AddSectorDialogModel(mainWindow, this);
+        DataContext = new AddSectorDialogModel(mainWindow, this, invoker);
         _dataContext = DataContext as AddSectorDialogModel ??
                        throw new InvalidCastException(
                            $"Cannot convert type {DataContext.GetType().Name} to {nameof(AddSectorDialogModel)}");
