@@ -1,12 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Reactive;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
-using Warehouse.Application.Drivers.Models;
 using Warehouse.Application.Sectors.AddSector;
 using Warehouse.Application.Sectors.Models;
 using Warehouse.UI.Views;
@@ -15,31 +16,56 @@ using Unit = System.Reactive.Unit;
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs;
 
-public sealed class AddSectorDialogModel : ViewModelBase
+public sealed class AddSectorDialogModel : ReactiveObject
 {
     private readonly MainWindow _mainWindow;
     private readonly Window _window;
     private readonly ISender _sender;
 
-    private int _sectorNumber = 0;
+    private int _sectorNumber;
+
     public int SectorNumber
     {
         get => _sectorNumber;
-        set => SetProperty(ref _sectorNumber, value);
+        set 
+        {
+            this.RaiseAndSetIfChanged( ref _sectorNumber, value);
+            UpdateIsValid();
+        }
     }
 
-    public ObservableCollection<RackCreateModel> SectorRacks { get; init; }
+    public ObservableCollection<RackCreateModel> SectorRacks { get; }
+
+    private bool _isValid;
+    public bool IsValid
+    {
+        get => _isValid;
+        private set => this.RaiseAndSetIfChanged(ref _isValid, value);
+    }
 
     public IAsyncRelayCommand AddSectorAsyncCommand { get; }
+    public IRelayCommand CancelCommand { get; }
+    public IRelayCommand AddRackCommand { get; }
+    public IRelayCommand RemoveRackCommand { get; }
 
     public AddSectorDialogModel(MainWindow mainWindow, Window window)
     {
         _mainWindow = mainWindow;
         _window = window;
         _sender = _mainWindow.ServiceProvider.GetRequiredService<ISender>();
-        SectorRacks = [];
+        SectorRacks = new ObservableCollection<RackCreateModel>();
 
         AddSectorAsyncCommand = new AsyncRelayCommand(AddSectorAsync);
+        CancelCommand = new RelayCommand(Close);
+        AddRackCommand = new RelayCommand(AddRack);
+        RemoveRackCommand = new RelayCommand(RemoveRack);
+    }
+
+    public void UpdateIsValid()
+    {
+        IsValid = _sectorNumber > 0 &&
+                  SectorRacks.Count > 0 &&
+                  SectorRacks.Any(rack => rack.Shelves.Any(shelf => shelf.PalletSpacesCount > 0));
     }
 
     private async Task AddSectorAsync()
@@ -47,7 +73,7 @@ public sealed class AddSectorDialogModel : ViewModelBase
         var racksAddModels = SectorRacks.Select(
             rack => new SectorRackAddModel(
                 rack.RackNumber,
-                rack.Shelfs.Select(
+                rack.Shelves.Select(
                     shelf => new SectorRackShelfAddModel(shelf.ShelfNumber, shelf.PalletSpacesCount))));
 
         var command = new AddSectorCommand(SectorNumber, racksAddModels);
@@ -61,56 +87,36 @@ public sealed class AddSectorDialogModel : ViewModelBase
         }
 
         _window.Close();
-
-        return;
     }
 
-    public void AddRack() => SectorRacks.Add(new ());
-
-    public void RemoveRack()
+    private void AddRack()
     {
+        var newRack = new RackCreateModel();
+        SectorRacks.Add(newRack);
+        UpdateIsValid();
+    }
+
+    private void RemoveRack()
+    {
+        if (!SectorRacks.Any())
+        {
+            return;
+        }
+
         SectorRacks.RemoveAt(SectorRacks.Count - 1);
         RackCreateModel.RackRemoved();
+        UpdateIsValid();
     }
 
-    public void AddShelf(int rackNumber) => 
-        SectorRacks.FirstOrDefault(r => r.RackNumber == rackNumber)?.AddShelf();
+    public void AddShelf(RackCreateModel rack) => rack.AddShelf();
 
-    public void SetPalletSpaceCountForShelf(int rackNumber, int shelfNumber, int palletSpaceCount) =>
-        SectorRacks
-            .FirstOrDefault(r => r.RackNumber == rackNumber)?.Shelfs
-            .FirstOrDefault(s => s.ShelfNumber == shelfNumber)?
-            .SetPalletSpaceCount(palletSpaceCount);
-}
-
-public sealed record RackCreateModel
-{
-    public int RackNumber { get; private set; }
-    public ObservableCollection<ShelfCreateModel> Shelfs { get; init; }
-    private static int _lastRackNumber = 0;
-
-    public RackCreateModel()
+    public void RemoveShelf(RackCreateModel rack)
     {
-        RackNumber = ++_lastRackNumber;
-        Shelfs = [];
+        rack.RemoveShelf();
+
+        UpdateIsValid();
     }
 
-    public void AddShelf() => Shelfs.Add(new(Shelfs.Count + 1));
-
-    public static void RackRemoved() => _lastRackNumber--;
-}
-
-public sealed record ShelfCreateModel
-{
-    public int ShelfNumber { get; private set; }
-    public int PalletSpacesCount { get; private set; }
-
-    public ShelfCreateModel(int shelfNumber)
-    {
-        ShelfNumber = shelfNumber;
-        PalletSpacesCount = 0;
-    }
-
-    public void SetPalletSpaceCount(int count) => 
-        PalletSpacesCount = count > 0 ? count : PalletSpacesCount;
+    private void Close() => _window.Close();
+    //TODO add refresh after adding a sector + improve layout of add dialog
 }

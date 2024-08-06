@@ -20,7 +20,7 @@ public partial class SectorsView : UserControl
     {
         InitializeComponent();
         _mainWindow = mainWindow;
-        DataContext = new SectorsViewModel(mainWindow);
+        DataContext = new SectorsViewModel(_mainWindow);
         _sectorsViewModel = DataContext as SectorsViewModel ??
                             throw new InvalidCastException(
                                 $"Cannot convert type {DataContext.GetType().Name} to {nameof(SectorsViewModel)}");
