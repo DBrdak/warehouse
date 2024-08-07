@@ -10,21 +10,17 @@ internal sealed class UpdateWarehousemanCommandHandler : ICommandHandler<UpdateW
 {
     private readonly IWarehousemanRepository _warehousemanRepository;
     private readonly ISectorRepository _sectorRepository;
-    private UpdateWarehousemanCommand command;
 
     public UpdateWarehousemanCommandHandler(IWarehousemanRepository warehousemanRepository, ISectorRepository sectorRepository)
     {
         _warehousemanRepository = warehousemanRepository;
         _sectorRepository = sectorRepository;
-        command = new();
     }
 
     public async Task<Result<WarehousemanModel>> Handle(UpdateWarehousemanCommand request, CancellationToken cancellationToken)
     {
-        command = request;
-
         var warehousemanGetResult =
-            await _warehousemanRepository.GetByIdAsync(new(command.Id), cancellationToken);
+            await _warehousemanRepository.GetByIdAsync(new(request.Id), cancellationToken);
 
         if (warehousemanGetResult.IsFailure)
         {
@@ -34,10 +30,10 @@ internal sealed class UpdateWarehousemanCommandHandler : ICommandHandler<UpdateW
         var warehouseman = warehousemanGetResult.Value;
 
         var warehousemanUpdateResult = Result.Aggregate(
-            await UpdateSector(warehouseman, cancellationToken),
-            string.IsNullOrWhiteSpace(command.FirstName) ? Result.Success() : warehouseman.EditFirstName(command.FirstName),
-            string.IsNullOrWhiteSpace(command.LastName) ? Result.Success() : warehouseman.EditFirstName(command.LastName),
-            string.IsNullOrWhiteSpace(command.Position) ? Result.Success() : warehouseman.EditFirstName(command.Position));
+            await UpdateSector(request.SectorNumber, warehouseman, cancellationToken),
+            string.IsNullOrWhiteSpace(request.FirstName) ? Result.Success() : warehouseman.EditFirstName(request.FirstName),
+            string.IsNullOrWhiteSpace(request.LastName) ? Result.Success() : warehouseman.EditLastName(request.LastName),
+            string.IsNullOrWhiteSpace(request.Position) ? Result.Success() : warehouseman.EditPosition(request.Position));
 
         if (warehousemanUpdateResult.IsFailure)
         {
@@ -56,15 +52,18 @@ internal sealed class UpdateWarehousemanCommandHandler : ICommandHandler<UpdateW
         return WarehousemanModel.FromDomainModel(warehouseman);
     }
 
-    private async Task<Result> UpdateSector(Warehouseman warehouseman, CancellationToken cancellationToken)
+    private async Task<Result> UpdateSector(
+        int? sectorNumber,
+        Warehouseman warehouseman,
+        CancellationToken cancellationToken)
     {
-        if (command.SectorNumber is null)
+        if (sectorNumber is null)
         {
             return Result.Success();
         }
 
         var sectorGetResult = await _sectorRepository.GetBySectorNumberAsync(
-            command.SectorNumber.Value,
+            sectorNumber.Value,
             cancellationToken);
 
         if (sectorGetResult.IsFailure)

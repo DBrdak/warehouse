@@ -106,4 +106,6 @@ public sealed class PalletSpace : Entity<PalletSpaceId>
 
         return Result.Success();
     }
+
+    internal bool IsEmpty() => Freights.All(f => f.Export is not null);
 }

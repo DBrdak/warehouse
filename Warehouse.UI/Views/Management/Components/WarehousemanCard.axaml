@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:models="clr-namespace:Warehouse.Application.Warehousemen.Models;assembly=Warehouse.Application"
+             x:Class="Warehouse.UI.Views.Management.Components.WarehousemanCard"
+             x:DataType="models:WarehousemanModel">
+    <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="5">
+        <StackPanel>
+            <avalonia:MaterialIcon Kind="Account" Width="40" Height="40" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Sector.Number}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+            <TextBlock Text="{Binding FirstName}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding LastName}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Position}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding IdentificationNumber}" HorizontalAlignment="Center" FontWeight="Bold"/>
+        </StackPanel>
+    </Border>
+</UserControl>

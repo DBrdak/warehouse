@@ -38,7 +38,7 @@ public sealed class Sector : Entity<SectorId>
         }
 
         var sectorNumber = sectorNumberCreateResult.Value;
-        
+
         return new Sector(sectorNumber, [], []);
     }
 
@@ -72,4 +72,6 @@ public sealed class Sector : Entity<SectorId>
 
         return Result.Success();
     }
+
+    public bool CanBeRemoved() => PalletSpaces.All(ps => ps.IsEmpty());
 }

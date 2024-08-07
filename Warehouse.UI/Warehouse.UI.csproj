@@ -41,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Management\Components\WarehousemanCard.axaml.cs">
+      <DependentUpon>WarehousemanCard.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\CustomerService\CustomerServiceView.axaml.cs">
       <DependentUpon>CustomerServiceView.axaml</DependentUpon>
     </Compile>

@@ -1,4 +1,6 @@
-﻿using Warehouse.Domain.Warehousemen;
+﻿using Microsoft.EntityFrameworkCore;
+using Warehouse.Domain.Shared.Results;
+using Warehouse.Domain.Warehousemen;
 using Warehouse.Infrastructure.Data;
 
 namespace Warehouse.Infrastructure.Repositiories;
@@ -8,4 +10,11 @@ internal sealed class WarehousemanRepository : Repository<Warehouseman, Warehous
     public WarehousemanRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
+
+    public async Task<Result<IEnumerable<Warehouseman>>> GetAllDetailedAsync(
+        CancellationToken cancellationToken) =>
+        Result.Create(Table
+            .Include(w => w.Sector)
+            .Include(w => w.Transports)
+            .AsEnumerable());
 }
