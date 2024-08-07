@@ -1,9 +1,9 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:dialogs="clr-namespace:Warehouse.UI.ViewModels.Management.Dialogs"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         xmlns:converters="clr-namespace:Warehouse.UI.Converters"
-        x:Class="Warehouse.UI.Views.Management.Dialogs.AddSectorDialog"
+        xmlns:sectors="clr-namespace:Warehouse.UI.ViewModels.Management.Dialogs.Sectors"
+        x:Class="Warehouse.UI.Views.Management.Dialogs.Sectors.AddSectorDialog"
         Title="Nowy Sektor"
         CanResize="False"
         ShowInTaskbar="False"
@@ -11,7 +11,7 @@
         Height="720"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/Warehouse_Logo.ico"
-        x:DataType="dialogs:AddSectorDialogModel">
+        x:DataType="sectors:AddSectorDialogModel">
 
 	<Window.Resources>
 		<converters:ShelfPalletSpacesToTextConverter x:Key="ShelfPalletSpacesToTextConverter" />

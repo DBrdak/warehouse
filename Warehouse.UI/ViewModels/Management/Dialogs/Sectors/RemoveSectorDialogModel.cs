@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
-using DocumentFormat.OpenXml.Spreadsheet;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Sectors.Models;
@@ -10,7 +9,7 @@ using Warehouse.Application.Sectors.RemoveSector;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
 
-namespace Warehouse.UI.ViewModels.Management.Dialogs;
+namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
 
 public sealed class RemoveSectorDialogModel : ViewModelBase
 {

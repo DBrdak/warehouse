@@ -50,14 +50,14 @@
     <Compile Update="Views\Lodge\LodgeView.axaml.cs">
       <DependentUpon>LodgeView.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Management\Dialogs\Warehousemen\AddWarehousemanDialog.axaml.cs">
-      <DependentUpon>AddWarehousemanDialog.axaml</DependentUpon>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\AddSectorDialog.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Management\Dialogs\Warehousemen\RemoveWarehousemanDialog.axaml.cs">
-      <DependentUpon>RemoveWarehousemanDialog.axaml</DependentUpon>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\RemoveSectorDialog.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Management\Dialogs\Warehousemen\EditWarehousemanDialog.axaml.cs">
-      <DependentUpon>EditWarehousemanDialog.axaml</DependentUpon>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\UpdateSectorDialog.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Views\Management\ManagementView.axaml.cs">
       <DependentUpon>ManagementView.axaml</DependentUpon>
@@ -70,5 +70,8 @@
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ViewModels\Management\Dialogs\Warehousemen\" />
 	</ItemGroup>
 </Project>

@@ -1,10 +1,10 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using System;
 using Warehouse.Application.Sectors.Models;
-using Warehouse.UI.ViewModels.Management.Dialogs;
+using Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
 
-namespace Warehouse.UI.Views.Management.Dialogs;
+namespace Warehouse.UI.Views.Management.Dialogs.Sectors;
 
 public partial class UpdateSectorDialog : Window
 {

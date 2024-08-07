@@ -11,10 +11,10 @@ internal sealed class WarehousemanRepository : Repository<Warehouseman, Warehous
     {
     }
 
-    public async Task<Result<IEnumerable<Warehouseman>>> GetAllDetailedAsync(
+    public async Task<Result<List<Warehouseman>>> GetAllDetailedAsync(
         CancellationToken cancellationToken) =>
-        Result.Create(Table
+        Result.Create(await Table
             .Include(w => w.Sector)
             .Include(w => w.Transports)
-            .AsEnumerable());
+            .ToListAsync(cancellationToken));
 }

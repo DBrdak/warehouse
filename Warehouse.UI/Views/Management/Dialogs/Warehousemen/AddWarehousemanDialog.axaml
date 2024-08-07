@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:warehousemen="clr-namespace:Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen"
+        x:Class="Warehouse.UI.Views.Management.Dialogs.Warehousemen.AddWarehousemanDialog"
+        Title="Nowy magazynier"
+        CanResize="False"
+        ShowInTaskbar="False"
+        Width="900"
+        Height="720"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/Warehouse_Logo.ico"
+        x:DataType="warehousemen:AddWarehousemanDialogModel">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+        <Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0" HorizontalAlignment="Center"/>
+        <Button Content="Zatrudnij magazyniera" Command="{Binding AddWarehousemanAsyncCommand}" Width="150" IsEnabled="True" HorizontalAlignment="Center"/>
+    </StackPanel>
+</Window>

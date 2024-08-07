@@ -11,7 +11,7 @@ using Warehouse.Application.Sectors.GetSectors;
 using Warehouse.Application.Sectors.Models;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
-using Warehouse.UI.Views.Management.Dialogs;
+using Warehouse.UI.Views.Management.Dialogs.Sectors;
 
 namespace Warehouse.UI.ViewModels.Management;
 

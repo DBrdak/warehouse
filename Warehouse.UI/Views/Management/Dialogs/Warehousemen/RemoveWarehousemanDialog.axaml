@@ -1,20 +1,20 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:dialogs="clr-namespace:Warehouse.UI.ViewModels.Management.Dialogs"
-        x:Class="Warehouse.UI.Views.Management.Dialogs.RemoveSectorDialog"
-        Title="Usuń Sektor"
+        xmlns:warehousemen="clr-namespace:Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen"
+        x:Class="Warehouse.UI.Views.Management.Dialogs.Warehousemen.RemoveWarehousemanDialog"
+        Title="Zwolnij magazyniera"
         CanResize="False"
         ShowInTaskbar="False"
         Width="400"
         Height="300"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/Warehouse_Logo.ico"
-        x:DataType="dialogs:RemoveSectorDialogModel">
+        x:DataType="warehousemen:RemoveWarehousemanDialogModel">
     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-        <TextBlock Text="Czy na pewno chcesz usunąć ten sektor?" HorizontalAlignment="Center" />
+        <TextBlock Text="Czy na pewno chcesz zwolnić tego magazyniera?" HorizontalAlignment="Center" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0" HorizontalAlignment="Center"/>
-            <Button Content="Usuń sektor" Command="{Binding RemoveSectorAsyncCommand}" Width="150" HorizontalAlignment="Center"/>
+            <Button Content="Zwolnij" Command="{Binding RemoveWarehousemanAsyncCommand}" Width="150" HorizontalAlignment="Center"/>
         </StackPanel>
 	</StackPanel>
 </Window>

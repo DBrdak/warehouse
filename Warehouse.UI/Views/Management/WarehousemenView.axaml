@@ -3,12 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:management="clr-namespace:Warehouse.UI.ViewModels.Management"
-             xmlns:warehousemen="clr-namespace:Warehouse.Domain.Warehousemen;assembly=Warehouse.Domain"
+             xmlns:components="clr-namespace:Warehouse.UI.Views.Management.Components"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Warehouse.UI.Views.Management.WarehousemenView"
              x:DataType="management:WarehousemenViewModel">
-    <StackPanel>
-        <ItemsControl ItemsSource="{Binding Workhousemen}">
+    <StackPanel HorizontalAlignment="Stretch">
+        <ItemsControl ItemsSource="{Binding Warehousemen}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="3"/>
@@ -16,14 +16,14 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <warehousemen:Warehouseman ="{Binding}"/>
+                    <components:WarehousemanCard DataContext="{Binding}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,0,0,0">
-            <Button Content="Add Workhouseman" Command="{Binding AddWorkhousemanCommand}" Margin="0,0,10,0"/>
-            <Button Content="Remove Workhouseman" Command="{Binding RemoveWorkhousemanCommand}" Margin="0,0,10,0"/>
+            <Button Content="Add Workhouseman" Command="{Binding AddWorkhousemanAsyncCommand}" Margin="0,0,10,0"/>
+            <Button Content="Remove Workhouseman" Command="{Binding AddWorkhousemanAsyncCommand}" Margin="0,0,10,0"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

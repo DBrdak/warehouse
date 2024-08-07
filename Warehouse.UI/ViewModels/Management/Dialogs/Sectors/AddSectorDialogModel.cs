@@ -10,7 +10,7 @@ using Warehouse.Application.Sectors.AddSector;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
 
-namespace Warehouse.UI.ViewModels.Management.Dialogs;
+namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
 
 public sealed class AddSectorDialogModel : ReactiveObject
 {
@@ -24,9 +24,9 @@ public sealed class AddSectorDialogModel : ReactiveObject
     public int SectorNumber
     {
         get => _sectorNumber;
-        set 
+        set
         {
-            this.RaiseAndSetIfChanged( ref _sectorNumber, value);
+            this.RaiseAndSetIfChanged(ref _sectorNumber, value);
             UpdateIsValid();
         }
     }

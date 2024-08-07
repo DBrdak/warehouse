@@ -1,6 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="Warehouse.UI.Views.Management.Dialogs.UpdateSectorDialog"
+        x:Class="Warehouse.UI.Views.Management.Dialogs.Sectors.UpdateSectorDialog"
         Title="Dodawanie sektora"
         CanResize="False"
         ShowInTaskbar="False"

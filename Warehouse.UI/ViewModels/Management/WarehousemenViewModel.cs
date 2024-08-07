@@ -1,16 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using DynamicData;
 using Microsoft.Extensions.DependencyInjection;
-using Warehouse.Application.Sectors.GetSectors;
 using Warehouse.Application.Warehousemen.GetWarehousemen;
 using Warehouse.Application.Warehousemen.Models;
-using Warehouse.Domain.Warehousemen;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
+using System;
+using Warehouse.UI.Views.Management.Dialogs.Warehousemen;
 
 namespace Warehouse.UI.ViewModels.Management;
 
@@ -26,6 +25,13 @@ public sealed class WarehousemenViewModel : ViewModelBase
         set => SetProperty(ref _isLoading, value);
     }
 
+    private WarehousemanModel _selectedWarehouseman;
+    public WarehousemanModel SelectedWarehouseman
+    {
+        get => _selectedWarehouseman;
+        set => SetProperty(ref _selectedWarehouseman, value);
+    }
+
     public ObservableCollection<WarehousemanModel> Warehousemen { get; }
 
     public IAsyncRelayCommand AddWorkhousemanAsyncCommand { get; }
@@ -38,12 +44,12 @@ public sealed class WarehousemenViewModel : ViewModelBase
         _sender = mainWindow.ServiceProvider.GetRequiredService<ISender>();
         Warehousemen = [];
 
-        AddWorkhousemanAsyncCommand = new AsyncRelayCommand(AddWorkhousemanAsync);
-        EditWorkhousemanAsyncCommand = new AsyncRelayCommand(EditWorkhousemanAsync);
-        RemoveWorkhousemanAsyncCommand = new AsyncRelayCommand(RemoveWorkhousemanAsync);
+        AddWorkhousemanAsyncCommand = new AsyncRelayCommand(ShowAddWarehousemanDialog);
+        EditWorkhousemanAsyncCommand = new AsyncRelayCommand(ShowEditWarehousemanDialog);
+        RemoveWorkhousemanAsyncCommand = new AsyncRelayCommand(ShowRemoveWarehousemanDialog);
     }
 
-    private async Task FetchWarehousemenAsync()
+    public async Task FetchWarehousemenAsync()
     {
         IsLoading = true;
 
@@ -64,15 +70,22 @@ public sealed class WarehousemenViewModel : ViewModelBase
         IsLoading = false;
     }
 
-    private async Task AddWorkhousemanAsync()
+    private async Task ShowAddWarehousemanDialog()
     {
+        var dialog = new AddWarehousemanDialog(_mainWindow, this);
+        await dialog.ShowDialog(_mainWindow);
     }
 
-    private async Task RemoveWorkhousemanAsync()
+    private async Task ShowEditWarehousemanDialog()
     {
+        var dialog = new EditWarehousemanDialog(
+            SelectedWarehouseman ?? throw new NullReferenceException("Warehouseman must be selected for update"));
+        await dialog.ShowDialog(_mainWindow);
     }
 
-    private async Task EditWorkhousemanAsync()
+    private async Task ShowRemoveWarehousemanDialog()
     {
+        var dialog = new RemoveWarehousemanDialog(_mainWindow, this);
+        await dialog.ShowDialog(_mainWindow);
     }
 }

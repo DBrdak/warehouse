@@ -8,5 +8,5 @@ public interface IWarehousemanRepository
     Result<Warehouseman> Update(Warehouseman warehouseman);
     Task<Result<Warehouseman>> GetByIdAsync(WarehousemanId warehousemanId, CancellationToken cancellationToken);
 
-    Task<Result<IEnumerable<Warehouseman>>> GetAllDetailedAsync(CancellationToken cancellationToken);
+    Task<Result<List<Warehouseman>>> GetAllDetailedAsync(CancellationToken cancellationToken);
 }

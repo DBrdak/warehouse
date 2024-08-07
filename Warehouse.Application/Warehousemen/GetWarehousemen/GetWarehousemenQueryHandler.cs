@@ -18,6 +18,13 @@ internal class GetWarehousemenQueryHandler : IQueryHandler<GetWarehousemenQuery,
     {
         var getWarehousemenResult = await _warehousemanRepository.GetAllDetailedAsync(cancellationToken);
 
-        return null;
+        if (getWarehousemenResult.IsFailure)
+        {
+            return getWarehousemenResult.Error;
+        }
+
+        var warehousemen = getWarehousemenResult.Value;
+
+        return Result.Create(warehousemen.Select(WarehousemanModel.FromDomainModel));
     }
 }
