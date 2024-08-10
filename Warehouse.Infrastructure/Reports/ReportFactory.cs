@@ -5,6 +5,7 @@ using Warehouse.Infrastructure.Reports.Pdf;
 
 namespace Warehouse.Infrastructure.Reports;
 
+//TODO Improve Transport table
 internal sealed class ReportFactory<TReportModel> : IReportFactory<TReportModel> where TReportModel : IReportModel
 {
     public Result GenerateReport(TReportModel reportModel)

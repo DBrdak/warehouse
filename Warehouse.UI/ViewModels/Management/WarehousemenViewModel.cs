@@ -25,18 +25,25 @@ public sealed class WarehousemenViewModel : ViewModelBase
         set => SetProperty(ref _isLoading, value);
     }
 
-    private WarehousemanModel _selectedWarehouseman;
-    public WarehousemanModel SelectedWarehouseman
+    private WarehousemanModel? _selectedWarehouseman;
+    public WarehousemanModel? SelectedWarehouseman
     {
         get => _selectedWarehouseman;
         set => SetProperty(ref _selectedWarehouseman, value);
     }
 
+    private bool _isWarehousemanSelected = false;
+    public bool IsWarehousemanSelected
+    {
+        get => _isWarehousemanSelected;
+        set => SetProperty(ref _isWarehousemanSelected, value);
+    }
+
     public ObservableCollection<WarehousemanModel> Warehousemen { get; }
 
-    public IAsyncRelayCommand AddWorkhousemanAsyncCommand { get; }
-    public IAsyncRelayCommand EditWorkhousemanAsyncCommand { get; }
-    public IAsyncRelayCommand RemoveWorkhousemanAsyncCommand { get; }
+    public IAsyncRelayCommand AddWarehousemanAsyncCommand { get; }
+    public IAsyncRelayCommand EditWarehousemanAsyncCommand { get; }
+    public IAsyncRelayCommand RemoveWarehousemanAsyncCommand { get; }
 
     public WarehousemenViewModel(MainWindow mainWindow)
     {
@@ -44,9 +51,9 @@ public sealed class WarehousemenViewModel : ViewModelBase
         _sender = mainWindow.ServiceProvider.GetRequiredService<ISender>();
         Warehousemen = [];
 
-        AddWorkhousemanAsyncCommand = new AsyncRelayCommand(ShowAddWarehousemanDialog);
-        EditWorkhousemanAsyncCommand = new AsyncRelayCommand(ShowEditWarehousemanDialog);
-        RemoveWorkhousemanAsyncCommand = new AsyncRelayCommand(ShowRemoveWarehousemanDialog);
+        AddWarehousemanAsyncCommand = new AsyncRelayCommand(ShowAddWarehousemanDialog);
+        EditWarehousemanAsyncCommand = new AsyncRelayCommand(ShowEditWarehousemanDialog);
+        RemoveWarehousemanAsyncCommand = new AsyncRelayCommand(ShowRemoveWarehousemanDialog);
     }
 
     public async Task FetchWarehousemenAsync()
@@ -79,7 +86,8 @@ public sealed class WarehousemenViewModel : ViewModelBase
     private async Task ShowEditWarehousemanDialog()
     {
         var dialog = new EditWarehousemanDialog(
-            SelectedWarehouseman ?? throw new NullReferenceException("Warehouseman must be selected for update"));
+            _mainWindow,
+            this);
         await dialog.ShowDialog(_mainWindow);
     }
 

@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Warehouse.UI.ViewModels.Management;
 using Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
+using Warehouse.UI.ViewModels.Management.Dialogs.Sectors.Models;
 
 namespace Warehouse.UI.Views.Management.Dialogs.Sectors;
 

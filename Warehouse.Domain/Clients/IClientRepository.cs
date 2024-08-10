@@ -10,5 +10,5 @@ public interface IClientRepository
     Result<Client> Update(Client client);
     Result Remove(Client client);
 
-    Task<Result<Client>> GetByIdWithTransportsAsync(ClientId clientId, CancellationToken cancellationToken);
+    Task<Result<Client>> GetByIdDetailedAsync(ClientId clientId, CancellationToken cancellationToken);
 }

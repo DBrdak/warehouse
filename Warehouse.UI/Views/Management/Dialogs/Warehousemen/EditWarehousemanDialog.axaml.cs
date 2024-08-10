@@ -10,21 +10,18 @@ namespace Warehouse.UI.Views.Management.Dialogs.Warehousemen;
 
 public partial class EditWarehousemanDialog : Window
 {
-    private readonly WarehousemanModel _selectedWarehouseman;
     private readonly EditWarehousemanDialogModel _dataContext;
 
-    public EditWarehousemanDialog(WarehousemanModel selectedWarehouseman)
+    public EditWarehousemanDialog()
     {
         InitializeComponent();
     }
 
     public EditWarehousemanDialog(
-        WarehousemanModel selectedWarehouseman,
         MainWindow mainWindow,
         WarehousemenViewModel invoker)
     {
         InitializeComponent();
-        _selectedWarehouseman = selectedWarehouseman;
         DataContext = new EditWarehousemanDialogModel(mainWindow, this, invoker);
         _dataContext = DataContext as EditWarehousemanDialogModel ??
                        throw new InvalidCastException(

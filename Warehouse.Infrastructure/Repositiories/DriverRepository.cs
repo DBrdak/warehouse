@@ -13,11 +13,15 @@ internal sealed class DriverRepository : Repository<Driver, DriverId>, IDriverRe
     }
 
 
-    public async Task<Result<Driver>> GetByIdWithTransportsAsync(
+    public async Task<Result<Driver>> GetByIdDetailedAsync(
         DriverId entityId,
         CancellationToken cancellationToken) =>
         Result.Create(
-            await Table.Include(e => e.Transports)
+            await Table
+                .Include(c => c.Transports)
+                .ThenInclude(t => t.Warehouseman)
+                .Include(c => c.Transports)
+                .ThenInclude(t => t.Client)
                 .IgnoreAutoIncludes()
                 .FirstOrDefaultAsync(
                     e => e.Id == entityId,

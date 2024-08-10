@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
+namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors.Models;
 
 public sealed class ShelfCreateModel : ReactiveObject
 {

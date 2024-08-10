@@ -4,14 +4,40 @@
              xmlns:models="clr-namespace:Warehouse.Application.Warehousemen.Models;assembly=Warehouse.Application"
              x:Class="Warehouse.UI.Views.Management.Components.WarehousemanCard"
              x:DataType="models:WarehousemanModel">
-    <Border BorderThickness="1" BorderBrush="Black" Padding="10" Margin="5">
-        <StackPanel>
-            <avalonia:MaterialIcon Kind="Account" Width="40" Height="40" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding Sector.Number}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-            <TextBlock Text="{Binding FirstName}" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding LastName}" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding Position}" HorizontalAlignment="Center"/>
-            <TextBlock Text="{Binding IdentificationNumber}" HorizontalAlignment="Center" FontWeight="Bold"/>
-        </StackPanel>
-    </Border>
+	    <Border BorderThickness="1" BorderBrush="#F44336" Padding="10" Margin="5" CornerRadius="10">
+		    <Grid>
+			    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+				    <avalonia:MaterialIcon Kind="Account" Width="40" Height="40" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+				    <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" Margin="0,0,0,10">
+					    <TextBlock Text="Imię" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+					    <TextBlock Text="{Binding FirstName}" FontSize="16" HorizontalAlignment="Center"/>
+				    </StackPanel>
+
+				    <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" Margin="0,0,0,10">
+					    <TextBlock Text="Nazwisko" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+					    <TextBlock Text="{Binding LastName}" FontSize="16" HorizontalAlignment="Center"/>
+				    </StackPanel>
+
+				    <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" Margin="0,0,0,10">
+					    <TextBlock Text="Pozycja" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+					    <TextBlock Text="{Binding Position, TargetNullValue='-'}" FontSize="16" HorizontalAlignment="Center"/>
+				    </StackPanel>
+
+				    <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical" Margin="0,0,0,10">
+					    <TextBlock Text="Numer ID" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+					    <TextBlock Text="{Binding IdentificationNumber}" FontSize="16" HorizontalAlignment="Center"/>
+				    </StackPanel>
+
+                    <Button Click="OnClick" Classes="primary outline" Content="Wybierz" />
+                    
+			    </StackPanel>
+
+			    <Border Background="#F44336" Padding="15,5,15,5" CornerRadius="0,10,0,10"
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Margin="0,-10,-10,0">
+				    <TextBlock Text="{Binding Sector.Number}" FontSize="25" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			    </Border>
+		    </Grid>
+	    </Border>
 </UserControl>

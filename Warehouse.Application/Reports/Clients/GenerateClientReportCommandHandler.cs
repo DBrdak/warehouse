@@ -18,7 +18,7 @@ internal sealed class GenerateClientReportCommandHandler : ICommandHandler<Gener
 
     public async Task<Result> Handle(GenerateClientReportCommand request, CancellationToken cancellationToken)
     {
-        var clientGetResult = await _clientRepository.GetByIdWithTransportsAsync(new ClientId(request.ClientId), cancellationToken);
+        var clientGetResult = await _clientRepository.GetByIdDetailedAsync(new ClientId(request.ClientId), cancellationToken);
 
         if (clientGetResult.IsFailure)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using ReactiveUI;
 
-namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
+namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors.Models;
 
 public sealed class RackCreateModel : ReactiveObject
 {

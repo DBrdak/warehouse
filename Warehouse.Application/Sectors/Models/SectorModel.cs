@@ -30,7 +30,7 @@ public sealed record SectorModel : BusinessModel<Sector, SectorId>
                 sector.Number.Value,
                 null,
                 sector.PalletSpaces?.Select(PalletSpaceModel.FromDomainModel<SectorModel>).ToList()),
-            var callerType when callerType == typeof(WarehousemanModel) => new(
+            var callerType when callerType == typeof(PalletSpaceModel) => new(
                 sector.Id.Id,
                 sector.Number.Value,
                 sector.Warehousemen?.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),

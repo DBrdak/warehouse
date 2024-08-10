@@ -12,11 +12,15 @@ internal sealed class ClientRepository : Repository<Client, ClientId>, IClientRe
     {
     }
 
-    public async Task<Result<Client>> GetByIdWithTransportsAsync(
+    public async Task<Result<Client>> GetByIdDetailedAsync(
         ClientId clientId,
         CancellationToken cancellationToken) =>
         Result.Create(
-            await Table.Include(e => e.Transports)
+            await Table
+                .Include(c => c.Transports)
+                .ThenInclude(t => t.Warehouseman)
+                .Include(c => c.Transports)
+                .ThenInclude(t => t.Driver)
                 .FirstOrDefaultAsync(
                     e => e.Id == clientId,
                     cancellationToken),

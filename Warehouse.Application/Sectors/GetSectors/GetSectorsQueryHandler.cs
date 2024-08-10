@@ -1,5 +1,6 @@
 using Warehouse.Application.Abstractions.Messaging;
 using Warehouse.Application.Sectors.Models;
+using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Domain.Sectors;
 using Warehouse.Domain.Shared.Results;
 
@@ -16,7 +17,7 @@ internal sealed class GetSectorsQueryHandler : IQueryHandler<GetSectorsQuery, Li
 
     public async Task<Result<List<SectorModel>>> Handle(GetSectorsQuery request, CancellationToken cancellationToken)
     {
-        var sectorsGetResult = await _sectorRepository.GetAllIncludePalletSpacesThenFreightsWithExportAsync(cancellationToken);
+        var sectorsGetResult = await _sectorRepository.GetAllDetailedAsync(cancellationToken);
 
         if (sectorsGetResult.IsFailure)
         {
@@ -25,6 +26,6 @@ internal sealed class GetSectorsQueryHandler : IQueryHandler<GetSectorsQuery, Li
 
         var sectors = sectorsGetResult.Value;
 
-        return sectors.Select(SectorModel.FromDomainModel).ToList();
+        return sectors.Select(SectorModel.FromDomainModel<WarehousemanModel>).ToList();
     }
 }

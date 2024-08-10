@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using Warehouse.Application.Sectors.AddSector;
+using Warehouse.UI.ViewModels.Management.Dialogs.Sectors.Models;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
 

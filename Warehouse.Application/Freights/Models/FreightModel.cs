@@ -44,8 +44,8 @@ public sealed record FreightModel : BusinessModel<Freight, FreightId>
                 freight.Quantity.Value,
                 freight.Unit.Value,
                 null,
-                TransportModel.FromDomainModel<FreightModel>(freight.Import),
-                TransportModel.FromDomainModel<Freight>(freight.Export)),
+                freight.Import is null ? null : TransportModel.FromDomainModel<FreightModel>(freight.Import),
+                freight.Export is null ? null : TransportModel.FromDomainModel<FreightModel>(freight.Export)),
             var callerType when callerType == typeof(TransportModel) && isImport is true => new(
                 freight.Id.Id,
                 freight.Name.Value,
@@ -54,15 +54,6 @@ public sealed record FreightModel : BusinessModel<Freight, FreightId>
                 freight.Unit.Value,
                 PalletSpaceModel.FromDomainModel<FreightModel>(freight.PalletSpace),
                 null,
-                TransportModel.FromDomainModel<Freight>(freight.Export)),
-            var callerType when callerType == typeof(PalletSpaceModel) && isImport is false => new(
-                freight.Id.Id,
-                freight.Name.Value,
-                freight.Type.Value,
-                freight.Quantity.Value,
-                freight.Unit.Value,
-                PalletSpaceModel.FromDomainModel<FreightModel>(freight.PalletSpace),
-                TransportModel.FromDomainModel<FreightModel>(freight.Import),
                 null),
             _ => FromDomainModel(freight)
         };

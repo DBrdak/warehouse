@@ -18,7 +18,7 @@ internal sealed class GenerateDriverReportCommandHandler : ICommandHandler<Gener
 
     public async Task<Result> Handle(GenerateDriverReportCommand request, CancellationToken cancellationToken)
     {
-        var driverGetResult = await _driverRepository.GetByIdWithTransportsAsync(new(request.DriverId), cancellationToken);
+        var driverGetResult = await _driverRepository.GetByIdDetailedAsync(new(request.DriverId), cancellationToken);
 
         if (driverGetResult.IsFailure)
         {

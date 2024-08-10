@@ -19,7 +19,7 @@ internal sealed class SectorRepository : Repository<Sector, SectorId>, ISectorRe
             cancellationToken) ??
         Result.Failure<Sector>(DataAccessErrors.NotFound<Sector>());
 
-    public async Task<Result<List<Sector>>> GetAllIncludePalletSpacesThenFreightsWithExportAsync(
+    public async Task<Result<List<Sector>>> GetAllDetailedAsync(
         CancellationToken cancellationToken) =>
         await Table
             .OrderBy(s => s.Number)
@@ -27,7 +27,8 @@ internal sealed class SectorRepository : Repository<Sector, SectorId>, ISectorRe
                 .OrderBy(p => p.Rack)
                 .ThenBy(p => p.Shelf)
                 .ThenBy(p => p.Number))
-            .ThenInclude(e => e.Freights)
-            .ThenInclude(e => e.Export)
+            .ThenInclude(ps => ps.Freights)
+            .ThenInclude(f => f.Export)
+            //.ThenInclude(t => t.Freights)
             .ToListAsync(cancellationToken);
 }

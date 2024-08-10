@@ -1,4 +1,5 @@
 ﻿using Warehouse.Application.Abstractions.Messaging;
+using Warehouse.Application.Transports.Models;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Domain.Warehousemen;
@@ -25,6 +26,6 @@ internal class GetWarehousemenQueryHandler : IQueryHandler<GetWarehousemenQuery,
 
         var warehousemen = getWarehousemenResult.Value;
 
-        return Result.Create(warehousemen.Select(WarehousemanModel.FromDomainModel));
+        return Result.Create(warehousemen.Select(WarehousemanModel.FromDomainModel<TransportModel>));
     }
 }
