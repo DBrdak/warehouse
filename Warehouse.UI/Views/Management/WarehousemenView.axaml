@@ -35,7 +35,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <components:WarehousemanCard DataContext="{Binding}" Click="SelectWarehouseman"/>
+                    <components:WarehousemanCard DataContext="{Binding}" Click="SelectWarehouseman" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

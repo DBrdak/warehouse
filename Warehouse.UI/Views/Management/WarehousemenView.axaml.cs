@@ -1,7 +1,9 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.UI.ViewModels.Management;
+using Warehouse.UI.Views.Management.Components;
 
 namespace Warehouse.UI.Views.Management;
 
@@ -9,6 +11,8 @@ public partial class WarehousemenView : UserControl
 {
     private readonly MainWindow _mainWindow;
     private readonly WarehousemenViewModel _dataContext;
+
+    public bool IsSelected(Guid selectedId) => _dataContext.SelectedWarehouseman?.Id == selectedId;
 
     public WarehousemenView()
     {

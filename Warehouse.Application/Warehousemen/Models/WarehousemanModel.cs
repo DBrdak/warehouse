@@ -5,7 +5,7 @@ using Warehouse.Domain.Warehousemen;
 
 namespace Warehouse.Application.Warehousemen.Models;
 
-public sealed record WarehousemanModel : BusinessModel<Warehouseman, WarehousemanId>
+public record WarehousemanModel : BusinessModel<Warehouseman, WarehousemanId>
 {
     public int IdentificationNumber { get; init; }
     public string FirstName { get; init; }
@@ -14,7 +14,7 @@ public sealed record WarehousemanModel : BusinessModel<Warehouseman, Warehousema
     public SectorModel? Sector { get; init; }
     public IReadOnlyCollection<TransportModel>? Transports { get; init; }
 
-    private WarehousemanModel(
+    protected WarehousemanModel(
         Guid id,
         int identificationNumber,
         string firstName,

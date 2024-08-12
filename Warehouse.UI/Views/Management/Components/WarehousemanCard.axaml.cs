@@ -3,6 +3,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Interactivity;
+using Warehouse.Application.Warehousemen.Models;
+using Warehouse.UI.ViewModels.Management;
 
 namespace Warehouse.UI.Views.Management.Components;
 

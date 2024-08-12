@@ -9,6 +9,9 @@ using Warehouse.Application.Warehousemen.Models;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Warehouse.UI.Views.Management.Components;
 using Warehouse.UI.Views.Management.Dialogs.Warehousemen;
 
 namespace Warehouse.UI.ViewModels.Management;
@@ -32,7 +35,7 @@ public sealed class WarehousemenViewModel : ViewModelBase
         set => SetProperty(ref _selectedWarehouseman, value);
     }
 
-    private bool _isWarehousemanSelected = false;
+    private bool _isWarehousemanSelected;
     public bool IsWarehousemanSelected
     {
         get => _isWarehousemanSelected;
@@ -70,10 +73,10 @@ public sealed class WarehousemenViewModel : ViewModelBase
             return;
         }
 
-        var sectors = result.Value;
+        var warehousemen = result.Value;
 
         Warehousemen.Clear();
-        Warehousemen.AddRange(sectors);
+        Warehousemen.AddRange(warehousemen);
         IsLoading = false;
     }
 
