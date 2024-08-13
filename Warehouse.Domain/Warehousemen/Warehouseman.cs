@@ -54,7 +54,7 @@ public sealed class Warehouseman : Entity<WarehousemanId>
             IdentificationNumber.Create(identificationNumber),
             FirstName.Create(firstName),
             LastName.Create(lastName),
-            position is null ? null : Position.Create(position));
+            string.IsNullOrWhiteSpace(position) ? null : Position.Create(position));
 
         if (Result.Aggregate(
                 warehousemanIdentificationNumberCreateResult,

@@ -46,7 +46,8 @@ public sealed class RemoveSectorDialogModel : ViewModelBase
             return;
         }
 
-        _ = _invoker.FetchSectors();
+        await _invoker.FetchSectors();
+        _invoker.SelectedSector = null;
         _window.Close();
     }
 

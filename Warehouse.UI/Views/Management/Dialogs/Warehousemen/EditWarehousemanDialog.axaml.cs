@@ -1,5 +1,6 @@
 using System;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.UI.ViewModels.Management;
@@ -26,10 +27,45 @@ public partial class EditWarehousemanDialog : Window
         _dataContext = DataContext as EditWarehousemanDialogModel ??
                        throw new InvalidCastException(
                            $"Cannot convert type {DataContext.GetType().Name} to {nameof(EditWarehousemanDialogModel)}");
+
+        Loaded += OnLoaded;
+    }
+
+    private async void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        await _dataContext.FetchSectorsAsync();
     }
 
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    private void IdNumberChanged(object? sender, TextChangedEventArgs e)
+    {
+        var textBox = sender as TextBox;
+        var input = textBox?.Text ?? "";
+        var parsedInput = 0;
+
+        while (input.Length != 0 && !int.TryParse(input, out parsedInput))
+        {
+            input = input[..^1];
+        }
+
+        _dataContext.Warehouseman = _dataContext.Warehouseman with { IdentificationNumber = parsedInput.ToString() };
+    }
+
+    private void SectorNumberChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var comboBox = sender as ComboBox;
+        var selectionBoxItem = comboBox?.SelectionBoxItem as TextBlock;
+        var selectedValue = selectionBoxItem?.Text;
+
+        if (!int.TryParse(selectedValue, out var sectorNumber))
+        {
+            _dataContext.Warehouseman = _dataContext.Warehouseman with { SectorNumber = -1 };
+        }
+
+        _dataContext.Warehouseman = _dataContext.Warehouseman with { SectorNumber = sectorNumber };
     }
 }

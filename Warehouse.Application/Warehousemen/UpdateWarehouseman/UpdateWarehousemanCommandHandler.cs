@@ -53,17 +53,26 @@ internal sealed class UpdateWarehousemanCommandHandler : ICommandHandler<UpdateW
     }
 
     private async Task<Result> UpdateSector(
-        int? sectorNumber,
+        int? plainSectorNumber,
         Warehouseman warehouseman,
         CancellationToken cancellationToken)
     {
-        if (sectorNumber is null)
+        if (plainSectorNumber is null)
         {
             return Result.Success();
         }
 
+        var sectorNumberCreateResult = SectorNumber.Create(plainSectorNumber.Value);
+
+        if (sectorNumberCreateResult.IsFailure)
+        {
+            return sectorNumberCreateResult.Error;
+        }
+
+        var sectorNumber = sectorNumberCreateResult.Value;
+
         var sectorGetResult = await _sectorRepository.GetBySectorNumberAsync(
-            sectorNumber.Value,
+            sectorNumber,
             cancellationToken);
 
         if (sectorGetResult.IsFailure)

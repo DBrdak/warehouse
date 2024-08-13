@@ -46,9 +46,9 @@ public sealed record TransportModel : BusinessModel<Transport, TransportId>
                 transport.Type.Value,
                 transport.HandledAt,
                 null,
-                DriverModel.FromDomainModel<TransportModel>(transport.Driver),
-                ClientModel.FromDomainModel<TransportModel>(transport.Client),
-                transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
+                transport.Driver is null ? null : DriverModel.FromDomainModel<TransportModel>(transport.Driver),
+                transport.Client is null ? null : ClientModel.FromDomainModel<TransportModel>(transport.Client),
+                transport.Freights?.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
             var callerType when callerType == typeof(DriverModel) => new(
                 transport.Id.Id,
                 transport.Number.Value,

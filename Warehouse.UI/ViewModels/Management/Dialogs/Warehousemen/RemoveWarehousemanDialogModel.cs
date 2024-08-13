@@ -55,7 +55,8 @@ internal class RemoveWarehousemanDialogModel : ViewModelBase
             return;
         }
 
-        _ = _invoker.FetchWarehousemenAsync();
+        await _invoker.FetchWarehousemenAsync();
+        _invoker.SelectedWarehouseman = null;
         _window.Close();
     }
 

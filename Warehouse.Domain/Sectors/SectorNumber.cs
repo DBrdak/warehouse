@@ -8,7 +8,7 @@ public sealed record SectorNumber
 
     private SectorNumber(int value) => Value = value;
 
-    internal static Result<SectorNumber> Create(int value)
+    public static Result<SectorNumber> Create(int value)
     {
         var isValid = value > 0;
 

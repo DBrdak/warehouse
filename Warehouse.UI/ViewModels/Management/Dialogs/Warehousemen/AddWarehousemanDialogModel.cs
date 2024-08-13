@@ -29,6 +29,7 @@ internal class AddWarehousemanDialogModel : ViewModelBase
         get => _newWarehouseman;
         set => SetProperty(ref _newWarehouseman, value);
     }
+
     public ObservableCollection<SectorModel> Sectors { get; } = [];
 
     public IAsyncRelayCommand AddWarehousemanAsyncCommand { get; }

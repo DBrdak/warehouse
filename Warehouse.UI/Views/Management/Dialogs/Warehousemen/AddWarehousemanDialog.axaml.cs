@@ -51,4 +51,18 @@ public partial class AddWarehousemanDialog : Window
         
         _dataContext.NewWarehouseman = _dataContext.NewWarehouseman with { IdentificationNumber = parsedInput.ToString() };
     }
+
+    private void SectorNumberChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var comboBox = sender as ComboBox;
+        var selectionBoxItem = comboBox?.SelectionBoxItem as TextBlock;
+        var selectedValue = selectionBoxItem?.Text;
+
+        if (!int.TryParse(selectedValue, out var sectorNumber))
+        {
+            _dataContext.NewWarehouseman = _dataContext.NewWarehouseman with { SectorNumber = -1 };
+        }
+
+        _dataContext.NewWarehouseman = _dataContext.NewWarehouseman with { SectorNumber = sectorNumber };
+    }
 }

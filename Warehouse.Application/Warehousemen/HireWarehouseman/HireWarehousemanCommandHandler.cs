@@ -19,22 +19,31 @@ internal sealed class HireWarehousemanCommandHandler : ICommandHandler<HireWareh
 
     public async Task<Result<WarehousemanModel>> Handle(HireWarehousemanCommand request, CancellationToken cancellationToken)
     {
+        var sectorNumberCreateResult = SectorNumber.Create(request.SectorNumber);
+
+        if (sectorNumberCreateResult.IsFailure)
+        {
+            return sectorNumberCreateResult.Error;
+        }
+
+        var sectorNumber = sectorNumberCreateResult.Value;
+
         var sectorGetResult =
-            await _sectorRepository.GetBySectorNumberAsync(request.SectorNumber, cancellationToken);
+            await _sectorRepository.GetBySectorNumberAsync(sectorNumber, cancellationToken);
 
         if (sectorGetResult.IsFailure)
         {
             return sectorGetResult.Error;
         }
 
-        var secotr = sectorGetResult.Value;
+        var sector = sectorGetResult.Value;
 
         var warehousemanHireResult = WarehousemanService.HireWarehouseman(
             request.IdentificationNumber,
             request.FirstName,
             request.LastName,
             request.Position,
-            secotr);
+            sector);
 
         if (warehousemanHireResult.IsFailure)
         {
@@ -43,9 +52,14 @@ internal sealed class HireWarehousemanCommandHandler : ICommandHandler<HireWareh
 
         var warehouseman = warehousemanHireResult.Value;
 
-        var isWarehousemanExists = await _warehousemanRepository.GetByIdNumberAsync(
+        var warehousemanwithSameIdGetResult = await _warehousemanRepository.GetByIdNumberAsync(
             warehouseman.IdentificationNumber,
             cancellationToken);
+
+        if (!warehousemanwithSameIdGetResult.IsFailure)
+        {
+            return new Error("Magazynier z tym numerem identyfikacyjnym ju¿ istnieje");
+        }
 
         var addResult = await _warehousemanRepository.AddAsync(warehouseman, cancellationToken);
 

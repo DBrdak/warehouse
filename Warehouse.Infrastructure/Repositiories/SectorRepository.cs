@@ -13,9 +13,11 @@ internal sealed class SectorRepository : Repository<Sector, SectorId>, ISectorRe
     }
 
 
-    public async Task<Result<Sector>> GetBySectorNumberAsync(int sectorNumber, CancellationToken cancellationToken) =>
-        await Table.FirstOrDefaultAsync(
-            e => e.Number.Value == sectorNumber,
+    public async Task<Result<Sector>> GetBySectorNumberAsync(SectorNumber sectorNumber, CancellationToken cancellationToken) =>
+        await Table
+            .Include(s => s.Warehousemen)
+            .FirstOrDefaultAsync(
+            e => e.Number == sectorNumber,
             cancellationToken) ??
         Result.Failure<Sector>(DataAccessErrors.NotFound<Sector>());
 

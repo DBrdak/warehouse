@@ -85,7 +85,7 @@ public sealed class AddSectorDialogModel : ReactiveObject
             return;
         }
 
-        _ = _invoker.FetchSectors();
+        await _invoker.FetchSectors();
         _window.Close();
     }
 
