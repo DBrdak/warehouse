@@ -78,7 +78,7 @@ public sealed class SectorsViewModel : ViewModelBase
     {
         IsLoading = true;
 
-        var query = new GetSectorsQuery();
+        var query = new GetSectorsQuery(GetSectorQueryType.Detailed);
 
         var result = await _sender.Send(query);
 

@@ -43,6 +43,10 @@ internal sealed class HireWarehousemanCommandHandler : ICommandHandler<HireWareh
 
         var warehouseman = warehousemanHireResult.Value;
 
+        var isWarehousemanExists = await _warehousemanRepository.GetByIdNumberAsync(
+            warehouseman.IdentificationNumber,
+            cancellationToken);
+
         var addResult = await _warehousemanRepository.AddAsync(warehouseman, cancellationToken);
 
         if (addResult.IsFailure)

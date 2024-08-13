@@ -21,7 +21,7 @@ public sealed class WarehousemenViewModel : ViewModelBase
     private readonly MainWindow _mainWindow;
     private readonly ISender _sender;
 
-    private bool _isLoading;
+    private bool _isLoading = true;
     public bool IsLoading
     {
         get => _isLoading;

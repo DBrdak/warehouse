@@ -25,17 +25,6 @@ internal sealed class FireWarehousemanCommandHandler : ICommandHandler<FireWareh
 
         var warehouseman = warehousemanGetResult.Value;
 
-        warehouseman.Fire();
-
-        var updateResult = _warehousemanRepository.Update(warehouseman);
-
-        if (updateResult.IsFailure)
-        {
-            return updateResult.Error;
-        }
-
-        warehouseman = updateResult.Value;
-
-        return Result.Success();
+        return _warehousemanRepository.Remove(warehouseman);
     }
 }

@@ -42,7 +42,8 @@
 
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.ColumnSpan="2"
                     Grid.Column="0" Grid.Row="1" Margin="10">
-            <Button Content="Zatrudnij magazyniera" Command="{Binding AddWarehousemanAsyncCommand}" Margin="0,0,10,0" Foreground="White"/>
+            <Button Content="Zatrudnij magazyniera" Command="{Binding AddWarehousemanAsyncCommand}" Margin="0,0,10,0" 
+                    Foreground="White" IsEnabled="{Binding !IsLoading}" />
             <Button Content="Edytuj dane magazyniera" Command="{Binding EditWarehousemanAsyncCommand}"
                     Margin="0,0,10,0" Foreground="White" IsEnabled="{Binding IsWarehousemanSelected}" />
             <Button Content="Zwolnij magazyniera" Command="{Binding RemoveWarehousemanAsyncCommand}" Margin="0,0,10,0"

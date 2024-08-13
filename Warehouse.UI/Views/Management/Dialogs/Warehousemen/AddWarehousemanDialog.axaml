@@ -10,8 +10,38 @@
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/Warehouse_Logo.ico"
         x:DataType="warehousemen:AddWarehousemanDialogModel">
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-        <Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0" HorizontalAlignment="Center"/>
-        <Button Content="Zatrudnij magazyniera" Command="{Binding AddWarehousemanAsyncCommand}" Width="150" HorizontalAlignment="Center" />
-    </StackPanel>
+	<StackPanel Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
+			<TextBlock Text="Imię*" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<TextBox Width="400" Text="{Binding NewWarehouseman.FirstName}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
+			<TextBlock Text="Nazwisko*" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<TextBox Width="400" Text="{Binding NewWarehouseman.LastName}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
+			<TextBlock Text="Numer identyfikacyjny" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<TextBox Width="400" Text="{Binding NewWarehouseman.IdentificationNumber}" TextChanged="IdNumberChanged" />
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
+			<TextBlock Text="Pozycja" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<TextBox Width="400" Text="{Binding NewWarehouseman.Position}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
+			<TextBlock Text="Sektor" FontWeight="Bold" HorizontalAlignment="Center"/>
+			<ComboBox Width="400" ItemsSource="{Binding Sectors}" SelectedItem="{Binding NewWarehouseman.SectorNumber}"
+                      DisplayMemberBinding="{Binding Number}" />
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+			<Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0"
+                    HorizontalAlignment="Center" />
+			<Button Content="Zatrudnij magazyniera" Command="{Binding AddWarehousemanAsyncCommand}" Width="150"
+                    HorizontalAlignment="Center" />
+		</StackPanel>
+	</StackPanel>
 </Window>

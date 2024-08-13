@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using System.Threading.Tasks;
@@ -7,6 +8,10 @@ using Warehouse.Application.Warehousemen.HireWarehouseman;
 using Warehouse.UI.Views;
 using Warehouse.UI.Views.Components;
 using Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen.Models;
+using System.Collections.ObjectModel;
+using Warehouse.Application.Sectors.Models;
+using DynamicData;
+using Warehouse.Application.Sectors.GetSectors;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen;
@@ -24,6 +29,7 @@ internal class AddWarehousemanDialogModel : ViewModelBase
         get => _newWarehouseman;
         set => SetProperty(ref _newWarehouseman, value);
     }
+    public ObservableCollection<SectorModel> Sectors { get; } = [];
 
     public IAsyncRelayCommand AddWarehousemanAsyncCommand { get; }
     public IRelayCommand CancelCommand { get; }
@@ -43,11 +49,11 @@ internal class AddWarehousemanDialogModel : ViewModelBase
     private async Task AddWarehousemanAsync()
     {
         var command = new HireWarehousemanCommand(
-            NewWarehouseman.IdentificationNumber,
+            int.TryParse(NewWarehouseman.IdentificationNumber, out var idNumber) ? idNumber : -1,
             NewWarehouseman.FirstName,
             NewWarehouseman.LastName,
             NewWarehouseman.Position,
-            NewWarehouseman.SectorNumber);
+            NewWarehouseman.SectorNumber ?? -1);
 
         var result = await _sender.Send(command);
 
@@ -59,6 +65,24 @@ internal class AddWarehousemanDialogModel : ViewModelBase
 
         _ = _invoker.FetchWarehousemenAsync();
         _window.Close();
+    }
+
+    public async Task FetchSectorsAsync()
+    {
+        var query = new GetSectorsQuery();
+
+        var result = await _sender.Send(query);
+
+        if (result.IsFailure)
+        {
+            await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
+        }
+
+        var sectors = result.Value;
+
+        Sectors.Clear();
+        Sectors.AddRange(sectors);
     }
 
     private void Close() => _window.Close();
