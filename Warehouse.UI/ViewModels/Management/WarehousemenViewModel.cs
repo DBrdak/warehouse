@@ -7,12 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Warehousemen.GetWarehousemen;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Warehouse.UI.Views.Management.Components;
 using Warehouse.UI.Views.Management.Dialogs.Warehousemen;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
 
 namespace Warehouse.UI.ViewModels.Management;
 

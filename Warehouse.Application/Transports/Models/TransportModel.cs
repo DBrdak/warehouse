@@ -3,7 +3,6 @@ using Warehouse.Application.Drivers.Models;
 using Warehouse.Application.Freights.Models;
 using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Warehousemen.Models;
-using Warehouse.Domain.Freights;
 using Warehouse.Domain.Transports;
 
 namespace Warehouse.Application.Transports.Models;

@@ -1,15 +1,14 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.UI.Views;
-using Warehouse.Application.Sectors.AddSector;
 using Warehouse.Application.Warehousemen.FireWarehouseman;
-using Warehouse.Domain.Sectors;
-using Warehouse.UI.Views.Components;
 using Warehouse.Application.Warehousemen.Models;
-using Warehouse.Domain.Warehousemen;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen;
@@ -45,7 +44,7 @@ internal class RemoveWarehousemanDialogModel : ViewModelBase
 
     private async Task RemoveWarehousemanAsync()
     {
-        var command = new FireWarehousemanCommand(Warehouseman.Id);
+        var command = new FireWarehousemanCommand(Warehouseman?.Id ?? Guid.Empty);
 
         var result = await _sender.Send(command);
 
@@ -57,6 +56,7 @@ internal class RemoveWarehousemanDialogModel : ViewModelBase
 
         await _invoker.FetchWarehousemenAsync();
         _invoker.SelectedWarehouseman = null;
+        _invoker.IsWarehousemanSelected = false;
         _window.Close();
     }
 

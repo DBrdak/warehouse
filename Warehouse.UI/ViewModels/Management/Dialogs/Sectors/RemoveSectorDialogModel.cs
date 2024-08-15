@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Sectors.Models;
 using Warehouse.Application.Sectors.RemoveSector;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
 

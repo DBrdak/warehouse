@@ -6,8 +6,8 @@ public sealed record TransportType
 {
     public string Value { get; init; }
 
-    internal static readonly TransportType Import = new("Import");
-    internal static readonly TransportType Export = new("Export");
+    public static readonly TransportType Import = new("Import");
+    public static readonly TransportType Export = new("Export");
     private static readonly TransportType[] _all = [Import, Export];
 
     public bool IsImport => this == Import;

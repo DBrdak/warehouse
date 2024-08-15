@@ -9,7 +9,7 @@ using ReactiveUI;
 using Warehouse.Application.Sectors.AddSector;
 using Warehouse.UI.ViewModels.Management.Dialogs.Sectors.Models;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
 

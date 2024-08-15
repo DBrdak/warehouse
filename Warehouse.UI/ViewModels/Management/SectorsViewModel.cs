@@ -10,8 +10,8 @@ using Warehouse.Application.PalletSpaces.Models;
 using Warehouse.Application.Sectors.GetSectors;
 using Warehouse.Application.Sectors.Models;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
 using Warehouse.UI.Views.Management.Dialogs.Sectors;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
 
 namespace Warehouse.UI.ViewModels.Management;
 

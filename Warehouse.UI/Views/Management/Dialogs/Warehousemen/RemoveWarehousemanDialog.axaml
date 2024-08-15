@@ -13,8 +13,10 @@
     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
         <TextBlock Text="Czy na pewno chcesz zwolnić tego magazyniera?" HorizontalAlignment="Center" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0" HorizontalAlignment="Center"/>
-            <Button Content="Zwolnij" Command="{Binding RemoveWarehousemanAsyncCommand}" Width="150" HorizontalAlignment="Center"/>
+            <Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0"
+                    HorizontalAlignment="Center" Foreground="White" />
+            <Button Content="Zwolnij" Command="{Binding RemoveWarehousemanAsyncCommand}" Width="150"
+                    HorizontalAlignment="Center" Foreground="White" />
         </StackPanel>
 	</StackPanel>
 </Window>

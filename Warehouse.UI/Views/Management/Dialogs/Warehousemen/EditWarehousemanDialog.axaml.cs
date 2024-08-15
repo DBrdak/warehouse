@@ -2,9 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Warehouse.Application.Warehousemen.Models;
 using Warehouse.UI.ViewModels.Management;
-using Warehouse.UI.ViewModels.Management.Dialogs.Sectors;
 using Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen;
 
 namespace Warehouse.UI.Views.Management.Dialogs.Warehousemen;

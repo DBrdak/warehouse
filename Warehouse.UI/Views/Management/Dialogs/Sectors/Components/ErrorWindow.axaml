@@ -1,7 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:components="clr-namespace:Warehouse.UI.ViewModels.Components"
-        x:Class="Warehouse.UI.Views.Components.ErrorWindow"
+        x:Class="Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow"
         Title="Error"
         Width="400"
         Height="200"

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:material="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
              xmlns:components="clr-namespace:Warehouse.UI.ViewModels.Components"
-             x:Class="Warehouse.UI.Views.Components.DashboardLayout"
+             x:Class="Warehouse.UI.Views.Management.Dialogs.Sectors.Components.DashboardLayout"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="components:DashboardLayoutViewModel">
     <Grid>

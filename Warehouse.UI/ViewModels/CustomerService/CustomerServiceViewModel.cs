@@ -13,7 +13,7 @@ using Warehouse.Application.Clients.RemoveClient;
 using Warehouse.Application.Clients.UpdateClient;
 using Warehouse.Application.Reports.Clients;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
 
 namespace Warehouse.UI.ViewModels.CustomerService;
 

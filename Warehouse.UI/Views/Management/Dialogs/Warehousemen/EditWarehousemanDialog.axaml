@@ -34,15 +34,15 @@
 		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
 			<TextBlock Text="Sektor" FontWeight="Bold" HorizontalAlignment="Center"/>
 			<ComboBox Width="400" ItemsSource="{Binding Sectors}" SelectedItem="{Binding Warehouseman.SectorNumber}"
-                      SelectedValueBinding="{Binding Number}" SelectionBoxItem="{Binding Warehouseman.SectorNumber}"
-                      SelectedValue="{Binding Warehouseman.SectorNumber}" DisplayMemberBinding="{Binding Number}" SelectionChanged="SectorNumberChanged" />
+                      SelectedValueBinding="{Binding Number}" SelectionChanged="SectorNumberChanged"
+                      SelectedValue="{Binding Warehouseman.SectorNumber}" DisplayMemberBinding="{Binding Number}" />
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
 			<Button Content="Anuluj" Command="{Binding CancelCommand}" Width="150" Margin="0,0,10,0"
-                    HorizontalAlignment="Center" />
+                    HorizontalAlignment="Center" Foreground="White" />
 			<Button Content="Zaktualizuj dane magazyniera" Command="{Binding EditWarehousemanAsyncCommand}" Width="250"
-                    HorizontalAlignment="Center" />
+                    HorizontalAlignment="Center" Foreground="White" />
 		</StackPanel>
 	</StackPanel>
 </Window>

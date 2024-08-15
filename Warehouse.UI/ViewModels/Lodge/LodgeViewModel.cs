@@ -11,9 +11,9 @@ using Warehouse.Application.Drivers.Models;
 using Warehouse.Application.Drivers.RemoveDriver;
 using Warehouse.Application.Drivers.UpdateDriver;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
 using System.Linq;
 using Warehouse.Application.Reports.Drivers;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
 
 namespace Warehouse.UI.ViewModels.Lodge;
 

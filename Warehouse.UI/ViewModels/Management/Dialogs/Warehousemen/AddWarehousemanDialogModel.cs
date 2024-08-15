@@ -1,17 +1,17 @@
-﻿using System;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Application.Warehousemen.HireWarehouseman;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
 using Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen.Models;
 using System.Collections.ObjectModel;
 using Warehouse.Application.Sectors.Models;
 using DynamicData;
 using Warehouse.Application.Sectors.GetSectors;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen;

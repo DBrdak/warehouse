@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 using DynamicData;
 using Warehouse.Application.Sectors.GetSectors;
 using Warehouse.Application.Sectors.Models;
-using Warehouse.Application.Warehousemen.FireWarehouseman;
-using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Application.Warehousemen.UpdateWarehouseman;
-using Warehouse.Domain.Warehousemen;
 using Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen.Models;
 using Warehouse.UI.Views;
-using Warehouse.UI.Views.Components;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 namespace Warehouse.UI.ViewModels.Management.Dialogs.Warehousemen;
@@ -79,6 +77,7 @@ internal class EditWarehousemanDialogModel : ViewModelBase
 
         await _invoker.FetchWarehousemenAsync();
         _invoker.SelectedWarehouseman = null;
+        _invoker.IsWarehousemanSelected = false;
         _window.Close();
     }
 

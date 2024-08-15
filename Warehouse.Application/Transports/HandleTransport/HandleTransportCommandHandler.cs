@@ -43,20 +43,30 @@ internal sealed class HandleTransportCommandHandler : ICommandHandler<HandleTran
         var (warehouseman, driver, client) = 
             (warehousemanGetResult.Value, driverGetResult.Value, clientGetResult.Value);
 
-        var receiveResult = TransportService.HandleTransport(
-            request.Number,
+
+        var lastTransportNumberGetResult = await _transportRepository.GetLastTransportNumberAsync(cancellationToken);
+
+        if (lastTransportNumberGetResult.IsFailure)
+        {
+            return lastTransportNumberGetResult.Error;
+        }
+
+        var lastTransportNumber = lastTransportNumberGetResult.Value;
+
+        var handleResult = TransportService.HandleTransport(
+            lastTransportNumber,
             request.Type,
             warehouseman,
             driver,
             client,
             request.DateTime);
 
-        if (receiveResult.IsFailure)
+        if (handleResult.IsFailure)
         {
-            return receiveResult.Error;
+            return handleResult.Error;
         }
 
-        var transport = receiveResult.Value;
+        var transport = handleResult.Value;
 
         var addResult = await _transportRepository.AddAsync(transport, cancellationToken);
 

@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Warehouse.UI.ViewModels.Components;
 
-namespace Warehouse.UI.Views.Components;
+namespace Warehouse.UI.Views.Management.Dialogs.Sectors.Components;
 
 public partial class ErrorWindow : Window
 {
