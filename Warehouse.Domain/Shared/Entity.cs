@@ -1,14 +1,11 @@
-﻿using System.Text.Json.Serialization;
-using Newtonsoft.Json;
-using Warehouse.Domain.Shared.Messaging;
+﻿using Warehouse.Domain.Shared.Messaging;
 
 namespace Warehouse.Domain.Shared;
 
-public class Entity<TEntityId> where TEntityId : EntityId, new()
+public class Entity<TEntityId> : IEntity where TEntityId : EntityId, new()
 {
-    [JsonProperty("id")]
-    [JsonPropertyName("id")]
     public TEntityId Id { get; protected set; }
+    public bool IsDeleted { get; private set; }
 
     private readonly List<IDomainEvent> _domainEvents = new();
 
@@ -16,6 +13,12 @@ public class Entity<TEntityId> where TEntityId : EntityId, new()
     {
         Id = id ?? new TEntityId();
         _domainEvents = new();
+    }
+
+    public Entity()
+    {
+        Id = new TEntityId();
+        _domainEvents = new ();
     }
 
     [System.Text.Json.Serialization.JsonConstructor]
@@ -34,4 +37,8 @@ public class Entity<TEntityId> where TEntityId : EntityId, new()
 
     protected void RaiseDomainEvent(IDomainEvent domainEvent) =>
         _domainEvents.Add(domainEvent);
+
+    public void Delete() => IsDeleted = true;
+
+    public void RollbackDelete() => IsDeleted = false;
 }

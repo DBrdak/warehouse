@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:management="clr-namespace:Warehouse.UI.ViewModels.Management"
+             xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Warehouse.UI.Views.Management.SectorsView"
+             x:DataType="management:SectorsViewModel">
+	<Grid HorizontalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="900" />
+		</Grid.ColumnDefinitions>
+
+        <avaloniaProgressRing:ProgressRing Grid.Row="0" Grid.ColumnSpan="2"
+                               Width="40"
+                               Height="40"
+                               IsActive="{Binding IsLoading}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="Green"
+                               Margin="20,20,0,0"/>
+
+		<StackPanel Grid.Column="0" Grid.Row="0" Margin="10">
+			<TextBlock Text="Sektory" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" TextAlignment="Center" HorizontalAlignment="Stretch"/>
+			<ListBox ItemsSource="{Binding Sectors}" SelectionChanged="OnSectorSelected">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Number}" TextAlignment="Center" FontSize="20" Background="#f2f2f2"
+                                   VerticalAlignment="Stretch" UseLayoutRounding="True" Padding="10" />
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</StackPanel>
+
+		<StackPanel Grid.Column="1" Grid.Row="0" Margin="10">
+			<TextBlock Text="Miejsca paletowe" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" TextAlignment="Center" HorizontalAlignment="Stretch"/>
+			<DataGrid ItemsSource="{Binding SelectedSectorPalletSpaces}" AutoGenerateColumns="False" IsReadOnly="True"
+                      IsScrollInertiaEnabled="True" VerticalScrollBarVisibility="Auto" Height="600"
+                      IsVisible="{Binding IsSectorSelected}" HorizontalAlignment="Center" CanUserSortColumns="False">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Regał" Binding="{Binding Rack}" Width="125" />
+					<DataGridTextColumn Header="Półka" Binding="{Binding Shelf}" Width="125" />
+					<DataGridTextColumn Header="Numer" Binding="{Binding Number}" Width="125" />
+					<DataGridTemplateColumn Header="Dostępne" Width="125">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<avalonia:MaterialIcon
+                                    Kind="{Binding IsAvailable, Converter={StaticResource BoolToIconConverter}}"
+                                    Foreground="{Binding IsAvailable, Converter={StaticResource BoolToColorConverter}}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Grid.Row="1" Margin="10">
+			<Button Content="Dodaj" Command="{Binding AddSectorCommand}" Width="150" Margin="5" Foreground="White" IsEnabled="{Binding !IsLoading}" />
+			<!--<Button Content="Edytuj" Command="{Binding UpdateSectorCommand}" IsEnabled="{Binding IsSectorSelected}" 
+                    Width="150" Margin="5" Foreground="White" />-->
+			<Button Content="Usuń" Command="{Binding RemoveSectorCommand}" IsEnabled="{Binding IsSectorSelected}" 
+                    Width="150" Margin="5" Foreground="White" />
+		</StackPanel>
+	</Grid>
+</UserControl>

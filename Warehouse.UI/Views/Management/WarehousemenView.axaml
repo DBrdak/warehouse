@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:management="clr-namespace:Warehouse.UI.ViewModels.Management"
+             xmlns:components="clr-namespace:Warehouse.UI.Views.Management.Components"
+             xmlns:avaloniaProgressRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Warehouse.UI.Views.Management.WarehousemenView"
+             x:DataType="management:WarehousemenViewModel">
+	<Grid HorizontalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="900" />
+		</Grid.ColumnDefinitions>
+
+		<avaloniaProgressRing:ProgressRing Grid.Row="0" Grid.ColumnSpan="2"
+                               Width="40"
+                               Height="40"
+                               IsActive="{Binding IsLoading}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="Green"
+                               Margin="20,20,0,0"/>
+
+        <ScrollViewer Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled" Padding="0,0,20,0">
+            <ItemsControl ItemsSource="{Binding Warehousemen}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <components:WarehousemanCard DataContext="{Binding}" Click="SelectWarehouseman" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.ColumnSpan="2"
+                    Grid.Column="0" Grid.Row="1" Margin="10">
+            <Button Content="Zatrudnij magazyniera" Command="{Binding AddWarehousemanAsyncCommand}" Margin="0,0,10,0" 
+                    Foreground="White" IsEnabled="{Binding !IsLoading}" />
+            <Button Content="Edytuj dane magazyniera" Command="{Binding EditWarehousemanAsyncCommand}"
+                    Margin="0,0,10,0" Foreground="White" IsEnabled="{Binding IsWarehousemanSelected}" />
+            <Button Content="Zwolnij magazyniera" Command="{Binding RemoveWarehousemanAsyncCommand}" Margin="0,0,10,0"
+                    Foreground="White" IsEnabled="{Binding IsWarehousemanSelected}" />
+		</StackPanel>
+	</Grid>
+</UserControl>

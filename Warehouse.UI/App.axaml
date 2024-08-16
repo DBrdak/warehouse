@@ -1,15 +1,21 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              x:Class="Warehouse.UI.App"
              xmlns:local="using:Warehouse.UI"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:converters="clr-namespace:Warehouse.UI.Converters">
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+    <Application.Resources>
+        <converters:BoolToIconConverter x:Key="BoolToIconConverter" />
+        <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+    </Application.Resources>
     <Application.Styles>
-        <FluentTheme />
+        <themes:MaterialTheme />
+        <avalonia:MaterialIconStyles />
+        <StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
     </Application.Styles>
 </Application>

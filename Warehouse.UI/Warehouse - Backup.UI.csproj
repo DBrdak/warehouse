@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+	<UseWPF>false</UseWPF>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\error_icon.ico" />
+    <None Remove="Assets\Warehouse_Logo.ico" />
+    <None Remove="Assets\Warehouse_Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.11" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.11" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.11" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.11" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.11" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.6" />
+    <PackageReference Include="Material.Avalonia" Version="3.6.0" />
+    <PackageReference Include="Material.Avalonia.DataGrid" Version="3.6.0" />
+    <PackageReference Include="Material.Avalonia.Dialogs" Version="3.6.0" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Warehouse.Application\Warehouse.Application.csproj" />
+    <ProjectReference Include="..\Warehouse.Infrastructure\Warehouse.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Management\Components\WarehousemanCard.axaml.cs">
+      <DependentUpon>WarehousemanCard.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomerService\CustomerServiceView.axaml.cs">
+      <DependentUpon>CustomerServiceView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Lodge\LodgeView.axaml.cs">
+      <DependentUpon>LodgeView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\AddSectorDialog.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\RemoveSectorDialog.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\UpdateSectorDialog.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\ManagementView.axaml.cs">
+      <DependentUpon>ManagementView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Warehouse\WarehouseView.axaml.cs">
+      <DependentUpon>WarehouseView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ViewModels\Management\Dialogs\Warehousemen\" />
+	</ItemGroup>
+</Project>

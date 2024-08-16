@@ -1,12 +1,15 @@
-using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using Warehouse.UI.ViewModels;
+using Material.Colors;
+using Material.Styles.Themes;
+using Microsoft.Extensions.DependencyInjection;
+using QuestPDF.Infrastructure;
 using Warehouse.UI.Views;
 
 namespace Warehouse.UI;
 
-public partial class App : Application
+public class App : Avalonia.Application
 {
     public override void Initialize()
     {
@@ -14,15 +17,33 @@ public partial class App : Application
     }
 
     public override void OnFrameworkInitializationCompleted()
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+    {       
+        BindingPlugins.DataValidators.RemoveAt(0);
+
+        var services = Bootstrapper.Initialize();
+        var serviceProvider = services.BuildServiceProvider();
+
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
         {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowViewModel(),
-            };
+            desktopLifetime.MainWindow = new MainWindow(serviceProvider);
         }
 
+        UseTheme();
+        QuestPDF.Settings.License = LicenseType.Community;
+
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void UseTheme()
+    {
+        var primary = PrimaryColor.Red;
+        var primaryColor = SwatchHelper.Lookup[(MaterialColor)primary];
+
+        var secondary = SecondaryColor.Amber;
+        var secondaryColor = SwatchHelper.Lookup[(MaterialColor)secondary];
+
+        var theme = Theme.Create(Theme.Light, primaryColor, secondaryColor);
+        var themeBootstrap = this.LocateMaterialTheme<MaterialThemeBase>();
+        themeBootstrap.CurrentTheme = theme;
     }
 }

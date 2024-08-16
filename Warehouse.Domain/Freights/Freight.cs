@@ -11,17 +11,23 @@ public sealed class Freight : Entity<FreightId>
     public FreightType Type { get; init; }
     public Quantity Quantity { get; init; }
     public Unit Unit { get; init; }
+    public PalletSpaceId PalletSpaceId { get; init; }
     public PalletSpace PalletSpace { get; init; }
+    public TransportId ImportId { get; init; }
     public Transport Import { get; init; }
-    public Transport? Export { get; init; }
+    public TransportId? ExportId { get; private set; }
+    public Transport? Export { get; private set; }
 
     private Freight(
         FreightName name,
         FreightType type,
         Quantity quantity,
         Unit unit,
+        PalletSpaceId palletSpaceId,
         PalletSpace palletSpace,
+        TransportId importId,
         Transport import,
+        TransportId? exportId,
         Transport? export,
         FreightId? id = null) : base(id)
     {
@@ -29,10 +35,16 @@ public sealed class Freight : Entity<FreightId>
         Type = type;
         Quantity = quantity;
         Unit = unit;
+        PalletSpaceId = palletSpaceId;
         PalletSpace = palletSpace;
+        ImportId = importId;
         Import = import;
+        ExportId = exportId;
         Export = export;
     }
+
+    private Freight() : base()
+    { }
 
     internal static Result<Freight> Create(
         string name,
@@ -64,6 +76,29 @@ public sealed class Freight : Entity<FreightId>
             return FreightErrors.InvalidImport;
         }
 
-        return new Freight(freightName, freightType, freightQuantity, freightUnit, palletSpace, import, null);
+        return new Freight(freightName, freightType, freightQuantity, freightUnit, palletSpace.Id, palletSpace, import.Id, import, null, null);
+    }
+
+    private void SetExportId(Transport export) => (ExportId, Export) = (export.Id, export);
+
+    internal Result Release(Transport export)
+    {
+        var isAlreadyReleased = Export is not null;
+
+        if (isAlreadyReleased)
+        {
+            return FreightErrors.AlreadyReleased;
+        }
+
+        var isTransportValid = export.Type == TransportType.Export;
+
+        if (!isTransportValid)
+        {
+            return FreightErrors.InvalidExport;
+        }
+
+        SetExportId(export);
+        
+        return Result.Success();
     }
 }

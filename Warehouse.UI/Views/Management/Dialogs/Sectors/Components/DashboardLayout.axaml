@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:material="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
+             xmlns:components="clr-namespace:Warehouse.UI.ViewModels.Components"
+             x:Class="Warehouse.UI.Views.Management.Dialogs.Sectors.Components.DashboardLayout"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="components:DashboardLayoutViewModel">
+    <Grid>
+        <!-- Navbar -->
+		<StackPanel Background="{DynamicResource MaterialDesignPaper}" Width="200" VerticalAlignment="Stretch"
+                    HorizontalAlignment="Left">
+			<Image Source="/Assets/Warehouse_Logo.png" Height="100" Margin="10"/>
+			<ItemsControl ItemsSource="{Binding Actions}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Button Content="{Binding Name}" Command="{Binding Command}" Margin="10"/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+
+        <!-- Main Content Area -->
+        <material:Card Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+            <ContentPresenter Content="{Binding Content}"/>
+        </material:Card>
+    </Grid>
+</UserControl>

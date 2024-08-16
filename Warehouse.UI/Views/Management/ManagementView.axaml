@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:management="clr-namespace:Warehouse.UI.ViewModels.Management"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Warehouse.UI.Views.Management.ManagementView"
+             x:DataType="management:ManagementViewModel">
+
+	<Grid Margin="20" RowDefinitions="Auto,*" >
+
+		<DockPanel Grid.Row="0" HorizontalAlignment="Stretch">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" IsEnabled="True" Margin="0,0,0,10">
+                <Button Content="← Wróć" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,60,0"
+                        Click="BackButton_OnClick" FontSize="20" Theme="{StaticResource MaterialFlatButton}" Classes="primary" />
+				<Button x:Name="Warehousemen" Width="300" Content="Magazynierzy" IsEnabled="{Binding !IsWarehousemenLocked}"
+                        Command="{Binding ShowWarehousemenCommand}" Classes="outline primary" Margin="0,0,60,0" />
+				<Button x:Name="Sectors" Width="300" Content="Sektory" IsEnabled="{Binding !IsSectorsLocked}"
+                        Command="{Binding ShowSectorsCommand}" Classes="outline primary" />
+			</StackPanel>
+		</DockPanel>
+
+		<ContentControl Grid.Row="1" Content="{Binding CurrentView}"/>
+		
+
+	</Grid>
+</UserControl>

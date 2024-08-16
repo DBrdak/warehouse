@@ -1,0 +1,178 @@
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
+using DynamicData;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Warehouse.Application.Transports.GetTransportDetails;
+using Warehouse.Application.Transports.GetTransports;
+using Warehouse.Application.Transports.Models;
+using Warehouse.UI.Views;
+using Warehouse.UI.Views.Warehouse;
+using ErrorWindow = Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow;
+
+namespace Warehouse.UI.ViewModels.Warehouse;
+
+public sealed class WarehouseViewModel : ViewModelBase
+{
+    private readonly MainWindow _mainWindow;
+    private readonly ISender _sender;
+
+    public ObservableCollection<TransportModel> Transports { get; private set; } = [];
+    public ObservableCollection<TransportModel> FilteredTransports { get; private set; } = [];
+
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        private set => SetProperty(ref _isLoading, value);
+    }
+
+    private string _numberSearchQuery = string.Empty;
+    public string NumberSearchQuery
+    {
+        get => _numberSearchQuery;
+        set
+        {
+            SetProperty(ref _numberSearchQuery, value);
+            ApplyFilters();
+        }
+    }
+
+    private string _warehousemanSearchQuery = string.Empty;
+    public string WarehousemanSearchQuery
+    {
+        get => _warehousemanSearchQuery;
+        set
+        {
+            SetProperty(ref _warehousemanSearchQuery, value);
+            ApplyFilters();
+        }
+    }
+
+    private string _vehicleSearchQuery = string.Empty;
+    public string VehicleSearchQuery
+    {
+        get => _vehicleSearchQuery;
+        set
+        {
+            SetProperty(ref _vehicleSearchQuery, value);
+            ApplyFilters();
+        }
+    }
+
+    private string _clientSearchQuery = string.Empty;
+    public string ClientSearchQuery
+    {
+        get => _clientSearchQuery;
+        set
+        {
+            SetProperty(ref _clientSearchQuery, value);
+            ApplyFilters();
+        }
+    }
+
+    public AsyncRelayCommand<Guid> OpenTransportCommand { get; }
+    public RelayCommand OpenAddTransportCommand { get; }
+    public AsyncRelayCommand OpenImports { get; }
+    public AsyncRelayCommand OpenExports { get; }
+
+    public WarehouseViewModel(MainWindow mainWindow)
+    {
+        _mainWindow = mainWindow;
+        _sender = _mainWindow.ServiceProvider.GetRequiredService<ISender>();
+
+        OpenImports = new AsyncRelayCommand(async () => await FetchTransports(ViewedTransport.Imports));
+        OpenExports = new AsyncRelayCommand(async () => await FetchTransports(ViewedTransport.Exports));
+        OpenTransportCommand = new AsyncRelayCommand<Guid>(NavigateToTransportDetails);
+        OpenAddTransportCommand = new RelayCommand(NavigateToAddTransport);
+    }
+
+    private void NavigateToAddTransport() =>
+        _mainWindow.ContentArea.Content = new AddTransportView(_mainWindow);
+
+    private async Task NavigateToTransportDetails(Guid transportId)
+    {
+        IsLoading = true;
+
+        var query = new GetTransportDetailsQuery(transportId);
+
+        var result = await _sender.Send(query);
+
+        if (result.IsFailure)
+        {
+            await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
+        }
+
+        var transport = result.Value;
+
+        IsLoading = false;
+        _mainWindow.ContentArea.Content = new TransportDetailsView(_mainWindow, transport);
+    }
+
+    private async Task FetchTransports(ViewedTransport type)
+    {
+        IsLoading = true;
+
+        var query = new GetTransportsQuery(type.AsString());
+
+        var result = await _sender.Send(query);
+
+        if (result.IsFailure)
+        {
+            await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);
+            return;
+        }
+
+        var transports = result.Value;
+
+        Transports.Clear();
+        Transports.AddRange(transports);
+        ApplyFilters();
+        OnPropertyChanged(nameof(Transports));
+        IsLoading = false;
+    }
+
+    private void ApplyFilters()
+    {
+        var filtered = Transports
+            .Where(
+                t =>
+                    ((t.Client?.Nip.Contains(ClientSearchQuery, StringComparison.OrdinalIgnoreCase) ??
+                      false) ||
+                     (t.Client?.Name.Contains(
+                          ClientSearchQuery,
+                          StringComparison.OrdinalIgnoreCase) ??
+                      false)) ||
+                    true)
+            .Where(
+                t => ((t.Warehouseman?.IdentificationNumber.ToString()
+                           .Contains(
+                               WarehousemanSearchQuery,
+                               StringComparison.OrdinalIgnoreCase) ??
+                       false) ||
+                      (t.Warehouseman?.FirstName.Contains(
+                           WarehousemanSearchQuery,
+                           StringComparison.OrdinalIgnoreCase) ??
+                       false) ||
+                      (t.Warehouseman?.LastName.Contains(
+                           WarehousemanSearchQuery,
+                           StringComparison.OrdinalIgnoreCase) ??
+                       false)) ||
+                     true)
+            .Where(
+                t => t.Driver?.VehiclePlate.Contains(
+                         VehicleSearchQuery,
+                         StringComparison.OrdinalIgnoreCase) ??
+                     true)
+            .Where(
+                t => t.Number.ToString().Contains(NumberSearchQuery, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        FilteredTransports.Clear();
+        FilteredTransports.AddRange(filtered);
+    }
+}

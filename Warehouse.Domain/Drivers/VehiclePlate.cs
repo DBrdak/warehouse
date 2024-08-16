@@ -5,7 +5,7 @@ namespace Warehouse.Domain.Drivers;
 
 public sealed record VehiclePlate
 {
-    private static readonly Regex pattern = new(@"^[A-Z]{1,3}[A-Z0-9]{4,5}$");
+    private static readonly Regex pattern = new(@"^[A-Za-z]{1,3}[A-Z0-9a-z]{4,5}$");
     public string Value { get; init; }
 
     private VehiclePlate(string value) => Value = value;
@@ -19,6 +19,6 @@ public sealed record VehiclePlate
             return DriverErrors.InvalidVehiclePlateNumber;
         }
 
-        return new VehiclePlate(value);
+        return new VehiclePlate(value.ToUpper());
     }
 }

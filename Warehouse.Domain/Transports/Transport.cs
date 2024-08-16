@@ -11,41 +11,61 @@ public sealed class Transport : Entity<TransportId>
 {
     public TransportNumber Number { get; init; }
     public TransportType Type { get; init; }
-    public DateTime ServedAt { get; init; }
+    public DateTime HandledAt { get; init; }
+    public WarehousemanId WarehousemanId { get; init; }
     public Warehouseman Warehouseman { get; init; }
+    public DriverId DriverId { get; init; }
     public Driver Driver { get; init; }
+    public ClientId ClientId { get; init; }
     public Client Client { get; init; }
 
-    private readonly List<Freight> _freights;
-    public IReadOnlyCollection<Freight> Freights => _freights;
+    private readonly List<Freight> _deliveredFreights;
+    public IReadOnlyCollection<Freight> DeliveredFreights => _deliveredFreights;
+
+    private readonly List<Freight> _receivedFreights;
+    public IReadOnlyCollection<Freight> ReceivedFreights => _receivedFreights;
+    public IReadOnlyCollection<Freight> Freights => Type == TransportType.Export ?
+        _receivedFreights :
+        _deliveredFreights;
 
     private Transport(
         TransportNumber number,
         TransportType type,
-        DateTime servedAt,
+        DateTime handledAt,
+        WarehousemanId warehousemanId,
         Warehouseman warehouseman,
+        DriverId driverId,
         Driver driver,
+        ClientId clientId,
         Client client,
-        List<Freight> freights,
+        List<Freight> deliveredFreights,
+        List<Freight> receivedFreights,
         TransportId? id = null) : base(id)
     {
         Number = number;
         Type = type;
-        ServedAt = servedAt;
+        HandledAt = handledAt;
+        WarehousemanId = warehousemanId;
         Warehouseman = warehouseman;
+        DriverId = driverId;
         Driver = driver;
+        ClientId = clientId;
         Client = client;
-        _freights = freights;
+        _deliveredFreights = deliveredFreights;
+        _receivedFreights = receivedFreights;
     }
 
-    //TODO Make creating freight and transport at one time by external service
+
+    private Transport() : base()
+    { }
+
     internal static Result<Transport> Create(
         int number,
         string type,
-        Warehouseman warehouseWorker,
+        Warehouseman warehouseman,
         Driver driver,
         Client client,
-        DateTime? servedAt = null)
+        DateTime? handledAt = null)
     {
         var (transportNumberCreateResult, transportTypeCreateResult) =
             (TransportNumber.Create(number), TransportType.Create(type));
@@ -64,23 +84,37 @@ public sealed class Transport : Entity<TransportId>
         return new Transport(
             transportNumber,
             transportType,
-            servedAt ?? DateTime.UtcNow,
-            warehouseWorker,
+            handledAt ?? DateTime.UtcNow,
+            warehouseman.Id,
+            warehouseman,
+            driver.Id,
             driver,
+            client.Id,
             client,
+            [],
             []);
     }
 
     internal Result AddFreight(Freight freight)
     {
-        var isAlreadyContainFreight = _freights.Any(f => f.Id == Id);
+        var isAlreadyContainFreight = Type == TransportType.Import ?
+            _deliveredFreights.Any(f => f.Id == Id) :
+            _receivedFreights.Any(f => f.Id == Id);
 
         if (isAlreadyContainFreight)
         {
             return TransportErrors.AlreadyContainFreight;
         }
 
-        _freights.Add(freight);
+        switch(Type)
+        {
+            case var type when type == TransportType.Import:
+                _deliveredFreights.Add(freight);
+                break;
+            case var type when type == TransportType.Export:
+                _receivedFreights.Add(freight);
+                break;
+        };
 
         return Result.Success();
     }

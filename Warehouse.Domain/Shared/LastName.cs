@@ -20,6 +20,8 @@ public sealed record LastName
             return invalidValueError;
         }
 
+        value = string.Concat(char.ToUpper(value[0]), value[1..]);
+
         return new LastName(value);
     }
 }

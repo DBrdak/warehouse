@@ -4,12 +4,12 @@ public record Error(string Message)
 {
     public static Error None = new(string.Empty);
 
-    public static Error NullValue = new("Null input");
-    public static Error InvalidValue = new("Invalid input");
-    public static Error Exception = new("Internal server error");
+    public static Error NullValue = new("Wartość NULL");
+    public static Error InvalidValue = new("Nieprawidłowe dane wejściowe");
+    public static Error Exception = new("Nieznany błąd");
     public static Error ValidationError(
         IEnumerable<string?> members) =>
-        new($"Validation failed for: {string.Join(',', members)}");
+        new($"Walidacja nie powiodła się dla: {string.Join(',', members)}");
 
     /// <summary>
     /// Use only for logging, do not return this error to user

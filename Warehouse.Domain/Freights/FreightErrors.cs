@@ -10,4 +10,5 @@ internal static class FreightErrors
     public static readonly Error InvalidQuantity = new("Nieprawidłowa ilość");
     public static readonly Error InvalidImport = new("Nieprawidłowy typ importu");
     public static readonly Error InvalidExport = new("Nieprawidłowy typ eksportu");
+    public static readonly Error AlreadyReleased = new ("Towar został już wydany");
 }

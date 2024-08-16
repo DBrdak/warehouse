@@ -1,11 +1,12 @@
 ﻿using Warehouse.Domain.Shared.Results;
-using Warehouse.Domain.Warehousemen;
 
 namespace Warehouse.Domain.Freights;
 
 public interface IFreightRepository
 {
-    Task<Result<Warehouseman>> AddAsync(Freight freight, CancellationToken cancellationToken);
-    Task<Result<Warehouseman>> UpdateAsync(Freight freight, CancellationToken cancellationToken);
-    Task<Result> RemoveAsync(FreightId freightId, CancellationToken cancellationToken);
+    Task<Result<Freight>> AddAsync(Freight freight, CancellationToken cancellationToken);
+    Result<Freight> Update(Freight freight);
+    Result Remove(Freight freight);
+
+    Task<Result<Freight>> GetByIdAsync(FreightId freightId, CancellationToken cancellationToken);
 }

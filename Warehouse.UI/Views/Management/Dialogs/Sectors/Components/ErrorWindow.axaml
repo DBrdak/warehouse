@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:components="clr-namespace:Warehouse.UI.ViewModels.Components"
+        x:Class="Warehouse.UI.Views.Management.Dialogs.Sectors.Components.ErrorWindow"
+        Title="Error"
+        Width="400"
+        Height="200"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Assets/error_icon.ico"
+        x:DataType="components:ErrorWindowViewModel">
+    <Grid RowDefinitions="Auto,Auto" VerticalAlignment="Center">
+        <TextBlock Grid.Row="0" Text="{Binding ErrorMessage}" Foreground="Red" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" TextWrapping="Wrap" />
+        <Button Grid.Row="1" Content="OK" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20,0,0"
+                Command="{Binding CloseCommand}" />
+    </Grid>
+</Window>

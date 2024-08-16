@@ -2,10 +2,15 @@
 
 namespace Warehouse.Domain.Drivers;
 
-internal interface IDriverRepository
+public interface IDriverRepository
 {
     Task<Result<Driver>> AddAsync(Driver driver, CancellationToken cancellationToken);
-    Task<Result<Driver>> UpdateAsync(Driver driver, CancellationToken cancellationToken);
+    Result<Driver> Update(Driver driver);
+    Result Remove(Driver driver);
 
-    Task<Result> RemoveAsync(DriverId driverId, CancellationToken cancellationToken);
+    Task<Result<Driver>> GetByIdAsync(DriverId driverId, CancellationToken cancellationToken);
+
+    Task<Result<List<Driver>>> GetAllAsync(CancellationToken cancellationToken);
+
+    Task<Result<Driver>> GetByIdDetailedAsync(DriverId entityId, CancellationToken cancellationToken);
 }

@@ -3,23 +3,72 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+	<UseWPF>false</UseWPF>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.10" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+    <None Remove="Assets\error_icon.ico" />
+    <None Remove="Assets\Warehouse_Logo.ico" />
+    <None Remove="Assets\Warehouse_Logo.png" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.11" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.11" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.11" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.11" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.11" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" Version="0.10.6" />
+    <PackageReference Include="Material.Avalonia" Version="3.6.0" />
+    <PackageReference Include="Material.Avalonia.DataGrid" Version="3.6.0" />
+    <PackageReference Include="Material.Avalonia.Dialogs" Version="3.6.0" />
+    <PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Warehouse.Application\Warehouse.Application.csproj" />
+    <ProjectReference Include="..\Warehouse.Infrastructure\Warehouse.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Management\Components\WarehousemanCard.axaml.cs">
+      <DependentUpon>WarehousemanCard.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CustomerService\CustomerServiceView.axaml.cs">
+      <DependentUpon>CustomerServiceView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Lodge\LodgeView.axaml.cs">
+      <DependentUpon>LodgeView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\AddWarehousemanDialog.axaml.cs">
+      <DependentUpon>AddWarehousemanDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\RemoveWarehousemanDialog.axaml.cs">
+      <DependentUpon>RemoveWarehousemanDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\Dialogs\Warehousemen\EditWarehousemanDialog.axaml.cs">
+      <DependentUpon>EditWarehousemanDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Management\ManagementView.axaml.cs">
+      <DependentUpon>ManagementView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Warehouse\WarehouseView.axaml.cs">
+      <DependentUpon>WarehouseView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

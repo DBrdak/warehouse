@@ -6,9 +6,9 @@ namespace Warehouse.Domain.Drivers;
 
 public sealed class Driver : Entity<DriverId>
 {
-    public FirstName FirstName { get; init; }
-    public LastName LastName { get; init; }
-    public VehiclePlate VehiclePlate { get; init; }
+    public FirstName FirstName { get; private set; }
+    public LastName LastName { get; private set; }
+    public VehiclePlate VehiclePlate { get; private set; }
     private readonly List<Transport> _transports;
     public IReadOnlyCollection<Transport> Transports => _transports;
 
@@ -20,7 +20,11 @@ public sealed class Driver : Entity<DriverId>
         _transports = transports;
     }
 
-    internal static Result<Driver> Create(string firstName, string lastName, string plate)
+
+    private Driver() : base()
+    { }
+
+    public static Result<Driver> Create(string firstName, string lastName, string plate)
     {
         var driverFirstNameCreateReult = FirstName.Create(firstName);
 
@@ -48,5 +52,72 @@ public sealed class Driver : Entity<DriverId>
         var vehiclePlate = vehiclePlateCreateReult.Value;
 
         return new Driver(driverFirstName, driverLastName, vehiclePlate, []);
+    }
+
+    public Result EditFirstName(string firstName)
+    {
+        var firstNameCreateResult = FirstName.Create(firstName);
+
+        if (firstNameCreateResult.IsFailure)
+        {
+            return firstNameCreateResult.Error;
+        }
+
+        var driverFirstName = firstNameCreateResult.Value;
+
+        FirstName = driverFirstName;
+
+        return Result.Success();
+    }
+
+    public Result EditLastName(string lastName)
+    {
+        var lastNameCreateResult = LastName.Create(lastName);
+
+        if (lastNameCreateResult.IsFailure)
+        {
+            return lastNameCreateResult.Error;
+        }
+
+        var driverLastName = lastNameCreateResult.Value;
+
+        LastName = driverLastName;
+        
+        return Result.Success();
+    }
+
+    public Result EditVehiclePlate(string vehiclePlate)
+    {
+        var vehiclePlateCreateResult = VehiclePlate.Create(vehiclePlate);
+
+        if (vehiclePlateCreateResult.IsFailure)
+        {
+            return vehiclePlateCreateResult.Error;
+        }
+
+        var driverVehiclePlate = vehiclePlateCreateResult.Value;
+
+        VehiclePlate = driverVehiclePlate;
+
+        return Result.Success();
+    }
+
+    internal Result DeliverTransport(Transport transport)
+    {
+        var isTransportAlreadyDeliveredByDriver = _transports.Any(t => t.Id == transport.Id);
+
+        if (isTransportAlreadyDeliveredByDriver)
+        {
+            return DriverErrors.TransportAlreadyDeliveredByDriver;
+        }
+
+        var isTransportAlreadyDeliveredByAnotherDriver = transport.Driver.Id != transport.Id;
+
+        if (isTransportAlreadyDeliveredByAnotherDriver)
+        {
+            return DriverErrors.TransportAlreadyDeliveredByAnotherDriver;
+        }
+
+        return Result.Success();
     }
 }
