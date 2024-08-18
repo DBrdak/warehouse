@@ -12,6 +12,12 @@
     <Application.Resources>
         <converters:BoolToIconConverter x:Key="BoolToIconConverter" />
         <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+		<converters:ViewedTransportToAddTransportTextConverter x:Key="ViewedTransportToAddTransportTextConverter" />
+		<converters:DateTimeConverter x:Key="DateTimeConverter" />
+		<converters:QuantityUnitToTextConverter x:Key="QuantityUnitToTextConverter" />
+		<converters:WarehousemanToTextConverter x:Key="WarehousemanToTextConverter" />
+		<converters:ClientToTextConverter x:Key="ClientToTextConverter" />
+		<converters:DriverToTextConverter x:Key="DriverToTextConverter" />
     </Application.Resources>
     <Application.Styles>
         <themes:MaterialTheme />

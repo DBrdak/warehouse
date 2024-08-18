@@ -9,4 +9,6 @@ public interface IFreightRepository
     Result Remove(Freight freight);
 
     Task<Result<Freight>> GetByIdAsync(FreightId freightId, CancellationToken cancellationToken);
+
+    Task<Result> AddRangeAsync(IEnumerable<Freight> freights, CancellationToken cancellationToken);
 }

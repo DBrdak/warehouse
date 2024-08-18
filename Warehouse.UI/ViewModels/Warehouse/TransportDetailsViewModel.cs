@@ -1,6 +1,5 @@
-﻿namespace Warehouse.UI.ViewModels.Warehouse
+﻿namespace Warehouse.UI.ViewModels.Warehouse;
+
+internal class TransportDetailsViewModel : ViewModelBase
 {
-    internal class TransportDetailsViewModel
-    {
-    }
 }

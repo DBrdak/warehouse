@@ -23,4 +23,12 @@ internal sealed class WarehousemanRepository : Repository<Warehouseman, Warehous
         IdentificationNumber idNumber,
         CancellationToken cancellationToken) =>
         await Table.FirstOrDefaultAsync(w => w.IdentificationNumber == idNumber, cancellationToken);
+
+    public async Task<Result<Warehouseman>> GetByIdDetailedAsync(
+        WarehousemanId id,
+        CancellationToken cancellationToken) =>
+        await Table
+            .Include(w => w.Transports)
+            .Include(w => w.Sector)
+            .FirstOrDefaultAsync(w => w.Id == id, cancellationToken);
 }

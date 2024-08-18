@@ -8,7 +8,7 @@ public sealed record Rack
 
     private Rack(int value) => Value = value;
 
-    internal static Result<Rack> Create(int value)
+    public static Result<Rack> Create(int value)
     {
         var isValid = value > 0;
 

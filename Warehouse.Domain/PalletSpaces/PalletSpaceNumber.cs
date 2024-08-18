@@ -8,7 +8,7 @@ public sealed record PalletSpaceNumber
 
     private PalletSpaceNumber(int value) => Value = value;
 
-    internal static Result<PalletSpaceNumber> Create(int value)
+    public static Result<PalletSpaceNumber> Create(int value)
     {
         var isValid = value > 0;
 

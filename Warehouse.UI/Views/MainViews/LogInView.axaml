@@ -33,6 +33,7 @@
             MinWidth="100"
             HorizontalContentAlignment="Center"
             HorizontalAlignment="Center"
+            Foreground="White"
         />
         <TextBlock
             Grid.Row="4"

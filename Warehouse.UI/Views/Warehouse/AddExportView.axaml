@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:warehouse="clr-namespace:Warehouse.UI.ViewModels.Warehouse"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Warehouse.UI.Views.Warehouse.AddTransportView"
-             x:DataType="warehouse:AddTransportViewModel">
+             x:Class="Warehouse.UI.Views.Warehouse.AddExportView"
+             x:DataType="warehouse:AddExportViewModel">
   Welcome to Avalonia!
 </UserControl>
