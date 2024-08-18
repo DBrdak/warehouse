@@ -12,7 +12,7 @@ public record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId>
     public int Rack { get; init; }
     public SectorModel? Sector { get; init; }
     public IReadOnlyCollection<FreightModel>? Freights { get; init; }
-    public bool IsAvailable => Freights?.Count < 1 || Freights.Any(f => f.Export is null);
+    public bool IsAvailable => Freights?.Count < 1 || Freights is not null && Freights.Any(f => f.Export is null);
 
     protected PalletSpaceModel(
         Guid id,

@@ -1,12 +1,11 @@
 using Warehouse.Application.Abstractions.Messaging;
-using Warehouse.Application.Freights.Models;
 using Warehouse.Domain.Freights;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Domain.Transports;
 
 namespace Warehouse.Application.Freights.ReleaseFreight;
 
-internal sealed class ReleaseFreightCommandHandler : ICommandHandler<ReleaseFreightCommand, FreightModel>
+internal sealed class ReleaseFreightCommandHandler : ICommandHandler<ReleaseFreightCommand>
 {
     private readonly IFreightRepository _freightRepository;
     private readonly ITransportRepository _transportRepository;
@@ -17,35 +16,28 @@ internal sealed class ReleaseFreightCommandHandler : ICommandHandler<ReleaseFrei
         _freightRepository = freightRepository;
     }
 
-    public async Task<Result<FreightModel>> Handle(ReleaseFreightCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(ReleaseFreightCommand request, CancellationToken cancellationToken)
     {
+        var freightsId = request.Freights.Select(f => new FreightId(f.Id)).ToList();
+
         var (exportGetResult, freightGetResult) = (
             await _transportRepository.GetByIdAsync(new(request.ExportId), cancellationToken),
-            await _freightRepository.GetByIdAsync(new(request.Id), cancellationToken));
+            await _freightRepository.GetManyByIdAsync(freightsId, cancellationToken));
 
         if (Result.Aggregate(exportGetResult, freightGetResult) is var result && result.IsFailure)
         {
             return result.Error;
         }
 
-        var (export, freight) = (exportGetResult.Value, freightGetResult.Value);
+        var (export, freights) = (exportGetResult.Value, freightGetResult.Value);
 
-        var releaseResult = FreightService.ReleaseFreight(freight, export);
+        var releaseResults = freights.Select(f => FreightService.ReleaseFreight(f, export));
 
-        if (releaseResult.IsFailure)
+        if (Result.Aggregate(releaseResults) is var releaseResult && releaseResult.IsFailure)
         {
             return releaseResult.Error;
         }
 
-        var updateResult = _freightRepository.Update(freight);
-
-        if (updateResult.IsFailure)
-        {
-            return updateResult.Error;
-        }
-
-        freight = updateResult.Value;
-
-        return FreightModel.FromDomainModel(freight);
+        return _freightRepository.UpdateRange(freights);
     }
 }

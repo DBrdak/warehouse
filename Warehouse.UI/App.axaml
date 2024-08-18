@@ -18,6 +18,7 @@
 		<converters:WarehousemanToTextConverter x:Key="WarehousemanToTextConverter" />
 		<converters:ClientToTextConverter x:Key="ClientToTextConverter" />
 		<converters:DriverToTextConverter x:Key="DriverToTextConverter" />
+        <converters:PalletSpaceToTextConverter x:Key="PalletSpaceToTextConverter" />
     </Application.Resources>
     <Application.Styles>
         <themes:MaterialTheme />

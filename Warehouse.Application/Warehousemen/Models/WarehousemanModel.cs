@@ -51,7 +51,7 @@ public record WarehousemanModel : BusinessModel<Warehouseman, WarehousemanId>
                     warehouseman.FirstName.Value,
                     warehouseman.LastName.Value,
                     warehouseman.Position?.Value,
-                    warehouseman.Sector is null ? null : SectorModel.FromDomainModel<WarehousemanModel>(warehouseman.Sector),
+                    null,
                     null),
             _ => FromDomainModel(warehouseman)
         };

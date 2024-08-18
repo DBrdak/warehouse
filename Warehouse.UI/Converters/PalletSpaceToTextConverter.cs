@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
-using Warehouse.Application.Freights.ReceiveFreights;
+using Warehouse.Application.PalletSpaces.Models;
 
 namespace Warehouse.UI.Converters;
 
-internal class QuantityUnitToTextConverter : IValueConverter
+internal sealed class PalletSpaceToTextConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
-        value is FreightCreateModel freight ? freight.Quantity.ToString($"##.## {freight.Unit}") : value;
+        value is PalletSpaceModel palletSpace ?
+            $"{palletSpace.Sector.Number}/{palletSpace.Rack}/{palletSpace.Shelf}/{palletSpace.Number}" :
+            value;
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

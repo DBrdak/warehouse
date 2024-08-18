@@ -1,6 +1,4 @@
-using MediatR;
 using Warehouse.Application.Abstractions.Messaging;
-using Warehouse.Application.Freights.Models;
 using Warehouse.Domain.Freights;
 using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Sectors;

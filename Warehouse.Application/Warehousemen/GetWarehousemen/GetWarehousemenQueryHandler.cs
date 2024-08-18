@@ -26,6 +26,6 @@ internal class GetWarehousemenQueryHandler : IQueryHandler<GetWarehousemenQuery,
 
         var warehousemen = getWarehousemenResult.Value;
 
-        return Result.Create(warehousemen.Select(WarehousemanModel.FromDomainModel<TransportModel>));
+        return Result.Create(warehousemen.Select(WarehousemanModel.FromDomainModel));
     }
 }

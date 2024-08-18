@@ -2,7 +2,6 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using DocumentFormat.OpenXml.Vml;
 using Warehouse.Application.Freights.ReceiveFreights;
 using Warehouse.UI.ViewModels.Warehouse;
 using TextBox = Avalonia.Controls.TextBox;

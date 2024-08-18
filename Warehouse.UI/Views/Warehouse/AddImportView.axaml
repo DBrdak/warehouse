@@ -90,7 +90,7 @@
 				<DataGridTextColumn Header="Nazwa" Binding="{Binding Name}" Width="*" MinWidth="200"/>
 				<DataGridTextColumn Header="Rodzaj" Binding="{Binding Type}" Width="*" MinWidth="200"/>
 				<DataGridTextColumn Header="Ilość"
-                                    Binding="{Binding Quantity, Converter={StaticResource QuantityUnitToTextConverter}}"
+                                    Binding="{Binding ., Converter={StaticResource QuantityUnitToTextConverter}}"
                                     Width="*" MinWidth="200" />
                 <DataGridTemplateColumn Header="" MaxWidth="110" Width="110" MinWidth="110">
                     <DataGridTemplateColumn.CellTemplate>

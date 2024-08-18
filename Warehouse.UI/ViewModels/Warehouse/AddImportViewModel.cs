@@ -327,7 +327,8 @@ internal class AddImportViewModel : ViewModelBase
         if (Result.Aggregate(
                 warehousemenGetResult,
                 clientsGetResult,
-                driversGetResult) is var result &&
+                driversGetResult,
+                sectorsGetResult) is var result &&
             result.IsFailure)
         {
             await new ErrorWindow(result.Error.Message).ShowDialog(_mainWindow);

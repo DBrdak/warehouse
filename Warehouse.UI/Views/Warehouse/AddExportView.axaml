@@ -6,5 +6,57 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Warehouse.UI.Views.Warehouse.AddExportView"
              x:DataType="warehouse:AddExportViewModel">
-  Welcome to Avalonia!
+	<Grid Margin="20" RowDefinitions="Auto,6*,Auto">
+
+		<StackPanel Grid.Row="0" HorizontalAlignment="Stretch" Orientation="Vertical" Margin="20">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+				<ComboBox Width="400" ItemsSource="{Binding Warehousemen}" SelectedItem="{Binding Warehouseman}" Margin="0,0,10,0"
+                          SelectedValue="{Binding Warehouseman}" FontSize="20"
+                          DisplayMemberBinding="{Binding ., Converter={StaticResource WarehousemanToTextConverter}}"
+                          PlaceholderText="Magazynier" />
+				<ComboBox Width="400" ItemsSource="{Binding Clients}" SelectedItem="{Binding Client}" Margin="0,0,10,0"
+                          DisplayMemberBinding="{Binding ., Converter={StaticResource ClientToTextConverter}}"
+                          SelectedValue="{Binding Client}" FontSize="20"
+                          PlaceholderText="Klient" />
+				<ComboBox Width="400" ItemsSource="{Binding Drivers}" SelectedItem="{Binding Driver}"
+                          DisplayMemberBinding="{Binding ., Converter={StaticResource DriverToTextConverter}}"
+                          SelectedValue="{Binding Driver}" FontSize="20"
+                          PlaceholderText="Kierowca" />
+			</StackPanel>
+		</StackPanel>
+
+		<DataGrid x:Name="FreightsDataGrid" Grid.Row="1" MinHeight="400" ItemsSource="{Binding Freights}"
+                  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" IsReadOnly="True"
+                  CanUserReorderColumns="False" CanUserSortColumns="False" IsScrollInertiaEnabled="True">
+			<DataGrid.Columns>
+                <DataGridTemplateColumn Header="" MaxWidth="110" Width="110" MinWidth="110">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Margin="5,10,5,10" IsCheckedChanged="OnFreightSelect" Classes="primary" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}" Width="*" MinWidth="200"/>
+                <DataGridTextColumn Header="Rodzaj" Binding="{Binding Type}" Width="*" MinWidth="200"/>
+                <DataGridTextColumn Header="Ilość"
+                                    Binding="{Binding ., Converter={StaticResource QuantityUnitToTextConverter}}"
+                                    Width="*" MinWidth="200" />
+                <DataGridTextColumn Header="Miejsce paletowe"
+                                    Binding="{Binding PalletSpace, Converter={StaticResource PalletSpaceToTextConverter}}"
+                                    Width="*" MinWidth="200" />
+				<DataGridTextColumn Header="Magazynier" Binding="{Binding Import.Warehouseman.IdentificationNumber}" Width="*"
+                                    MinWidth="200" />
+				<DataGridTextColumn Header="Klient" Binding="{Binding Import.Client.Nip}" Width="*" MinWidth="200"/>
+				<DataGridTextColumn Header="Pojazd" Binding="{Binding Import.Driver.VehiclePlate}" Width="*" MinWidth="200"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+			<Button HorizontalAlignment="Center" Width="250" Command="{Binding SubmitAsyncCommand}" Foreground="White"
+                    Content="Zatwierdź" IsEnabled="{Binding IsTransportSubmitAllowed}" Margin="20" />
+			<Button HorizontalAlignment="Center" Width="250" Command="{Binding CancelCommand}" Foreground="White"
+                    Content="Anuluj" Margin="20" />
+		</StackPanel>
+
+	</Grid>
 </UserControl>
