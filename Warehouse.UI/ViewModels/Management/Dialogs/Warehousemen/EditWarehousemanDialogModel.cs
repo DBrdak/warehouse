@@ -32,10 +32,22 @@ internal class EditWarehousemanDialogModel : ViewModelBase
     }
 
     private WarehousemanCreateModel _warehouseman;
+
     public WarehousemanCreateModel Warehouseman
     {
         get => _warehouseman;
         set => SetProperty(ref _warehouseman, value);
+    }
+
+    private int _sectorNumber;
+    public int SectorNumber
+    {
+        get => _sectorNumber;
+        set
+        {
+            SetProperty(ref _sectorNumber, value);
+            Warehouseman = Warehouseman with { SectorNumber = value };
+        }
     }
 
     public ObservableCollection<SectorModel> Sectors { get; } = [];

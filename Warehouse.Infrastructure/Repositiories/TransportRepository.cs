@@ -27,14 +27,11 @@ internal sealed class TransportRepository : Repository<Transport, TransportId>, 
             .Where(t => t.Type == TransportType.Import)
             .ToListAsync(cancellationToken);
 
-    public async Task<Result<int>> GetLastTransportNumberAsync(CancellationToken cancellationToken)
-    {
-        var transport = await Table
+    public async Task<Result<int>> GetLastTransportNumberAsync(CancellationToken cancellationToken) =>
+        (await Table
             .OrderByDescending(t => t.Number)
-            .FirstOrDefaultAsync(cancellationToken);
-
-        return transport is null ? Error.NullValue : transport.Number.Value;
-    }
+            .Select(t => t.Number)
+            .FirstOrDefaultAsync(cancellationToken))?.Value ?? 0;
 
     public async Task<Result<Transport>> GetDetailedByIdAsync(TransportId transportId, CancellationToken cancellationToken) =>
         await Table
@@ -42,6 +39,14 @@ internal sealed class TransportRepository : Repository<Transport, TransportId>, 
             .Include(t => t.Driver)
             .Include(t => t.Warehouseman)
             .Include(t => t.DeliveredFreights)
+            .ThenInclude(f => f.Export)
             .Include(t => t.ReceivedFreights)
+            .ThenInclude(f => f.Import)
+            .Include(t => t.DeliveredFreights)
+            .ThenInclude(f => f.PalletSpace)
+            .ThenInclude(ps => ps.Sector)
+            .Include(t => t.ReceivedFreights)
+            .ThenInclude(f => f.PalletSpace)
+            .ThenInclude(ps => ps.Sector)
             .FirstOrDefaultAsync(t => t.Id == transportId, cancellationToken);
 }

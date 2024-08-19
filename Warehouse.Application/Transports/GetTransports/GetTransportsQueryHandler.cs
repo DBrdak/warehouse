@@ -1,4 +1,5 @@
 using Warehouse.Application.Abstractions.Messaging;
+using Warehouse.Application.Freights.Models;
 using Warehouse.Application.Transports.Models;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Domain.Transports;
@@ -30,6 +31,6 @@ internal sealed class GetTransportsQueryHandler : IQueryHandler<GetTransportsQue
 
         var transports = getTransportsResult.Value;
 
-        return transports.Select(TransportModel.FromDomainModel).ToList();
+        return transports.Select(TransportModel.FromDomainModel<FreightModel>).ToList();
     }
 }

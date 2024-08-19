@@ -59,11 +59,6 @@ public partial class EditWarehousemanDialog : Window
         var selectionBoxItem = comboBox?.SelectionBoxItem as TextBlock;
         var selectedValue = selectionBoxItem?.Text;
 
-        if (!int.TryParse(selectedValue, out var sectorNumber))
-        {
-            _dataContext.Warehouseman = _dataContext.Warehouseman with { SectorNumber = -1 };
-        }
-
-        _dataContext.Warehouseman = _dataContext.Warehouseman with { SectorNumber = sectorNumber };
+        _dataContext.SectorNumber = int.Parse(selectedValue);
     }
 }

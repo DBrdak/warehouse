@@ -54,6 +54,15 @@ public sealed record FreightModel : BusinessModel<Freight, FreightId>
                 freight.Unit.Value,
                 freight.PalletSpace is null ? null : PalletSpaceModel.FromDomainModel<FreightModel>(freight.PalletSpace),
                 null,
+                freight.Export is null ? null : TransportModel.FromDomainModel<FreightModel>(freight.Export)),
+            var callerType when callerType == typeof(TransportModel) && isImport is false => new(
+                freight.Id.Id,
+                freight.Name.Value,
+                freight.Type.Value,
+                freight.Quantity.Value,
+                freight.Unit.Value,
+                freight.PalletSpace is null ? null : PalletSpaceModel.FromDomainModel<FreightModel>(freight.PalletSpace),
+                freight.Import is null ? null : TransportModel.FromDomainModel<FreightModel>(freight.Import),
                 null),
             _ => FromDomainModel(freight)
         };

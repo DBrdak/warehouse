@@ -44,7 +44,7 @@ public record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId>
                 palletSpace.Number.Value,
                 palletSpace.Shelf.Value,
                 palletSpace.Rack.Value,
-                SectorModel.FromDomainModel<PalletSpaceModel>(palletSpace.Sector),
+                palletSpace.Sector is null ? null : SectorModel.FromDomainModel<FreightModel>(palletSpace.Sector),
                 null),
             _ => FromDomainModel(palletSpace)
         };
@@ -55,6 +55,6 @@ public record PalletSpaceModel : BusinessModel<PalletSpace, PalletSpaceId>
             palletSpace.Number.Value,
             palletSpace.Shelf.Value,
             palletSpace.Rack.Value,
-            SectorModel.FromDomainModel<PalletSpaceModel>(palletSpace.Sector),
+            palletSpace.Sector is null ? null : SectorModel.FromDomainModel<PalletSpaceModel>(palletSpace.Sector),
             palletSpace.Freights.Select(f => FreightModel.FromDomainModel<PalletSpaceModel>(f)).ToList());
 }

@@ -1,4 +1,5 @@
 using Warehouse.Application.Abstractions.Messaging;
+using Warehouse.Application.Freights.Models;
 using Warehouse.Application.Transports.Models;
 using Warehouse.Domain.Shared.Results;
 using Warehouse.Domain.Transports;

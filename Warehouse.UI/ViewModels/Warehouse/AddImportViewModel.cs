@@ -15,6 +15,7 @@ using Warehouse.Application.Freights.ReceiveFreights;
 using Warehouse.Application.Sectors.GetSectors;
 using Warehouse.Application.Sectors.Models;
 using Warehouse.Application.Transports.HandleTransport;
+using Warehouse.Application.Transports.RemoveTransport;
 using Warehouse.Application.Warehousemen.GetWarehousemen;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Domain.Shared.Results;
@@ -383,6 +384,7 @@ internal class AddImportViewModel : ViewModelBase
         if (freightsReceiveResult.IsFailure)
         {
             await new ErrorWindow(freightsReceiveResult.Error.Message).ShowDialog(_mainWindow);
+            _ = await _sender.Send(new RemoveTransportCommand(transport.Id));
             return;
         }
 

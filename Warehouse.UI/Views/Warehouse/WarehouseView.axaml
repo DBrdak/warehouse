@@ -37,7 +37,7 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Data" Binding="{Binding HandledAt, Converter={StaticResource DateTimeConverter}}"
                                     Width="*" MinWidth="200" SortMemberPath="HandledAt" />
-				<DataGridTextColumn Header="Nazwa Firmy" Binding="{Binding Number}" Width="*" MinWidth="200"/>
+				<DataGridTextColumn Header="Numer Transportu" Binding="{Binding Number}" Width="*" MinWidth="200"/>
 				<DataGridTextColumn Header="Magazynier" Binding="{Binding Warehouseman.IdentificationNumber}" Width="*" MinWidth="200"/>
 				<DataGridTextColumn Header="Pojazd" Binding="{Binding Driver.VehiclePlate}" Width="*" MinWidth="200"/>
 				<DataGridTextColumn Header="Klient" Binding="{Binding Client.Nip}" Width="*" MinWidth="200"/>
