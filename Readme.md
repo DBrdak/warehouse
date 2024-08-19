@@ -116,43 +116,43 @@ CREATE TABLE Towary (
   - Dodawanie towarów
 
 ## Moduły Systemu:
-  1. Panel logowania
+  1. Panel logowania <br/>
   ![Panel logowania](./docs/1.png)
-  2. Panel administratora
+  2. Panel administratora <br/>
   ![Panel administratora](./docs/2.png)
-  3. Panel Portierni
+  3. Panel Portierni <br/>
   ![Panel Portierni](./docs/3.png)
-  4. Przykładowy raport kierowcy
+  4. Przykładowy raport kierowcy <br/>
   ![Przykładowy raport kierowcy](./docs/4.png)
-  5. Panel Obsługi Klienta
+  5. Panel Obsługi Klienta <br/>
   ![Panel Obsługi Klienta](./docs/5.png)
-  6. Przykładowy raport kontrahenta
+  6. Przykładowy raport kontrahenta <br/>
   ![Przykładowy raport kontrahenta](./docs/6.png)
-  7. Panel zarządzania - magazynierzy
+  7. Panel zarządzania - magazynierzy <br/>
   ![Panel zarządzania - magazynierzy](./docs/7.png)
-  8. Panel zarządzania – nowy magazynier
+  8. Panel zarządzania – nowy magazynier <br/>
   ![Panel zarządzania – nowy magazynier](./docs/8.png)
-  9. Panel zarządzania – edycja magazyniera
+  9. Panel zarządzania – edycja magazyniera <br/>
   ![Panel zarządzania – edycja magazyniera](./docs/9.png)
-  10. Panel zarządzania – usuwanie magazyniera
+  10. Panel zarządzania – usuwanie magazyniera <br/>
   ![Panel zarządzania – usuwanie magazyniera](./docs/10.png)
-  11. Panel zarządzania - sektory
+  11. Panel zarządzania - sektory <br/>
   ![Panel zarządzania - sektory](./docs/11.png)
-  12. Panel zarządzania – nowy sektor
+  12. Panel zarządzania – nowy sektor <br/>
   ![Panel zarządzania – nowy sektor](./docs/12.png)
   13. Panel zarządzania – usuwanie sektora
   ![Panel zarządzania – usuwanie sektora](./docs/13.png)
-  14. Panel magazyniera - eksporty 
+  14. Panel magazyniera - eksporty <br/>
   ![Panel magazyniera - eksporty](./docs/14.png)
-  15. Panel magazyniera – widok szczegółowy eksportu 
+  15. Panel magazyniera – widok szczegółowy eksportu  <br/>
   ![Panel magazyniera – widok szczegółowy eksportu](./docs/15.png)
-  16. Panel magazyniera – nowy eksport
+  16. Panel magazyniera – nowy eksport <br/>
   ![Panel magazyniera – nowy eksport](./docs/16.png)
-  17. Panel magazyniera - importy
+  17. Panel magazyniera - importy <br/>
   ![Panel magazyniera - importy](./docs/17.png)
-  18. Panel magazyniera – widok szczegółowy importu
+  18. Panel magazyniera – widok szczegółowy importu <br/>
   ![Panel magazyniera – widok szczegółowy importu](./docs/18.png)
-  19. Panel magazyniera – nowy import
+  19. Panel magazyniera – nowy import <br/>
   ![Panel magazyniera – nowy import](./docs/19.png)
 
 ## Pomysły do Zaimplementowania:
