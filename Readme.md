@@ -116,44 +116,44 @@ CREATE TABLE Towary (
   - Dodawanie towarów
 
 ## Moduły Systemu:
-  1. 
-![](./docs/1.png)
+  1. Panel logowania
+  ![Panel logowania](./docs/1.png)
   2. Panel administratora
-![Panel administratora](./docs/2.png)
+  ![Panel administratora](./docs/2.png)
   3. Panel Portierni
-![](./docs/3.png)
+  ![Panel Portierni](./docs/3.png)
   4. Przykładowy raport kierowcy
-![Przykładowy raport kierowcy](./docs/4.png)
+  ![Przykładowy raport kierowcy](./docs/4.png)
   5. Panel Obsługi Klienta
-![Panel Obsługi Klienta](./docs/5.png)
+  ![Panel Obsługi Klienta](./docs/5.png)
   6. Przykładowy raport kontrahenta
-![Przykładowy raport kontrahenta](./docs/6.png)
+  ![Przykładowy raport kontrahenta](./docs/6.png)
   7. Panel zarządzania - magazynierzy
-![Panel zarządzania - magazynierzy](./docs/7.png)
+  ![Panel zarządzania - magazynierzy](./docs/7.png)
   8. Panel zarządzania – nowy magazynier
-![Panel zarządzania – nowy magazynier](./docs/8.png)
+  ![Panel zarządzania – nowy magazynier](./docs/8.png)
   9. Panel zarządzania – edycja magazyniera
-![Panel zarządzania – edycja magazyniera](./docs/9.png)
+  ![Panel zarządzania – edycja magazyniera](./docs/9.png)
   10. Panel zarządzania – usuwanie magazyniera
-![Panel zarządzania – usuwanie magazyniera](./docs/10.png)
+  ![Panel zarządzania – usuwanie magazyniera](./docs/10.png)
   11. Panel zarządzania - sektory
-![Panel zarządzania - sektory](./docs/11.png)
+  ![Panel zarządzania - sektory](./docs/11.png)
   12. Panel zarządzania – nowy sektor
-![Panel zarządzania – nowy sektor](./docs/12.png)
+  ![Panel zarządzania – nowy sektor](./docs/12.png)
   13. Panel zarządzania – usuwanie sektora
-![Panel zarządzania – usuwanie sektora](./docs/13.png)
-  14. Panel magazyniera - eksporty
-![Panel magazyniera - eksporty](./docs/14.png)
-  15. Panel magazyniera – widok szczegółowy eksportu
-![Panel magazyniera – widok szczegółowy eksportu](./docs/15.png)
+  ![Panel zarządzania – usuwanie sektora](./docs/13.png)
+  14. Panel magazyniera - eksporty 
+  ![Panel magazyniera - eksporty](./docs/14.png)
+  15. Panel magazyniera – widok szczegółowy eksportu 
+  ![Panel magazyniera – widok szczegółowy eksportu](./docs/15.png)
   16. Panel magazyniera – nowy eksport
-![Panel magazyniera – nowy eksport](./docs/16.png)
+  ![Panel magazyniera – nowy eksport](./docs/16.png)
   17. Panel magazyniera - importy
-![Panel magazyniera - importy](./docs/17.png)
+  ![Panel magazyniera - importy](./docs/17.png)
   18. Panel magazyniera – widok szczegółowy importu
-![Panel magazyniera – widok szczegółowy importu](./docs/18.png)
+  ![Panel magazyniera – widok szczegółowy importu](./docs/18.png)
   19. Panel magazyniera – nowy import
-![Panel magazyniera – nowy import](./docs/19.png)
+  ![Panel magazyniera – nowy import](./docs/19.png)
 
 ## Pomysły do Zaimplementowania:
   - Autoryzacja i autentykacja użytkowników
