@@ -21,6 +21,8 @@ internal sealed class GetSectorsQueryHandler : IQueryHandler<GetSectorsQuery, Li
         {
             GetSectorQueryType.Default =>
                 await _sectorRepository.GetAllAsync(cancellationToken),
+            GetSectorQueryType.IncludePalletSpaces =>
+                await _sectorRepository.GetAllIncludePalletSpacesAsync(cancellationToken),
             GetSectorQueryType.Detailed =>
                 await _sectorRepository.GetAllDetailedAsync(cancellationToken),
         };

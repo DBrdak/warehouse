@@ -10,5 +10,6 @@ public interface ISectorRepository
     Task<Result<Sector>> GetByIdAsync(SectorId id, CancellationToken cancellationToken);
 
     Task<Result<List<Sector>>> GetAllDetailedAsync(CancellationToken cancellationToken);
+    Task<Result<List<Sector>>> GetAllIncludePalletSpacesAsync(CancellationToken cancellationToken);
     Task<Result<List<Sector>>> GetAllAsync(CancellationToken cancellationToken);
 }

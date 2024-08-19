@@ -111,7 +111,7 @@ public sealed class Driver : Entity<DriverId>
             return DriverErrors.TransportAlreadyDeliveredByDriver;
         }
 
-        var isTransportAlreadyDeliveredByAnotherDriver = transport.Driver.Id != transport.Id;
+        var isTransportAlreadyDeliveredByAnotherDriver = transport.Driver.Id != Id;
 
         if (isTransportAlreadyDeliveredByAnotherDriver)
         {

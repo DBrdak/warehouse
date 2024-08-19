@@ -33,8 +33,9 @@
 
 		<StackPanel Orientation="Vertical" Margin="0,0,0,10" HorizontalAlignment="Center">
 			<TextBlock Text="Sektor" FontWeight="Bold" HorizontalAlignment="Center"/>
-			<ComboBox Width="400" ItemsSource="{Binding Sectors}" SelectedItem="{Binding NewWarehouseman.SectorNumber}" 
-                      SelectedValue="{Binding NewWarehouseman.SectorNumber}" DisplayMemberBinding="{Binding Number}" SelectionChanged="SectorNumberChanged" />
+			<ComboBox Width="400" ItemsSource="{Binding Sectors}" SelectedItem="{Binding SectorNumber}" 
+                      SelectedValue="{Binding SectorNumber}" DisplayMemberBinding="{Binding Number}" 
+                      SelectionChanged="SectorNumberChanged" />
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">

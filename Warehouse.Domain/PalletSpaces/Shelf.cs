@@ -8,7 +8,7 @@ public sealed record Shelf
 
     private Shelf(int value) => Value = value;
 
-    internal static Result<Shelf> Create(int value)
+    public static Result<Shelf> Create(int value)
     {
         var isValid = value > 0;
 

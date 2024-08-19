@@ -53,19 +53,19 @@ public sealed record TransportModel : BusinessModel<Transport, TransportId>
                 transport.Number.Value,
                 transport.Type.Value,
                 transport.HandledAt,
-                WarehousemanModel.FromDomainModel<TransportModel>(transport.Warehouseman),
+                transport.Warehouseman is null ? null : WarehousemanModel.FromDomainModel<TransportModel>(transport.Warehouseman),
                 null,
-                ClientModel.FromDomainModel<TransportModel>(transport.Client),
-                transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
+                transport.Client is null ? null : ClientModel.FromDomainModel<TransportModel>(transport.Client),
+                transport.Freights?.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
             var callerType when callerType == typeof(ClientModel) => new(
                 transport.Id.Id,
                 transport.Number.Value,
                 transport.Type.Value,
                 transport.HandledAt,
-                WarehousemanModel.FromDomainModel<TransportModel>(transport.Warehouseman),
-                DriverModel.FromDomainModel<TransportModel>(transport.Driver),
+                transport.Warehouseman is null ? null : WarehousemanModel.FromDomainModel<TransportModel>(transport.Warehouseman),
+                transport.Driver is null ? null : DriverModel.FromDomainModel<TransportModel>(transport.Driver),
                 null,
-                transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
+                transport.Freights?.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList()),
             var callerType when callerType == typeof(FreightModel) => new(
                 transport.Id.Id,
                 transport.Number.Value,
@@ -84,8 +84,8 @@ public sealed record TransportModel : BusinessModel<Transport, TransportId>
             transport.Number.Value,
             transport.Type.Value,
             transport.HandledAt,
-            WarehousemanModel.FromDomainModel<TransportModel>(transport.Warehouseman),
-            DriverModel.FromDomainModel<TransportModel>(transport.Driver),
-            ClientModel.FromDomainModel<TransportModel>(transport.Client),
-            transport.Freights.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList());
+            transport.Warehouseman is null ? null : WarehousemanModel.FromDomainModel<TransportModel>(transport.Warehouseman),
+            transport.Driver is null ? null : DriverModel.FromDomainModel<TransportModel>(transport.Driver),
+            transport.Client is null ? null : ClientModel.FromDomainModel<TransportModel>(transport.Client),
+            transport.Freights?.Select(f => FreightModel.FromDomainModel<TransportModel>(f, transport.Type.IsImport)).ToList());
 }

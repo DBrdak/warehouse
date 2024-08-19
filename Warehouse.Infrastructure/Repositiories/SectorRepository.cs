@@ -33,4 +33,15 @@ internal sealed class SectorRepository : Repository<Sector, SectorId>, ISectorRe
             .ThenInclude(f => f.Export)
             //.ThenInclude(t => t.Freights)
             .ToListAsync(cancellationToken);
+
+    public async Task<Result<List<Sector>>> GetAllIncludePalletSpacesAsync(
+        CancellationToken cancellationToken) =>
+        await Table
+            .OrderBy(s => s.Number)
+            .Include(
+                e => e.PalletSpaces
+                    .OrderBy(p => p.Rack)
+                    .ThenBy(p => p.Shelf)
+                    .ThenBy(p => p.Number))
+            .ToListAsync(cancellationToken);
 }

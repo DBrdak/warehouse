@@ -1,6 +1,7 @@
 ﻿using Warehouse.Application.Sectors.Models;
 using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Transports.Models;
+using Warehouse.Domain.PalletSpaces;
 using Warehouse.Domain.Warehousemen;
 
 namespace Warehouse.Application.Warehousemen.Models;
@@ -42,8 +43,16 @@ public record WarehousemanModel : BusinessModel<Warehouseman, WarehousemanId>
                     warehouseman.LastName.Value,
                     warehouseman.Position?.Value,
                     null,
-                    warehouseman.Transports?.Select(TransportModel.FromDomainModel<WarehousemanModel>)
-                        .ToList()),
+                    warehouseman.Transports?.Select(TransportModel.FromDomainModel<WarehousemanModel>).ToList()),
+            var callerType when callerType == typeof(PalletSpace) =>
+                new(
+                    warehouseman.Id.Id,
+                    warehouseman.IdentificationNumber.Value,
+                    warehouseman.FirstName.Value,
+                    warehouseman.LastName.Value,
+                    warehouseman.Position?.Value,
+                    null,
+                    null),
             var callerType when callerType == typeof(TransportModel) =>
                 new(
                     warehouseman.Id.Id,
@@ -51,7 +60,7 @@ public record WarehousemanModel : BusinessModel<Warehouseman, WarehousemanId>
                     warehouseman.FirstName.Value,
                     warehouseman.LastName.Value,
                     warehouseman.Position?.Value,
-                    SectorModel.FromDomainModel<WarehousemanModel>(warehouseman.Sector),
+                    null,
                     null),
             _ => FromDomainModel(warehouseman)
         };

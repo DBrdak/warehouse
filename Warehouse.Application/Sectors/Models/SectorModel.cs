@@ -1,4 +1,5 @@
-﻿using Warehouse.Application.PalletSpaces.Models;
+﻿using Warehouse.Application.Freights.Models;
+using Warehouse.Application.PalletSpaces.Models;
 using Warehouse.Application.Shared.Models;
 using Warehouse.Application.Warehousemen.Models;
 using Warehouse.Domain.Sectors;
@@ -34,6 +35,11 @@ public sealed record SectorModel : BusinessModel<Sector, SectorId>
                 sector.Id.Id,
                 sector.Number.Value,
                 sector.Warehousemen?.Select(WarehousemanModel.FromDomainModel<SectorModel>).ToList(),
+                null),
+            var callerType when callerType == typeof(FreightModel) => new(
+                sector.Id.Id,
+                sector.Number.Value,
+                null,
                 null),
             _ => FromDomainModel(sector)
         };

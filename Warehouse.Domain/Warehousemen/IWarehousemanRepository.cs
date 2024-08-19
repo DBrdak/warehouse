@@ -12,4 +12,7 @@ public interface IWarehousemanRepository
 
     Task<Result<Warehouseman>> GetByIdNumberAsync(IdentificationNumber idNumber, CancellationToken cancellationToken);
 
-    Result Remove(Warehouseman warehouseman); }
+    Result Remove(Warehouseman warehouseman);
+
+    Task<Result<Warehouseman>> GetByIdDetailedAsync(WarehousemanId id, CancellationToken cancellationToken);
+}

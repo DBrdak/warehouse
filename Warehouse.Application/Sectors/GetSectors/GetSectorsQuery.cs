@@ -9,5 +9,6 @@ public sealed record GetSectorsQuery(
 public enum GetSectorQueryType
 {
     Default,
+    IncludePalletSpaces,
     Detailed
 }

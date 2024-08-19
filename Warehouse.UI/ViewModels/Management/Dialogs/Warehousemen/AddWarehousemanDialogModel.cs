@@ -24,10 +24,22 @@ internal class AddWarehousemanDialogModel : ViewModelBase
     private readonly ISender _sender;
 
     private WarehousemanCreateModel _newWarehouseman;
+
     public WarehousemanCreateModel NewWarehouseman
     {
         get => _newWarehouseman;
         set => SetProperty(ref _newWarehouseman, value);
+    }
+
+    private int _sectorNumber;
+    public int SectorNumber
+    {
+        get => _sectorNumber;
+        set
+        {
+            SetProperty(ref _sectorNumber, value);
+            NewWarehouseman = NewWarehouseman with { SectorNumber = value };
+        }
     }
 
     public ObservableCollection<SectorModel> Sectors { get; } = [];

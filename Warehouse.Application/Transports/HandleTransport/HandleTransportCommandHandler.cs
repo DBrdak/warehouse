@@ -28,9 +28,9 @@ internal sealed class HandleTransportCommandHandler : ICommandHandler<HandleTran
         var (warehousemanGetResult, driverGetResult, clientGetResult) = (
             await _warehousemanRepository.GetByIdAsync(
                 new(request.WarehousemanId),
-                cancellationToken), await _driverRepository.GetByIdAsync(
+                cancellationToken), await _driverRepository.GetByIdDetailedAsync(
                 new(request.DriverId),
-                cancellationToken), await _clientRepository.GetByIdAsync(
+                cancellationToken), await _clientRepository.GetByIdDetailedAsync(
                 new(request.ClientId),
                 cancellationToken));
 
@@ -54,7 +54,7 @@ internal sealed class HandleTransportCommandHandler : ICommandHandler<HandleTran
         var lastTransportNumber = lastTransportNumberGetResult.Value;
 
         var handleResult = TransportService.HandleTransport(
-            lastTransportNumber,
+            lastTransportNumber + 1,
             request.Type,
             warehouseman,
             driver,
