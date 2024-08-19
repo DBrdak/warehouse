@@ -1,5 +1,6 @@
 # System Obsługi Magazynu Logistycznego
 
+#### *SQL Databases university coursework project*
 ### *Powered by [Avalonia UI](https://github.com/AvaloniaUI/Avalonia)*
 
 ## Cel:
