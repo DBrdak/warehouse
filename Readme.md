@@ -162,23 +162,11 @@ CREATE TABLE Towary (
   - Możliwość przypisywania transportów tylko kierowcom obecnie obsługiwanym
   - Undo – przywracanie świeżo usuniętych rekordów (częściowo zaimplementowane poprzez kolumnę czy_usunieto)
   - ...
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+***
 <br/>
 
-<footer>
-    <p style="color: grey; font-size: 0.9em; font-style: italic">
-        This project, including any associated files, names, and images, is intended for educational and demonstrative purposes only. The company name and logo featured in this project are purely fictitious. They do not represent any actual company, and any similarity to existing companies or trademarks is unintentional and purely coincidental.
-        This project is not affiliated with, sponsored by, or endorsed by any real-world company. All content is provided "as is" without any warranties, express or implied. The author of this project do not assume any liability for any actions or consequences resulting from the use of this project.
-    </p>
-</footer>
-<footer>
-    <p style="color: grey; font-size: 0.9em; font-style: italic">
-      Ten projekt, w tym wszelkie powiązane pliki, nazwy i obrazy, jest przeznaczony wyłącznie do celów edukacyjnych i demonstracyjnych. Nazwa firmy i logo przedstawione w tym projekcie są całkowicie fikcyjne. Nie reprezentują żadnej rzeczywistej firmy, a jakiekolwiek podobieństwo do istniejących firm lub znaków towarowych jest niezamierzone i czysto przypadkowe.
-      Ten projekt nie jest powiązany z żadną rzeczywistą firmą, nie jest przez nią sponsorowany ani popierany. Cała zawartość jest dostarczana „tak, jak jest” bez żadnych gwarancji, wyraźnych ani dorozumianych. Autor tego projektu nie ponosi żadnej odpowiedzialności za jakiekolwiek działania lub konsekwencje wynikające z korzystania z tego projektu.
-    </p>
-</footer>
+*This project, including any associated files, names, and images, is intended for educational and demonstrative purposes only. The company name and logo featured in this project are purely fictitious. They do not represent any actual company, and any similarity to existing companies or trademarks is unintentional and purely coincidental.
+This project is not affiliated with, sponsored by, or endorsed by any real-world company. All content is provided "as is" without any warranties, express or implied. The author of this project do not assume any liability for any actions or consequences resulting from the use of this project.*
+
+*Ten projekt, w tym wszelkie powiązane pliki, nazwy i obrazy, jest przeznaczony wyłącznie do celów edukacyjnych i demonstracyjnych. Nazwa firmy i logo przedstawione w tym projekcie są całkowicie fikcyjne. Nie reprezentują żadnej rzeczywistej firmy, a jakiekolwiek podobieństwo do istniejących firm lub znaków towarowych jest niezamierzone i czysto przypadkowe.
+Ten projekt nie jest powiązany z żadną rzeczywistą firmą, nie jest przez nią sponsorowany ani popierany. Cała zawartość jest dostarczana „tak, jak jest” bez żadnych gwarancji, wyraźnych ani dorozumianych. Autor tego projektu nie ponosi żadnej odpowiedzialności za jakiekolwiek działania lub konsekwencje wynikające z korzystania z tego projektu.*
