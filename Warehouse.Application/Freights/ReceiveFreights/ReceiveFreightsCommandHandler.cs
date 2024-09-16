@@ -30,12 +30,12 @@ internal sealed class ReceiveFreightsCommandHandler : ICommandHandler<ReceiveFre
         }
 
         var import = importGetResult.Value;
+        var freightsCreateResults = new List<Result<Freight>>();
 
-        var freightsCreateResults = await Task.WhenAll(
-            request.Freights.Select(
-                async f => await CreateFreight(
-                    f,
-                    import)));
+        foreach (var freight in request.Freights)
+        {
+            freightsCreateResults.Add(await CreateFreight(freight, import));
+        }
 
         if (Result.Aggregate(freightsCreateResults) is var result && result.IsFailure)
         {
